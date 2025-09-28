@@ -1,9 +1,20 @@
 {
-  "name": "studio",
+  "name": "ar-studio",
   "version": "1.0.0",
-  "description": "AR.js Studio is an authoring platform to build Web Augmented Reality experiences.",
-  "private": false,
-  "license": "MIT",
-  "repository": "git@github.com:AR-js-org/studio.git",
-  "homepage": "https://ar-js-org.github.io/studio/"
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "aframe": "^1.5.0",
+    "three": "^0.169.0"
+  },
+  "devDependencies": {
+    "vite": "^7.1.7"
+  }
 }
