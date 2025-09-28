@@ -1,0 +1,22 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="waveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d4c3e;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0d4c3e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d4c3e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="foamGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#e0f2fe;stop-opacity:0.7" />
+    </linearGradient>
+  </defs>
+  
+  <!-- White top half -->
+  <rect width="1920" height="540" fill="#ffffff"/>
+  
+  <!-- Simple wave from bottom -->
+  <path d="M0 750 Q240 600 480 650 Q720 700 960 650 Q1200 600 1440 650 Q1680 700 1920 650 L1920 1080 L0 1080 Z" fill="#0d4c3e"/>
+  
+  <!-- Secondary wave layer -->
+  <path d="M0 800 Q320 750 640 780 Q960 810 1280 780 Q1600 750 1920 780 L1920 1080 L0 1080 Z" fill="#0d4c3e" opacity="0.8"/>
+</svg>
