@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>AR Studio</title>
+    <link rel="shortcut icon" href="./assets/img/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Chakra+Petch&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet" />
+
+    <!-- Main Stylesheets -->
+    <link rel="stylesheet" href="studio.css"/>
+ >
+
+   
+    <!-- JS -->
+    <script src="AR-Studio/studio-master/components/header/header.js"></script>
+    <script src="AR-Studio/studio-master/pages/main/main.js"></script>
+    <script src="AR-Studio/studio-master/components/feedback/stickybutton.js"></script>
+  </head>
+  <body>
+    <page-header assetsUrl="assets"></page-header>
+    <div class="background">
+      <div class="content">
+        <p class="title">Web-enabled AR experiences</p>
+        <p class="paragraph">
+           I built this project using the open-source AR.js JavaScript framework, which makes it easy to create custom augmented reality experiences for the web.
+             With AR.js, you can build both location-based and marker-based AR applications that run directly in your browser—no app downloads or coding expertise required.
+        </p>
+
+        <img class="splashscreen" src="AR-Studio/studio-master/assets/img/splashscreen.png" alt="Demo image home page"/>
+
+        <p class="lead">Pick your project type</p>
+
+        <div>
+          <label class="radio-container paragraph">
+            <span class="radio-title">Location-based</span>
+            <input
+              id="location"
+              type="radio"
+              name="radio"
+              onclick="radioOnclick(this)"
+            />
+            <span>
+                Place your creation on a map, so it remains tied to a physical location.
+            </span>
+            <span class="checkmark"></span>
+          </label>
+
+          <label class="radio-container paragraph">
+            <span class="radio-title">Marker-based</span>
+            <input
+              id="marker"
+              type="radio"
+              name="radio"
+              onclick="radioOnclick(this)"
+            />
+            <span>
+                Connect your creation to a visual marker, which can be moved to any location.
+            </span>
+            <span class="checkmark"></span>
+          </label>
+
+          <div class="buttons-container">
+            <a onclick="anchorOnclick(this)" id="start-building" class="primary-button">Start building</a>
+          </div>
+          <feedback-button></feedback-button>
+          <div id="error" class="error" style="visibility: hidden;">
+            Please, select a project type.
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

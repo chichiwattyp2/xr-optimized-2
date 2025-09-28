@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Workspace - XR Labs</title>
+    <meta name="description" content="Collaborate in immersive virtual workspaces with Material Design interface and professional productivity tools.">
+    
+    <!-- A-Frame and Extensions -->
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    
+    <!-- Material Design Navigation -->
+    <script src="nav.js"></script>
+    
+    <!-- Material Design Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="css/navstyle.css" rel="stylesheet">
+    
+   <!-- Navigation will be automatically added by nav.js -->
+</head>
+<body>
+    <div class="md-status-badge">
+        <span class="material-icons">science</span>
+        <span>Beta Version - Features in Development</span>
+    </div>
+
+    <div class="md-instructions md-fade-in">
+        <h3>
+            <span class="material-icons">info</span>
+            Controls
+        </h3>
+        <ul>
+            <li>WASD keys to move around</li>
+            <li>Mouse to look around</li>
+            <li>Click screens to interact</li>
+            <li>VR controllers for immersive mode</li>
+        </ul>
+    </div>
+
+    <a-scene 
+        background="color: #121318"
+        vr-mode-ui="enabled: true"
+        device-orientation-permission-ui="enabled: true">
+        
+        <!-- Assets -->
+        <a-assets>
+            <!-- Materials with Material Design colors -->
+            <a-mixin id="md-surface" 
+                     material="color: #2A2A2E; roughness: 0.7; metalness: 0.1">
+            </a-mixin>
+            <a-mixin id="md-primary" 
+                     material="color: #A8C7FA; roughness: 0.8; metalness: 0.2">
+            </a-mixin>
+            <a-mixin id="md-secondary" 
+                     material="color: #BFC6DC; roughness: 0.8; metalness: 0.2">
+            </a-mixin>
+            <a-mixin id="md-screen" 
+                     material="color: #1F1F23; emissive: #1F1F23; emissiveIntensity: 0.1">
+            </a-mixin>
+            <a-mixin id="md-accent" 
+                     material="color: #004494; roughness: 0.6; metalness: 0.3">
+            </a-mixin>
+        </a-assets>
+
+        <!-- Lighting Setup -->
+        <a-light type="ambient" color="#44474F" intensity="0.4"></a-light>
+        <a-light type="directional" 
+                 position="3 6 3" 
+                 color="#ffffff" 
+                 intensity="0.8" 
+                 castShadow="true"
+                 shadow-map-width="2048"
+                 shadow-map-height="2048">
+        </a-light>
+        <a-light type="point" 
+                 position="0 4 0" 
+                 color="#A8C7FA" 
+                 intensity="0.3">
+        </a-light>
+
+        <!-- Environment -->
+        <a-sky color="#121318"></a-sky>
+        
+        <!-- Floor with Material Design styling -->
+        <a-plane 
+            position="0 0 0" 
+            rotation="-90 0 0" 
+            width="25" 
+            height="25" 
+            mixin="md-surface"
+            shadow="receive: true">
+        </a-plane>
+
+        <!-- Main Workspace Desk -->
+        <a-entity id="main-desk" position="0 0 -2.5">
+            <!-- Desk Surface -->
+            <a-box 
+                mixin="md-surface"
+                position="0 0.8 0" 
+                width="4" 
+                height="0.08" 
+                depth="2"
+                shadow="cast: true; receive: true">
+            </a-box>
+            
+            <!-- Desk Supports -->
+            <a-box mixin="md-surface" position="-1.5 0.4 -0.7" width="0.1" height="0.8" depth="0.1"></a-box>
+            <a-box mixin="md-surface" position="1.5 0.4 -0.7" width="0.1" height="0.8" depth="0.1"></a-box>
+            <a-box mixin="md-surface" position="-1.5 0.4 0.7" width="0.1" height="0.8" depth="0.1"></a-box>
+            <a-box mixin="md-surface" position="1.5 0.4 0.7" width="0.1" height="0.8" depth="0.1"></a-box>
+        </a-entity>
+
+        <!-- Multi-Monitor Setup -->
+        <a-entity id="monitor-setup" position="0 1.6 -3.2">
+            <!-- Primary Monitor -->
+            <a-entity id="primary-monitor">
+                <!-- Monitor Frame -->
+                <a-box mixin="md-surface" position="0 0 -0.05" width="3.2" height="2" depth="0.1"></a-box>
+                <!-- Screen -->
+                <a-plane 
+                    mixin="md-screen"
+                    position="0 0 0" 
+                    width="3" 
+                    height="1.8"
+                    class="clickable"
+                    shadow="cast: true">
+                    <a-text 
+                        value="WORKSPACE DASHBOARD\n\n📊 Project Analytics\n📈 Performance Metrics\n📁 Recent Files\n⚙️ System Settings\n\n🟢 All Systems Operational"
+                        align="center"
+                        position="0 0 0.01"
+                        color="#A8C7FA"
+                        width="4"
+                        font="roboto">
+                    </a-text>
+                </a-plane>
+            </a-entity>
+
+            <!-- Secondary Monitor (Left) -->
+            <a-entity id="secondary-monitor-left" position="-2.8 -0.15 0.3" rotation="0 15 0">
+                <a-box mixin="md-surface" position="0 0 -0.05" width="2.2" height="1.4" depth="0.08"></a-box>
+                <a-plane 
+                    mixin="md-screen"
+                    position="0 0 0" 
+                    width="2" 
+                    height="1.2"
+                    class="clickable">
+                    <a-text 
+                        value="COMMUNICATION HUB\n\n💬 Team Chat (3 new)\n📞 Video Calls\n📧 Email Inbox\n📅 Calendar Events\n\n📍 Meeting in 15 min"
+                        align="center"
+                        position="0 0 0.01"
+                        color="#BFC6DC"
+                        width="4">
+                    </a-text>
+                </a-plane>
+            </a-entity>
+
+            <!-- Tertiary Monitor (Right) -->
+            <a-entity id="tertiary-monitor-right" position="2.8 -0.15 0.3" rotation="0 -15 0">
+                <a-box mixin="md-surface" position="0 0 -0.05" width="2.2" height="1.4" depth="0.08"></a-box>
+                <a-plane 
+                    mixin="md-screen"
+                    position="0 0 0" 
+                    width="2" 
+                    height="1.2"
+                    class="clickable">
+                    <a-text 
+                        value="CODE EDITOR\n\nfunction virtualWorkspace() {\n  return {\n    users: connected,\n    features: 'material-design',\n    performance: '60fps',\n    status: 'optimized'\n  };\n}\n\n// TODO: Add more features"
+                        align="left"
+                        position="-0.8 0 0.01"
+                        color="#10b981"
+                        width="3"
+                        font="dejavu">
+                    </a-text>
+                </a-plane>
+            </a-entity>
+        </a-entity>
+
+        <!-- Floating Control Panel -->
+        <a-entity id="control-panel" position="4 2.2 -1.5" rotation="0 -25 0">
+            <a-box 
+                mixin="md-primary"
+                position="0 0 -0.02" 
+                width="2.5" 
+                height="2" 
+                depth="0.04"
+                shadow="cast: true">
+            </a-box>
+            <a-plane 
+                color="#D6E3FF"
+                position="0 0 0" 
+                width="2.3" 
+                height="1.8">
+                <a-text 
+                    value="WORKSPACE CONTROLS\n\n🔧 Tools & Apps\n📱 Mobile Sync\n👥 Invite Collaborators\n🎥 Screen Share\n📋 Clipboard\n🎨 Whiteboard\n\n⚡ Performance: Optimal"
+                    align="center"
+                    position="0 0 0.01"
+                    color="#002E69"
+                    width="5">
+                </a-text>
+            </a-plane>
+        </a-entity>
+
+        <!-- Virtual Whiteboard -->
+        <a-entity id="whiteboard-area" position="-5 2 -2" rotation="0 15 0">
+            <a-box mixin="md-surface" position="0 0 -0.03" width="3.2" height="2.5" depth="0.06"></a-box>
+            <a-plane 
+                color="#E3E2E6"
+                position="0 0 0" 
+                width="3" 
+                height="2.3"
+                class="clickable">
+                <a-text 
+                    value="DIGITAL WHITEBOARD\n\n✏️ Collaborative Drawing\n📝 Sticky Notes\n🎨 Design Sketches\n💡 Brainstorming\n\n📌 Click to start drawing"
+                    align="center"
+                    position="0 0 0.01"
+                    color="#121318"
+                    width="5">
+                </a-text>
+            </a-plane>
+            
+            <!-- Whiteboard Tools -->
+            <a-box mixin="md-accent" position="-1.3 -1.5 0.1" width="0.6" height="0.2" depth="0.1">
+                <a-text value="TOOLS" align="center" position="0 0 0.05" color="white" width="8"></a-text>
+            </a-box>
+        </a-entity>
+
+        <!-- Meeting Area -->
+        <a-entity id="meeting-space" position="7 0 -4">
+            <!-- Conference Table -->
+            <a-cylinder 
+                mixin="md-surface"
+                position="0 0.85 0" 
+                radius="2" 
+                height="0.08"
+                shadow="cast: true; receive: true">
+            </a-cylinder>
+            
+            <!-- Table Base -->
+            <a-cylinder 
+                mixin="md-surface"
+                position="0 0.4 0" 
+                radius="0.3" 
+                height="0.8">
+            </a-cylinder>
+
+            <!-- Meeting Chairs -->
+            <a-box mixin="md-secondary" position="0 0.55 1.5" width="0.5" height="0.9" depth="0.5" rotation="0 0 0"></a-box>
+            <a-box mixin="md-secondary" position="1.5 0.55 0" width="0.5" height="0.9" depth="0.5" rotation="0 90 0"></a-box>
+            <a-box mixin="md-secondary" position="0 0.55 -1.5" width="0.5" height="0.9" depth="0.5" rotation="0 180 0"></a-box>
+            <a-box mixin="md-secondary" position="-1.5 0.55 0" width="0.5" height="0.9" depth="0.5" rotation="0 -90 0"></a-box>
+
+            <!-- Meeting Display -->
+            <a-entity position="0 2.5 -3">
+                <a-box mixin="md-surface" position="0 0 -0.05" width="4" height="2.3" depth="0.1"></a-box>
+                <a-plane 
+                    mixin="md-screen"
+                    position="0 0 0" 
+                    width="3.8" 
+                    height="2.1"
+                    class="clickable">
+                    <a-text 
+                        value="VIRTUAL MEETING ROOM\n\n👥 Participants: 1/8\n📹 Video: Ready\n🎤 Audio: Active\n📱 Screen Share: Available\n\n🎯 Join Meeting\n📊 View Analytics\n⚙️ Settings"
+                        align="center"
+                        position="0 0 0.01"
+                        color="#A8C7FA"
+                        width="4">
+                    </a-text>
+                </a-plane>
+            </a-entity>
+        </a-entity>
+
+        <!-- Productivity Zone -->
+        <a-entity id="productivity-zone" position="-7 1.5 -3">
+            <!-- Standing Desk -->
+            <a-box mixin="md-surface" position="0 1.2 0" width="2" height="0.06" depth="1.2"></a-box>
+            <a-box mixin="md-surface" position="-0.8 0.6 -0.4" width="0.08" height="1.2" depth="0.08"></a-box>
+            <a-box mixin="md-surface" position="0.8 0.6 -0.4" width="0.08" height="1.2" depth="0.08"></a-box>
+            
+            <!-- Productivity Display -->
+            <a-entity position="0 1.8 -0.8">
+                <a-plane 
+                    mixin="md-screen"
+                    width="1.8" 
+                    height="1.2"
+                    class="clickable">
+                    <a-text 
+                        value="FOCUS MODE\n\n⏰ Pomodoro Timer\n📋 Today's Tasks\n🎯 Goals Progress\n📊 Time Tracking\n\n🔕 Notifications: Off"
+                        align="center"
+                        position="0 0 0.01"
+                        color="#BFC6DC"
+                        width="4">
+                    </a-text>
+                </a-plane>
+            </a-entity>
+        </a-entity>
+
+        <!-- Ambient Elements -->
+        <a-entity id="ambient-elements">
+            <!-- Floating Particles -->
+            <a-entity id="particles" position="0 3 -5">
+                <a-sphere color="#A8C7FA" opacity="0.3" radius="0.02" position="1 0 1" 
+                          animation="property: position; to: 1 1 1; dur: 3000; dir: alternate; loop: true"></a-sphere>
+                <a-sphere color="#BFC6DC" opacity="0.3" radius="0.02" position="-1 0.5 -1" 
+                          animation="property: position; to: -1 1.5 -1; dur: 4000; dir: alternate; loop: true"></a-sphere>
+                <a-sphere color="#DEBCDF" opacity="0.3" radius="0.02" position="2 0.2 0" 
+                          animation="property: position; to: 2 1.2 0; dur: 5000; dir: alternate; loop: true"></a-sphere>
+            </a-entity>
+        </a-entity>
+
+        <!-- User Avatar/Presence -->
+        <a-sphere 
+            id="user-avatar"
+            mixin="md-primary"
+            position="0 1.8 -0.8" 
+            radius="0.2" 
+            animation="property: rotation; to: 0 360 0; loop: true; dur: 12000">
+            <a-text 
+                value="You"
+                position="0 -0.5 0"
+                align="center"
+                color="#D6E3FF"
+                width="8">
+            </a-text>
+        </a-sphere>
+
+        <!-- Camera Rig -->
+        <a-entity id="rig" position="0 1.7 2">
+            <a-camera 
+                id="camera"
+                look-controls="enabled: true"
+                wasd-controls="enabled: true; acceleration: 15"
+                cursor="rayOrigin: mouse; fuse: false"
+                raycaster="objects: .clickable">
+                
+                <!-- VR Controllers -->
+                <a-entity
+                    id="leftHand"
+                    hand-controls="hand: left; handModelStyle: lowPoly; color: #A8C7FA"
+                    laser-controls="hand: left"
+                    raycaster="objects: .clickable; lineColor: #A8C7FA; lineOpacity: 0.7">
+                </a-entity>
+                
+                <a-entity
+                    id="rightHand"
+                    hand-controls="hand: right; handModelStyle: lowPoly; color: #A8C7FA"
+                    laser-controls="hand: right"
+                    raycaster="objects: .clickable; lineColor: #A8C7FA; lineOpacity: 0.7">
+                </a-entity>
+            </a-camera>
+        </a-entity>
+    </a-scene>
+
+    <div class="md-workspace-ui md-fade-in">
+        <div class="md-workspace-title">
+            <span class="material-icons">business</span>
+            <span>Virtual Workspace</span>
+        </div>
+        
+        <div class="md-divider"></div>
+        
+        <button class="md-workspace-btn" onclick="joinMeeting()">
+            <span class="material-icons">video_call</span>
+            <span>Join Meeting</span>
+        </button>
+        
+        <button class="md-workspace-btn secondary" onclick="shareScreen()">
+            <span class="material-icons">screen_share</span>
+            <span>Share Screen</span>
+        </button>
+        
+        <button class="md-workspace-btn tertiary" onclick="openWhiteboard()">
+            <span class="material-icons">draw</span>
+            <span>Whiteboard</span>
+        </button>
+        
+        <button class="md-workspace-btn" onclick="toggleFocusMode()">
+            <span class="material-icons">timer</span>
+            <span>Focus Mode</span>
+        </button>
+    </div>
+
+    <script>
+        // Workspace functionality with Material Design interactions
+        let isInMeeting = false;
+        let isScreenSharing = false;
+        let isFocusMode = false;
+
+        function joinMeeting() {
+            const meetingArea = document.querySelector('#meeting-space');
+            const camera = document.querySelector('#rig');
+            const btn = event.target.closest('.md-workspace-btn');
+            
+            if (!isInMeeting) {
+                // Animate camera to meeting area
+                camera.setAttribute('animation', {
+                    property: 'position',
+                    to: '7 1.7 0',
+                    dur: 2000,
+                    easing: 'easeInOutQuad'
+                });
+                
+                // Update meeting display
+                setTimeout(() => {
+                    const meetingDisplay = meetingArea.querySelector('a-text');
+                    meetingDisplay.setAttribute('text', 'value', 
+                        'VIRTUAL MEETING ROOM\\n\\n👥 Participants: 1/8\\n📹 Video: Active\\n🎤 Audio: Connected\\n📱 Screen Share: Ready\\n\\n🔴 Meeting in Progress\\n📊 View Analytics\\n⚙️ Settings'
+                    );
+                }, 2000);
+                
+                // Update button
+                btn.innerHTML = '<span class="material-icons">call_end</span><span>Leave Meeting</span>';
+                isInMeeting = true;
+                
+                console.log('Joined virtual meeting');
+            } else {
+                // Return to main workspace
+                camera.setAttribute('animation', {
+                    property: 'position',
+                    to: '0 1.7 2',
+                    dur: 2000,
+                    easing: 'easeInOutQuad'
+                });
+                
+                btn.innerHTML = '<span class="material-icons">video_call</span><span>Join Meeting</span>';
+                isInMeeting = false;
+                
+                console.log('Left virtual meeting');
+            }
+        }
+
+        function shareScreen() {
+            const screens = document.querySelectorAll('#monitor-setup a-plane');
+            const btn = event.target.closest('.md-workspace-btn');
+            
+            if (!isScreenSharing) {
+                screens.forEach((screen, index) => {
+                    setTimeout(() => {
+                        screen.setAttribute('animation', {
+                            property: 'scale',
+                            to: '1.05 1.05 1.05',
+                            dur: 300,
+                            direction: 'alternate',
+                            loop: 3
+                        });
+                    }, index * 100);
+                });
+                
+                btn.innerHTML = '<span class="material-icons">stop_screen_share</span><span>Stop Sharing</span>';
+                isScreenSharing = true;
+                
+                console.log('Screen sharing activated');
+            } else {
+                btn.innerHTML = '<span class="material-icons">screen_share</span><span>Share Screen</span>';
+                isScreenSharing = false;
+                
+                console.log('Screen sharing stopped');
+            }
+        }
+
+        function openWhiteboard() {
+            const whiteboard = document.querySelector('#whiteboard-area');
+            const camera = document.querySelector('#rig');
+            
+            // Move camera to whiteboard
+            camera.setAttribute('animation', {
+                property: 'position',
+                to: '-3 1.7 0',
+                dur: 1500,
+                easing: 'easeInOutQuad'
+            });
+            
+            // Highlight whiteboard
+            whiteboard.setAttribute('animation', {
+                property: 'scale',
+                to: '1.02 1.02 1.02',
+                dur: 500,
+                direction: 'alternate',
+                loop: 2
+            });
+            
+            console.log('Opened digital whiteboard');
+        }
+
+        function toggleFocusMode() {
+            const productivityZone = document.querySelector('#productivity-zone');
+            const btn = event.target.closest('.md-workspace-btn');
+            
+            if (!isFocusMode) {
+                // Dim other areas
+                document.querySelectorAll('#monitor-setup, #meeting-space, #whiteboard-area').forEach(area => {
+                    area.setAttribute('animation', {
+                        property: 'components.material.material.opacity',
+                        to: '0.3',
+                        dur: 1000
+                    });
+                });
+                
+                // Highlight productivity zone
+                productivityZone.setAttribute('animation', {
+                    property: 'scale',
+                    to: '1.1 1.1 1.1',
+                    dur: 1000
+                });
+                
+                btn.innerHTML = '<span class="material-icons">timer_off</span><span>Exit Focus</span>';
+                isFocusMode = true;
+                
+                console.log('Focus mode activated');
+            } else {
+                // Restore normal lighting
+                document.querySelectorAll('#monitor-setup, #meeting-space, #whiteboard-area').forEach(area => {
+                    area.setAttribute('animation', {
+                        property: 'components.material.material.opacity',
+                        to: '1',
+                        dur: 1000
+                    });
+                });
+                
+                productivityZone.setAttribute('animation', {
+                    property: 'scale',
+                    to: '1 1 1',
+                    dur: 1000
+                });
+                
+                btn.innerHTML = '<span class="material-icons">timer</span><span>Focus Mode</span>';
+                isFocusMode = false;
+                
+                console.log('Focus mode deactivated');
+            }
+        }
+
+        // Interactive click handlers
+        document.addEventListener('DOMContentLoaded', () => {
+            const clickableElements = document.querySelectorAll('.clickable');
+            
+            clickableElements.forEach((element, index) => {
+                element.addEventListener('click', () => {
+                    console.log(`Clicked interactive element ${index + 1}`);
+                    
+                    // Material Design ripple effect
+                    element.setAttribute('animation__click', {
+                        property: 'scale',
+                        to: '1.02 1.02 1.02',
+                        dur: 150,
+                        direction: 'alternate',
+                        loop: 2
+                    });
+                    
+                    // Add subtle color change
+                    const currentColor = element.getAttribute('material').color;
+                    element.setAttribute('animation__color', {
+                        property: 'components.material.material.emissiveIntensity',
+                        to: '0.2',
+                        dur: 300,
+                        direction: 'alternate',
+                        loop: 2
+                    });
+                });
+            });
+
+            // Add floating animation to control panel
+            const controlPanel = document.querySelector('#control-panel');
+            controlPanel.setAttribute('animation__float', {
+                property: 'position',
+                to: '4 2.4 -1.5',
+                dur: 6000,
+                direction: 'alternate',
+                loop: true,
+                easing: 'easeInOutSine'
+            });
+
+            console.log('🏢 Material Design Virtual Workspace loaded');
+            console.log('💡 Click screens and objects to interact');
+            console.log('🎮 Use VR controllers or WASD + mouse to navigate');
+        });
+
+        // Performance optimization
+        window.addEventListener('load', () => {
+            if (window.xrOptimizer) {
+                console.log('Workspace optimizations active');
+            }
+            
+            // VR mode detection for UI hiding
+            const scene = document.querySelector('a-scene');
+            scene.addEventListener('enter-vr', () => {
+                document.body.classList.add('vr-mode');
+                console.log('Entered VR mode - UI hidden');
+            });
+            
+            scene.addEventListener('exit-vr', () => {
+                document.body.classList.remove('vr-mode');
+                console.log('Exited VR mode - UI restored');
+            });
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (event) => {
+            if (event.ctrlKey) {
+                switch (event.key) {
+                    case 'm':
+                        event.preventDefault();
+                        joinMeeting();
+                        break;
+                    case 's':
+                        event.preventDefault();
+                        shareScreen();
+                        break;
+                    case 'w':
+                        event.preventDefault();
+                        openWhiteboard();
+                        break;
+                    case 'f':
+                        event.preventDefault();
+                        toggleFocusMode();
+                        break;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
