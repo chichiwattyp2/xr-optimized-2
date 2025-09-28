@@ -62,6 +62,14 @@
         }
     </style>
 </head>
+    <div id="nav-placeholder"></div>
+<script>
+  fetch("/nav.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("nav-placeholder").innerHTML = html;
+    });
+</script>
 <body>
     <div class="beta-banner">
         🚧 Beta Version - Features in Development
