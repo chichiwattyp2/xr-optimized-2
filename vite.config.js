@@ -11,7 +11,7 @@ export default defineConfig({
         index: resolve(__dirname, 'index.html'),
         xrtest: resolve(__dirname, 'XR-Test.html'),
         arshowcase: resolve(__dirname, 'ar-showcase.html'),
-        arstudio: resolve(__dirname, 'AR-studio.html'), // ✅ NEW
+        arstudio: resolve(__dirname, 'AR-studio.html'),
         assistantshop: resolve(__dirname, 'assistant-shop.html'),
         assistant: resolve(__dirname, 'assistant.html'),
         assistant1: resolve(__dirname, 'assistant1.html'),
@@ -30,20 +30,11 @@ export default defineConfig({
         videoplayer: resolve(__dirname, 'video-player.html'),
         vologram: resolve(__dirname, 'vologram.html'),
         workspace: resolve(__dirname, 'workspace.html')
-      
-       },
+      },
       external: [
-        'spotify/build.js',
-        'spotify/annyang.min.js',
-        'spotify/aframe-dialog-popup-component.js',
-        'js/ar-test.js',
-        'js/product-card.js',
-        'js/assistant-shop.js'
+        /^\/?js\//,
+        /^\/?spotify\//
       ]
     }
   }
 });
-  
-
-      
-     
