@@ -29,7 +29,9 @@ export default defineConfig({
         terrain: resolve(__dirname, 'terrain.html'),
         videoplayer: resolve(__dirname, 'video-player.html'),
         vologram: resolve(__dirname, 'vologram.html'),
-        workspace: resolve(__dirname, 'workspace.html')
+        workspace: resolve(__dirname, 'workspace.html'),
+        hologram: resolve(__dirname, 'ar-hologram.html'),
+       gemini: resolve(__dirname,  'gemini-ui/copy.html'),
       },
       external: [
         /^\/?js\//,
