@@ -7,6 +7,14 @@
     <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
     <link rel="stylesheet" href="css/webvr.css" type="text/css" />
   </head>
+  <div id="nav-placeholder"></div>
+<script>
+  fetch("/nav.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("nav-placeholder").innerHTML = html;
+    });
+</script>
   <body>
     <div id="startscreen" class="welcome">
       <div class="wlcnt">
