@@ -11,7 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "aframe": "^1.5.0",
+    "aframe": "^1.7.1",
     "three": "^0.169.0"
   },
   "devDependencies": {
