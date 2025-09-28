@@ -4,12 +4,17 @@
   "main": "index.js",
   "scripts": {
     "build": "vite build",
-    "dev": "vite"
+    "dev": "vite",
+    "preview": "vite preview"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
+  "dependencies": {
+    "aframe": "^1.5.0",
+    "three": "^0.169.0"
+  },
   "devDependencies": {
     "vite": "^7.1.7"
   }
