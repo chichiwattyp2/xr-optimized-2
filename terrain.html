@@ -8,6 +8,13 @@
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://unpkg.com/aframe-orbit-controls@1.2.0/dist/aframe-orbit-controls.min.js"></script>
   </head>
+  <script type="importmap">
+	{
+		"imports": {
+			"three": "https://cdn.jsdelivr.net/npm/three/build/three.module.js"
+		}
+	}
+</script>
   <div id="nav-placeholder"></div>
 <script>
   fetch("/nav.html")
