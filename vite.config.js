@@ -30,7 +30,20 @@ export default defineConfig({
         videoplayer: resolve(__dirname, 'video-player.html'),
         vologram: resolve(__dirname, 'vologram.html'),
         workspace: resolve(__dirname, 'workspace.html')
-      }
+      
+       },
+      external: [
+        'spotify/build.js',
+        'spotify/annyang.min.js',
+        'spotify/aframe-dialog-popup-component.js',
+        'js/ar-test.js',
+        'js/product-card.js',
+        'js/assistant-shop.js'
+      ]
     }
   }
 });
+  
+
+      
+     
