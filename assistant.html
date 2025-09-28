@@ -23,32 +23,8 @@
  
 
 
-  <!-- (kept) Google-sheet-driven 3D catalog loader -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>XR Labs</title>
 
-  <!-- Google Fonts: Asimovian -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Asimovian&display=swap" rel="stylesheet">
 
-  <!-- libs -->
-  <script src="js/openai-client.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
-  <script src="https://unpkg.com/aframe-controller-cursor-component@0.2.7/dist/aframe-controller-cursor-component.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.6.0/dist/aframe-extras.min.js"></script>
-  <script src="https://unpkg.com/aframe-environment-component@1.5.x/dist/aframe-environment-component.min.js"></script>
-  <script src="https://unpkg.com/aframe-event-set-component@5.0.1/dist/aframe-event-set-component.min.js"></script>
-  <script href="nav.js"></script>
-  <script src="js/assistant.js"></script>
-  <script src="js/travel-node-component.js"></script>
-  <script src="js/nav.js"></script>
-<script src="js/catalogue.js"></script>
-  <!-- (kept) Google-sheet-driven 3D catalog loader -->
 <script>
     function encodeHtml(str){const b=[]; for(let i=str.length-1;i>=0;i--) b.unshift(["&#",str[i].charCodeAt(),";"].join("")); return b.join("");}
     const isImageUrl = u => /\.(png|jpe?g|gif|webp)(\?.*)?$/i.test(u);
