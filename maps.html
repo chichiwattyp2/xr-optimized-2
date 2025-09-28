@@ -8,6 +8,14 @@
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="/js/aframe-orbit-controls.min.js"></script>
   </head>
+  <div id="nav-placeholder"></div>
+<script>
+  fetch("/nav.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("nav-placeholder").innerHTML = html;
+    });
+</script>
   <body>
     <a-scene renderer="antialias: true">
       <!-- Orbit cam -->
