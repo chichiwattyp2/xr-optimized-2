@@ -11,6 +11,7 @@ export default defineConfig({
         index: resolve(__dirname, 'index.html'),
         xrtest: resolve(__dirname, 'XR-Test.html'),
         arshowcase: resolve(__dirname, 'ar-showcase.html'),
+        arstudio: resolve(__dirname, 'AR-studio.html'), // ✅ NEW
         assistantshop: resolve(__dirname, 'assistant-shop.html'),
         assistant: resolve(__dirname, 'assistant.html'),
         assistant1: resolve(__dirname, 'assistant1.html'),
