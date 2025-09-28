@@ -9,6 +9,14 @@
     <!-- or CDN minimized js -->
     <!--    <script src="https://cdn.jsdelivr.net/npm/aframe-volograms@latest/dist/aframe-volograms.min.js"></script>-->
 </head>
+    <div id="nav-placeholder"></div>
+<script>
+  fetch("/nav.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("nav-placeholder").innerHTML = html;
+    });
+</script>
 <body>
 <a-scene cursor="rayOrigin: mouse" raycaster="objects: .clickable">
     <a-cylinder position="0 0.9 -4" radius="0.5" height="1.8" color="#FFC65D"></a-cylinder>
