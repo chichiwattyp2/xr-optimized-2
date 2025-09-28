@@ -15,6 +15,27 @@
         overflow: hidden;
         background: #000;
       }
+      #ui {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 10;
+      }
+      button {
+        padding: 8px 14px;
+        border: none;
+        border-radius: 6px;
+        background: rgba(0,0,0,0.7);
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: rgba(255,255,255,0.2);
+      }
       #status {
         position: absolute;
         bottom: 1rem;
@@ -30,19 +51,42 @@
     </style>
   </head>
   <body>
+    <!-- Control UI -->
+    <div id="ui">
+      <button onclick="toggleObject('box')">Cube</button>
+      <button onclick="toggleObject('sphere')">Sphere</button>
+      <button onclick="toggleObject('model')">Model</button>
+    </div>
+
+    <!-- Status -->
+    <div id="status">Point your camera at a Hiro marker</div>
+
+    <!-- A-Frame Scene -->
     <a-scene
       vr-mode-ui="enabled: false"
       embedded
       arjs="trackingMethod: best; sourceType: webcam;"
     >
-      <!-- Simple marker-based cube -->
       <a-marker preset="hiro">
-        <a-box position="0 0.5 0" material="color: red;"></a-box>
+        <a-box id="box" position="0 0.5 0" visible="false" color="red"></a-box>
+        <a-sphere id="sphere" position="0 0.5 0" radius="0.5" color="blue" visible="false"></a-sphere>
+        <a-entity
+          id="model"
+          gltf-model="https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models/2.0/Duck/glTF/Duck.gltf"
+          scale="0.2 0.2 0.2"
+          position="0 0 0"
+          visible="false"
+        ></a-entity>
       </a-marker>
 
       <a-entity camera></a-entity>
     </a-scene>
 
-    <div id="status">Point your camera at a Hiro marker</div>
+    <script>
+      function toggleObject(id) {
+        const el = document.getElementById(id);
+        el.setAttribute("visible", el.getAttribute("visible") === "true" ? "false" : "true");
+      }
+    </script>
   </body>
 </html>
