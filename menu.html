@@ -140,6 +140,14 @@
       }
     });
     </script>
+    <div id="nav-placeholder"></div>
+<script>
+  fetch("/nav.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("nav-placeholder").innerHTML = html;
+    });
+</script>
   </head>
   <body>
     <div id="slide2" class="slide">
