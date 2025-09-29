@@ -1,0 +1,20 @@
+{
+  "name": "ar-studio",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "aframe": "^1.7.1",
+    "three": "^0.169.0"
+  },
+  "devDependencies": {
+    "vite": "^7.1.7"
+  }
+}
