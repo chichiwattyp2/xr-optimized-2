@@ -4,77 +4,79 @@ import Head from "next/head"
 
 export default function HomePage() {
   return (
-
     <>
       <Head>
-      <link rel="shortcut icon" href="./assets/img/favicon.ico" />
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>AR Studio</title>
+        <link rel="shortcut icon" href="/assets/img/favicon.ico" />
+        <meta charSet="utf-8" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+        {/* Stylesheets */}
+        <link rel="stylesheet" href="/css/style.css" />
+        <link rel="stylesheet" href="/main/main.css" />
 
-<link rel="stylesheet" href="./css/style.css" />
-<link rel="stylesheet" href="./main/main.css" />
+        {/* Scripts (will run client-side) */}
+        <script src="/components/header/header.js" />
+        <script src="/main/main.js" />
+        <script src="/components/feedback/stickybutton.js" />
+      </Head>
 
+      {/* Body content */}
+      <page-header assetsUrl="assets"></page-header>
 
-<script src="./components/header/header.js"></script>
-<script src="./main/main.js"></script>
-<script src="./components/feedback/stickybutton.js"></script>
-</head>
+      <div className="background">
+        <div className="content">
+          <p className="title">Web-enabled AR experiences</p>
+          <p className="paragraph">
+            AR.js Studio is an open-source AR creation platform for building custom augmented
+            reality experiences. You can create location-based or marker-based AR applications
+            and deploy them straight to the web. That means you won’t have to download any
+            extra apps to access your experience! Working with AR.js Studio doesn’t require any
+            knowledge of coding, either. You can start creating your first AR project right now.
+          </p>
 
+          <img
+            className="splashscreen"
+            src="/assets/img/splashscreen.png"
+            alt="Demo image home page"
+          />
 
-<page-header assetsUrl="assets"></page-header>
-<div class="background">
-<div class="content">
-<p class="title">Web-enabled AR experiences</p>
-<p class="paragraph">
-AR.js Studio is an open-source AR creation platform for building custom augmented reality experiences.
-You can create location-based or marker-based AR applications and deploy them straight to the web.
-That means you won’t have to download any extra apps to access your experience!
-Working with AR.js Studio doesn’t require any knowledge of coding, either.
-You can start creating your first AR project right now.
-</p>
+          <p className="lead">Pick your project type</p>
 
-<img class="splashscreen" src="./assets/img/splashscreen.png" alt="Demo image home page"/>
+          <div>
+            <label className="radio-container paragraph">
+              <span className="radio-title">Location-based</span>
+              <input
+                id="location"
+                type="radio"
+                name="radio"
+                onClick={() => window.radioOnclick?.(document.getElementById("location"))}
+              />
+              <span>Place your creation on a map, so it remains tied to a physical location.</span>
+              <span className="checkmark"></span>
+            </label>
 
-<p class="lead">Pick your project type</p>
+            <label className="radio-container paragraph">
+              <span className="radio-title">Marker-based</span>
+              <input
+                id="marker"
+                type="radio"
+                name="radio"
+                onClick={() => window.radioOnclick?.(document.getElementById("marker"))}
+              />
+              <span>
+                Connect your creation to a visual marker, which can be moved to any location.
+              </span>
+              <span className="checkmark"></span>
+            </label>
 
-<div>
-<label class="radio-container paragraph">
-<span class="radio-title">Location-based</span>
-<input
-id="location"
-type="radio"
-name="radio"
-onclick="radioOnclick(this)"
-/>
-<span>
-Place your creation on a map, so it remains tied to a physical location.
-</span>
-<span class="checkmark"></span>
-</label>
-
-<label class="radio-container paragraph">
-<span class="radio-title">Marker-based</span>
-<input
-id="marker"
-type="radio"
-name="radio"
-onclick="radioOnclick(this)"
-/>
-<span>
-Connect your creation to a visual marker, which can be moved to any location.
-</span>
-<span class="checkmark"></span>
-</label>
-  <div className="buttons-container">
+            <div className="buttons-container">
               <a
                 id="start-building"
                 className="primary-button"
                 onClick={() =>
-                  window.anchorOnclick?.(
-                    document.getElementById("start-building")
-                  )
+                  window.anchorOnclick?.(document.getElementById("start-building"))
                 }
               >
                 Start building
@@ -89,7 +91,6 @@ Connect your creation to a visual marker, which can be moved to any location.
           </div>
         </div>
       </div>
-             
-  </>
+    </>
   )
 }
