@@ -7,7 +7,8 @@ export default function HomePage() {
     <>
       <Head>
         <title>AR Studio</title>
-        <link rel="shortcut icon" href="/AR-Studio/assets/img/favicon.ico" />
+      
+    
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,14 +23,13 @@ export default function HomePage() {
           rel="stylesheet"
         />
 
-        {/* Styles */}
-        <link rel="stylesheet" href="/studio.css" />
+     <script src="/components/header.js" type="module"></script>
+<script src="/components/main.js" type="module"></script>
+<script src="/components/stickybutton.js" type="module"></script>
+<script src="/components/back-anchor.js" type="module"></script>
 
-        {/* Scripts (served from /public/) */}
-     
-        <script src="/pages/main/main.js" type="module"></script>
-        <script src="/components/feedback/stickybutton.js" type="module"></script>
-            <script type="module" src="/components/header/header.js"></script>
+<link rel="stylesheet" href="/css/studio.css" />
+<link rel="shortcut icon" href="/assets/img/favicon.ico" />
       </Head>
 
    
