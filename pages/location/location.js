@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect } from "react"
-import { serveZipPackage } from "@/lib/packageUtils"
+import { serveZipPackage } from "../../lib/packageUtils"
 
 export default function LocationPage() {
   useEffect(() => {
