@@ -20,7 +20,7 @@ export default function Landing() {
     { name: "Vologram", path: "/vologram.html" },
     { name: "Workspace", path: "/workspace.html" },
     { name: "XR Test", path: "/XR-Test" },
-    { name: "AR Hologram", path: "/ar-hologram.html" },
+    { name: "AR Hologram", path: "/ar-hologram" },
     { name: "Assistant Shop", path: "/assistant-shop.html" },
     { name: "Assistant", path: "/assistant.html" },
     { name: "Geodome", path: "/geodome.html" },
@@ -28,6 +28,7 @@ export default function Landing() {
     { name: "XR Shop", path: "/xrshop.html" },
     { name: "XR Shop 2", path: "/xrshop2.html" },
     { name: "Wall UX", path: "/wall-ux/index.html" },
+    { name: "XR Labs", path: "xrlabs" },
   ];
 
   const filteredPages = pages.filter((p) =>
