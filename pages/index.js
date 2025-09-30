@@ -17,9 +17,9 @@ export default function HomePage() {
         <link rel="stylesheet" src="main/main.css"/>
 
         {/* Scripts (will run client-side) */}
-        <script src="components/header/header.js" />
-        <script src="main/main.js" />
-        <script src="components/feedback/stickybutton.js" />
+        <script src="components/header/header.js"/>
+        <script src="main/main.js"/>
+        <script src="components/feedback/stickybutton.js"/>
       </Head>
 
       {/* Body content */}
