@@ -67,23 +67,15 @@ export default function HomePage() {
               <span className="checkmark"></span>
             </label>
 
-            <div className="buttons-container">
-              <a
-                id="start-building"
-                className="primary-button"
-                onClick={() =>
-                  window.anchorOnclick?.(document.getElementById("start-building"))
-                }
-              >
-                Start building
-              </a>
-            </div>
+            
 
-            <feedback-button></feedback-button>
-
-            <div id="error" className="error" style={{ visibility: "hidden" }}>
-              Please, select a project type.
-            </div>
+         <div class="buttons-container">
+            <a onclick="anchorOnclick(this)" id="start-building" class="primary-button">Start building</a>
+          </div>
+          <feedback-button></feedback-button>
+          <div id="error" class="error" style="visibility: hidden;">
+            Please, select a project type.
+          </div>
           </div>
         </div>
       </div>
