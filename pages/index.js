@@ -30,6 +30,7 @@ export default function Landing() {
     { name: "XR Shop 2", path: "/xrshop2.html" },
     { name: "Wall UX", path: "/wall-ux/index.html" },
     { name: "XR Labs", path: "xrlabs" },
+     { name: "Vibes", path: "vibes.html" },
   ];
 
   const filteredPages = pages.filter((p) =>
