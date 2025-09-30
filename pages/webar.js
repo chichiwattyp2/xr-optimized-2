@@ -91,11 +91,10 @@ export default function WebARPage() {
       <div id="reticle"></div>
 
       {/* A-Frame Scene */}
-      <a-scene
-        id="scene"
-        embedded
-        arjs="sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth:1280; displayHeight:960; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
-        vr-mode-ui="enabled: true"
+    <a-scene
+        vr-mode-ui='enabled: false;'
+        renderer="logarithmicDepthBuffer: true; precision: medium;"
+        embedded arjs='trackingMethod: best; sourceType: webcam; debugUIEnabled: false;'>
         renderer="logarithmicDepthBuffer: true; precision: high; antialias: true; alpha: true; colorManagement: true;"
         webxr="requiredFeatures: hit-test,local-floor; optionalFeatures: dom-overlay,anchors,light-estimation,hand-tracking,depth-sensing,plane-detection; overlayElement: #arControls;"
         ar-hit-test="target: #reticle; type: map"
