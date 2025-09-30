@@ -7,19 +7,19 @@ export default function HomePage() {
     <>
       <Head>
         <title>AR Studio</title>
-        <link rel="shortcut icon" href="/assets/img/favicon.ico" />
+        <link rel="shortcut icon" href="assets/img/favicon.ico" />
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {/* Stylesheets */}
-        <link rel="stylesheet" href="/css/style.css" />
-        <link rel="stylesheet" href="/main/main.css" />
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="main/main.css" />
 
         {/* Scripts (will run client-side) */}
-        <script src="/components/header/header.js" />
-        <script src="/main/main.js" />
-        <script src="/components/feedback/stickybutton.js" />
+        <script src="components/header/header.js" />
+        <script src="main/main.js" />
+        <script src="components/feedback/stickybutton.js" />
       </Head>
 
       {/* Body content */}
@@ -36,7 +36,7 @@ export default function HomePage() {
             knowledge of coding, either. You can start creating your first AR project right now.
           </p>
 
-           <img class="splashscreen" src="/assets/img/splashscreen.png" alt="Demo image home page"/>
+           <img class="splashscreen" src="assets/img/splashscreen.png" alt="Demo image home page"/>
 
           <p className="lead">Pick your project type</p>
 
