@@ -7,8 +7,6 @@ export default function HomePage() {
     <>
       <Head>
         <title>AR Studio</title>
-      
-    
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,30 +21,30 @@ export default function HomePage() {
           rel="stylesheet"
         />
 
-     <script src="/components/header.js" type="module"></script>
-<script src="/components/main.js" type="module"></script>
-<script src="/components/stickybutton.js" type="module"></script>
-<script src="/components/back-anchor.js" type="module"></script>
+        {/* External scripts and styles */}
+        <script src="/components/header.js" type="module"></script>
+        <script src="/components/main.js" type="module"></script>
+        <script src="/components/stickybutton.js" type="module"></script>
+        <script src="/components/back-anchor.js" type="module"></script>
 
-<link rel="stylesheet" href="/css/studio.css" />
-<link rel="shortcut icon" href="/assets/img/favicon.ico" />
+        <link rel="stylesheet" href="/css/studio.css" />
+        <link rel="shortcut icon" href="/assets/img/favicon.ico" />
       </Head>
 
-   
       <div className="background">
         <div className="content">
           <p className="title">Web-enabled AR experiences</p>
           <p className="paragraph">
-            I built this project using the open-source AR.js JavaScript framework,
-            which makes it easy to create custom augmented reality experiences for
-            the web. With AR.js, you can build both location-based and marker-based
-            AR applications that run directly in your browser—no app downloads or
-            coding expertise required.
+            I built this project using the open-source AR.js JavaScript
+            framework, which makes it easy to create custom augmented reality
+            experiences for the web. With AR.js, you can build both
+            location-based and marker-based AR applications that run directly in
+            your browser—no app downloads or coding expertise required.
           </p>
 
           <img
             className="splashscreen"
-            src="/public/assets/img/splashscreen.png"
+            src="/assets/img/splashscreen.png"
             alt="Demo image home page"
           />
 
@@ -59,7 +57,9 @@ export default function HomePage() {
                 id="location"
                 type="radio"
                 name="radio"
-                onClick={() => window.radioOnclick?.(document.getElementById("location"))}
+                onClick={() =>
+                  window.radioOnclick?.(document.getElementById("location"))
+                }
               />
               <span>
                 Place your creation on a map, so it remains tied to a physical
@@ -74,11 +74,13 @@ export default function HomePage() {
                 id="marker"
                 type="radio"
                 name="radio"
-                onClick={() => window.radioOnclick?.(document.getElementById("marker"))}
+                onClick={() =>
+                  window.radioOnclick?.(document.getElementById("marker"))
+                }
               />
               <span>
-                Connect your creation to a visual marker, which can be moved to any
-                location.
+                Connect your creation to a visual marker, which can be moved to
+                any location.
               </span>
               <span className="checkmark"></span>
             </label>
@@ -87,7 +89,11 @@ export default function HomePage() {
               <a
                 id="start-building"
                 className="primary-button"
-                onClick={() => window.anchorOnclick?.(document.getElementById("start-building"))}
+                onClick={() =>
+                  window.anchorOnclick?.(
+                    document.getElementById("start-building")
+                  )
+                }
               >
                 Start building
               </a>
