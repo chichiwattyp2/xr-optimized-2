@@ -12,17 +12,16 @@ export default function HomePage() {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        {/* Stylesheets */}
+     
         <link rel="stylesheet" src="css/studio.css"/>
         <link rel="stylesheet" src="main/main.css"/>
 
-        {/* Scripts (will run client-side) */}
-        <script src="components/header/header.js"/>
-        <script src="main/main.js"/>
-        <script src="components/feedback/stickybutton.js"/>
+    
+        <script src="components/header/header.js"></script>
+        <script src="main/main.js"/></script>
+        <script src="components/feedback/stickybutton.js"/></script>
       </Head>
 
-      {/* Body content */}
       <page-header assetsUrl="assets"></page-header>
 
       <div className="background">
