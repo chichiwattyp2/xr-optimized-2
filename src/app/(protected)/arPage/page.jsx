@@ -1,17 +1,12 @@
-'use client';
-import dynamic from 'next/dynamic';
-const SceneComponent = dynamic(
-  () => import SceneComponent from '@/components/common/sceneComponent',
+"use client"
 
-  { ssr: false }
-);
+import React from "react"
+import SceneComponent from "@/components/common/sceneComponent"
 
-const Page = () => {
+export default function ArPage() {
   return (
-    <>
+    <div>
       <SceneComponent />
-    </>
-  );
-};
-
-export default Page;
+    </div>
+  )
+}
