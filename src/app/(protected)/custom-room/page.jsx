@@ -2,7 +2,7 @@
 'use client';
 import dynamic from 'next/dynamic';
 const CustomRoom = dynamic(
-  () => import('src/components/common/RoomSelector/CustomRoom'),
+  () => import('@/components/common/RoomSelector/CustomRoom'),
   { ssr: false }
 );
 
