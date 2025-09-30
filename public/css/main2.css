@@ -1,0 +1,476 @@
+@font-face {
+    font-family: 'Radio Grotesk';
+    src: url('RadioGrotesk-Regular.woff2') format('woff2'),
+        url('RadioGrotesk-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Radio Grotesk', sans-serif;
+  font-size: 16px;
+  background: #ffffff;  /* fallback for old browsers */
+}
+
+a {
+  color: #55ffbe;
+}
+
+#container {
+  min-height: 100%;
+  position: relative;
+}
+
+.pages-content-container,
+.pages-content-element {
+  min-height: 100%;
+  position: relative;
+}
+
+.back-anchor {
+  padding: 1em 0em;
+  height: 3rem;
+  font-size: 1em;
+  padding: 1em; /* Combined with above */
+}
+
+.coordinates-input-wrapper {
+  margin-bottom: 1rem;
+}
+
+/* TODO: move .coordinates-input-container to location.css */
+.coordinates-input-container {
+  display: flex;
+  margin-bottom: 1em;
+}
+
+.coordinates-input-container .input-number-tags {
+  padding-left: 0;
+}
+
+.add-location-container {
+  width: fit-content;
+  cursor: pointer;
+  display: flex;
+}
+
+.coordinates-input-container > div {
+  padding: 1rem;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  text-align: justify;
+}
+
+.delete-coordinates-container > svg {
+  margin-top: 2.5rem;
+}
+
+.remove-location-container {
+  display: flex;
+  cursor: pointer;
+}
+
+.add-location-icon {
+  margin-right: 0.4rem;
+}
+
+.input-container label {
+  font-family: 'Radio Grotesk', sans-serif;
+  font-size: 0.875rem;
+}
+
+.map-buttons-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.text-input {
+  border: 1px solid var(--passive-color-dark);
+  box-sizing: border-box;
+  border-radius: 5px;
+  height: 3.125rem;
+  padding: 1rem 1.25rem;
+  font-family: 'Radio Grotesk', sans-serif;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+input:focus {
+  outline: none;
+}
+
+#content-preview {
+  display: flex;
+  flex-direction: column;
+}
+
+.download-default-marker {
+  display: flex;
+  vertical-align: middle;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+}
+
+.beta {
+  font-family: 'Radio Grotesk', sans-serif;
+  margin-top: 5em;
+  background-color: #fff700;
+  padding: 1em;
+}
+
+.repo-url {
+  font-size: 1.25em;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  padding-right: 2em;
+}
+
+@keyframes blink {
+  50% {
+    color: transparent;
+  }
+}
+.loader__dot {
+  animation: 1s blink infinite;
+}
+.loader__dot:nth-child(2) {
+  animation-delay: 250ms;
+}
+.loader__dot:nth-child(3) {
+  animation-delay: 500ms;
+}
+
+#container.ar {
+  background: linear-gradient(180deg,rgba(255, 255, 255, 1), rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0) 50%);
+}
+
+#header {
+  font-family: 'Radio Grotesk', sans-serif;
+  padding: 10px;
+  max-width: 800px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  height: 50px;
+  border-bottom: 1px solid #cccccc;
+}
+#header.ar {
+  max-width: 95%;
+  padding-top: 20px;
+  border-bottom: 1px solid #999999;
+}
+#body {
+  max-width: 800px;
+  margin: 0 auto;
+  padding-bottom: 50px;	/* Height of the footer */
+}
+#title {
+  float: left;
+}
+#cart {
+  float: right;
+  font-family: 'Radio Grotesk', sans-serif;
+  position: relative;
+  top: 30px;
+}
+
+#upperSheet {
+  width: 100%;
+  display: table;
+}
+#visualSheet {
+  float: left;
+  width: 70%;
+  display: table-cell;
+}
+#visualSheet.ar {
+  /* display: none; */
+}
+#thumbs {
+  float: left;
+  width: 105px;
+}
+
+#thumbs.ar {
+  display: none;
+}
+
+.thumb {
+  height: 90px;
+  margin-bottom: 14px;
+  margin-right: 14px;
+}
+
+.thumb img {
+  width: 90px;
+  height: 90px;
+  border: 1px solid #dedede;
+}
+
+#thumbs .last {
+  margin-bottom: 0px;
+}
+.selected img {
+  border: 2px solid #999999;
+}
+
+#content3D {
+  float: left;
+  width: 430px;
+  height: 300px;
+  border: 1px solid #dedede;
+  margin: 0 auto;
+}
+#content3D.ar {
+  border: 0;
+}
+
+#productOptions {
+  float: left;
+  width: 30%;
+}
+#productOptions.ar {
+  justify-content: center;
+  position: fixed;
+  width: 100%;
+  right: 0;
+  display: flex;
+}
+.productOption {
+  margin-bottom: 20px;
+}
+.productOption.ar {
+  width: 160px;
+  margin-right: 0;
+}
+
+.productOptionTitle {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+.productOptionThumbs {
+  margin: 0 auto;
+}
+
+.productOptionThumbs ul {
+  margin: 0 auto;
+  padding: 0;
+  list-style-type: none;
+}
+.productOptionThumbs li {
+  display: inline;
+  cursor: pointer;
+}
+.productOptionThumbs li img {
+  user-select: none;
+  width: 48px;
+  height: 48px;
+}
+
+.optionSelected {
+  border-bottom: 2px solid #181818;
+}
+
+#sheet {
+  padding-top: 20px;
+  margin: 0 auto;
+}
+#brand {
+  font-size: 16px;
+  font-weight: bold;
+}
+#productName {
+  font-size: 36px;
+  border-bottom: 1px solid #cccccc;
+  margin-bottom: 10px;
+}
+#price {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.dollars {
+  font-size: 16px;
+  color: #b7374c;
+  font-weight: bold;
+}
+#buttonCart {
+  padding: 10px;
+  background-color: #181818;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+  width: 200px;
+  text-align: center;
+  cursor: pointer;
+}
+
+#buttonCart.ar {
+  position: absolute;
+  margin: 0 auto;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+}
+#comments {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+.comment {
+  padding: 10px;
+  background-color: #ededed;
+  margin-bottom: 10px;
+}
+.commentShort {
+  padding: 10px;
+  background-color: #ededed;
+  width: 40%;
+}
+/* Buttons */
+.primary-button,
+.secondary-button,
+.passive-button {
+  display: inline-block;
+  font-family: 'Radio Grotesk', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1em;
+  line-height: 1.25em;
+  height: 3.5em;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  padding: 1em 1.25em;
+  margin: 1.875em 0;
+  text-decoration: none;
+  color: #000000;
+  cursor: pointer;
+}
+
+.primary-button:active,
+.secondary-button:active,
+.passive-button:active {
+  transform: translateY(4px);
+}
+
+.primary-button,
+.primary-button:hover,
+.secondary-button,
+.secondary-button:hover,
+.passive-button,
+.passive-button:hover {
+  background: transparent;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+#footer {
+  background: #FFEFBA;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #FFFFFF, #FFEFBA);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #FFFFFF, #FFEFBA); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  font-family: 'Radio Grotesk', sans-serif;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50px;			/* Height of the footer */
+  line-height: 50px;
+}
+
+#arui {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+#arui-step1 .arui-text {
+  width: 250px;
+}
+#arui-device-icon img {
+  animation: move-around 4s infinite;
+  width: 128px;
+  height: 128px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+@keyframes move-around {
+  0% {
+    left: 40%;
+    top: 50%;
+  }
+  25% {
+    left: 60%;
+    top: 50%;
+  }
+  50% {
+    left: 50%;
+    top: 60%;
+  }
+  75% {
+    left: 50%;
+    top: 40%;
+  }
+  100% {
+    left: 40%;
+    top: 50%;
+  }
+}
+.arui-text {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255,255,255,.7);
+  color: #181818;
+  padding: 5px 10px;
+}
+#arui-step2 {
+  display: none;
+}
+@media (max-width: 799px) {
+  #upperSheet {
+    width: auto;
+    display: block;
+    margin: 0 auto;
+    padding: 0 10px;
+  }
+  #visualSheet {
+    width: 100%;
+    display: table;
+    border-collapse: collapse;
+  }
+  #thumbs {
+    float: left;
+  }
+  #content3D {
+    float: none;
+    width: 90%;
+    display: table-cell;
+  }
+  #sheet {
+    padding: 0 10px;
+  }
+  #productOptions {
+    margin-top: 10px;
+    width: 100%;
+  }
+  .productOption {
+    float: left;
+    margin-right: 25px;
+  }
+}
