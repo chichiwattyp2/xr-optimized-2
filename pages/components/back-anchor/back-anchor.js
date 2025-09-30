@@ -1,6 +1,6 @@
 const template = `
     <a href="javascript:history.back()">
-        <img class="img-back" src="studio/assets/icons/arrow-back.svg" alt="go back" />
+        <img class="img-back" src="/assets/icons/arrow-back.svg" alt="go back" />
     </a>`;
 
 class BackAnchor extends HTMLElement {
