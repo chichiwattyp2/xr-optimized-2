@@ -1,30 +1,43 @@
 "use client"
 
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 
 export default function PublishConfirmPage() {
+  const [status, setStatus] = useState("Authenticating...")
+
   useEffect(() => {
     const run = async () => {
-      const params = new URLSearchParams(window.location.search)
-      const code = params.get("code")
+      if (typeof window === "undefined") return
 
-      let response = await fetch(
-        `https://gatekeeper-arjsstudio.fly.dev/authenticate/${code}`
-      )
-      response = await response.json()
+      try {
+        const params = new URLSearchParams(window.location.search)
+        const code = params.get("code")
 
-      const pkg = new Package(window.session)
-      const pagesUrl = await pkg.serve({
-        packageType: "github",
-        token: response.token, // required OAuth2 token
-        message: "first commit for WebAR!" // optional
-      })
+        let response = await fetch(`https://gatekeeper-arjsstudio.fly.dev/authenticate/${code}`)
+        response = await response.json()
 
-      console.log("Published to:", pagesUrl)
+        const pkg = new Package(window.session)
+        const pagesUrl = await pkg.serve({
+          packageType: "github",
+          token: response.token,
+          message: "first commit for WebAR!"
+        })
+
+        console.log("Published to:", pagesUrl)
+        setStatus("Published successfully!")
+      } catch (err) {
+        console.error(err)
+        setStatus("Publish failed.")
+      }
     }
 
     run()
   }, [])
 
-  return <div id="publish-confirm" />
+  return (
+    <div>
+      <h1>Publish Confirmation</h1>
+      <p>{status}</p>
+    </div>
+  )
 }
