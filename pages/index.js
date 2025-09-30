@@ -197,7 +197,7 @@ export default function HomePage() {
               </div>
             </div>
            
-            </button>
+        
           </nav>
         </div>
       </header>
