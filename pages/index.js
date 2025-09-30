@@ -26,9 +26,10 @@ export default function HomePage() {
         <link rel="stylesheet" href="/studio.css" />
 
         {/* Scripts (served from /public/) */}
-        <script src="/components/header/header.js" type="module"></script>
-        <script src="/main/main.js" type="module"></script>
-        <script src="/pages/components/feedback/stickybutton.js" type="module"></script>
+     
+        <script src="/pages/main/main.js" type="module"></script>
+        <script src="/components/feedback/stickybutton.js" type="module"></script>
+            <script type="module" src="/components/header/header.js"></script>
       </Head>
 
    
