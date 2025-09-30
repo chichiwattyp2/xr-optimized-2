@@ -16,10 +16,9 @@ export default function HomePage() {
         <link rel="stylesheet" src="css/studio.css"/>
         <link rel="stylesheet" src="main/main.css"/>
 
-    
-        <script src="components/header/header.js"></script>
-        <script src="main/main.js"/></script>
-        <script src="components/feedback/stickybutton.js"/></script>
+    <script src="components/header/header.js"></script>
+  <script src="main/main.js"></script>
+  <script src="components/feedback/stickybutton.js"></script>
       </Head>
 
       <page-header assetsUrl="assets"></page-header>
