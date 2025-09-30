@@ -36,11 +36,7 @@ export default function HomePage() {
             knowledge of coding, either. You can start creating your first AR project right now.
           </p>
 
-          <img
-            className="splashscreen"
-            src="/assets/img/splashscreen.png"
-            alt="Demo image home page"
-          />
+           <img class="splashscreen" src="/assets/img/splashscreen.png" alt="Demo image home page"/>
 
           <p className="lead">Pick your project type</p>
 
