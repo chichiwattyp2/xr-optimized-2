@@ -1,98 +1,127 @@
-body {
-	margin: 0;
-	background-color: #000;
-	color: #fff;
-	font-family: Monospace;
-	font-size: 13px;
-	line-height: 24px;
-	overscroll-behavior: none;
-	overflow:hidden;
+/* Main content */
+.background {
+  display: flex;
+  flex-direction: column;
+  width: 70vw;
+  min-height: 100vh;
+  background: var(--secondary-color);
 }
 
-a {
-	color: rgb(240, 205, 140);
-	text-decoration: none;
+.content {
+  margin-left: 1.5em;
+  padding: 1.5em;
+  padding-right: 20vw;
+  padding-bottom: 0;
 }
 
-a:hover {
-	text-decoration: underline;
+.content .title {
+    margin-top: 2em;
 }
 
-button {
-	cursor: pointer;
-	text-transform: uppercase;
+.splashscreen {
+  top: 0%;
+  position: absolute;
+  right: 8vw;
+  height: 90%;
 }
 
-canvas {
-	display: block;
+.main-content {
+  position: relative;
+  padding: 6em;
+  padding-right: 18em;
 }
-.containerV { position:relative; }
-.containerV video {
-    position:relative;
-    z-index:0;
-}
-.overlay {
 
-	z-index:1;
-	color: white;
-	text-align: center;
-	margin: 12px;	
-	margin-top: 42px;
+/* TODO: remove this on release */
+.main-subtitle {
+  font-size: 1.25em;
+  font-weight: bold;
 }
-.red-square {
-	background-color: #FF4136;
-	width: 300px;
-	height: 300px;
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
+
+/* Custom radio buttons */
+.radio-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-left: 3em;
+  margin: 1.25em 0; /* TODO: merge margin attributes */
+  margin-bottom: 0.8em;
+  cursor: pointer;
+  font-size: 1em;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.radio-container .radio-title {
+    font-weight: bold;
+}
+
+.radio-container span {
+    margin-top: 1em;
+}
+
+/* Hide the browser's default radio button */
+.radio-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1.3em;
+  width: 1.3em;
+  background: #eee;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* On mouse-over, add a grey background color */
+.radio-container:hover input ~ .checkmark {
+  background: #ccc;
+}
+
+/* When the radio button is checked, add a black background */
+.radio-container input:checked ~ .checkmark {
+  background: black;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: relative;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio-container .checkmark:after {
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: white;
+}
+
+/* Responsive */
+@media screen and (max-width: 900px) {
+  .background {
+    width: 100%;
   }
-#info {
-	position: absolute;
-	top: 0px;
-	width: 100%;
-	padding: 10px;
-	box-sizing: border-box;
-	text-align: center;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	pointer-events: none;
-	z-index: 1; /* TODO Solve this in HTML */
 }
 
-.linkG {
-	font-size:xx-small;
-	color: white;
+@media screen and (max-width: 1280px) {
+  .splashscreen {
+    display: none;
+  }
 }
-
-#infoSeismic {
-	position: absolute;
-	top: 0px;
-	width: 280px;
-	padding: 10px;
-	box-sizing: border-box;
-	text-align: center;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	pointer-events: none;
-	z-index: 1; /* TODO Solve this in HTML */
-	background-color: rgba(35, 4, 83, 0.6);
-}
-
-a, button, input, select {
-	pointer-events: auto;
-}
-
-.dg.ac {
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	z-index: 2 !important; /* TODO Solve this in HTML */
-}
-
