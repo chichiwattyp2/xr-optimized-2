@@ -205,12 +205,89 @@ export default function HologramsPage() {
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.2"></script>
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0"></script>
         {/* Shaders */}
-        <script type="x-shader/x-vertex" id="vertexshaderParticle">{`
-          // your vertex shader code...
-        `}</script>
-        <script type="x-shader/x-fragment" id="fragmentshaderParticle">{`
-          // your fragment shader code...
-        `}</script>
+        <!-- Vertex -->
+<script type="x-shader/x-vertex" id="vertexshaderParticle">{`
+precision mediump float;
+
+uniform sampler2D uVideo;      // color video (or same texture used for luminance-as-depth)
+uniform sampler2D uDepthMap;   // OPTIONAL: separate greyscale depth. If not provided, we fall back to luminance of uVideo.
+uniform bool uUseDepthMap;     // true to use uDepthMap, false to use luminance(uVideo)
+
+uniform float uPointSize;      // base size in px
+uniform float uDepthScale;     // how far to push points along +Z/-Z from the video luminance
+uniform float uThreshold;      // drop very dark pixels (0.0–1.0)
+uniform float uTime;           // for subtle jitter or effects
+
+attribute vec3 position;       // grid positions on a plane
+attribute vec2 aUv;            // per-point UV to sample the video
+
+varying vec2 vUv;
+varying float vFade;
+varying vec3 vColor;
+
+float luma(vec3 c){ return dot(c, vec3(0.299, 0.587, 0.114)); }
+
+void main() {
+  vUv = aUv;
+
+  // Sample color and (optionally) depth
+  vec4 videoSample = texture2D(uVideo, vUv);
+  float depthSample = uUseDepthMap
+    ? texture2D(uDepthMap, vUv).r
+    : luma(videoSample.rgb);
+
+  // Threshold to reduce background noise
+  float alive = step(uThreshold, depthSample);
+
+  // Center depth around 0 so mid-greys stay near the original plane
+  float dz = (depthSample - 0.5) * uDepthScale;
+
+  // Optional micro jitter to reduce banding/flicker in very flat regions
+  float jitter = (fract(sin(dot(vUv * (uTime*0.1 + 37.0), vec2(12.9898,78.233))) * 43758.5453) - 0.5) * 0.002;
+  vec3 displaced = position + vec3(0.0, 0.0, dz + jitter);
+
+  // Standard transform
+  vec4 mv = modelViewMatrix * vec4(displaced, 1.0);
+
+  // Size attenuation: closer points look bigger
+  float atten = clamp(300.0 / max(1.0, -mv.z), 0.0, 6.0);
+  gl_PointSize = max(1.0, uPointSize * atten);
+
+  gl_Position = projectionMatrix * mv;
+
+  // Pass color and a fade factor to frag
+  vColor = videoSample.rgb;
+  // Slight fade for very dark pixels so edges blend better
+  vFade  = smoothstep(uThreshold, uThreshold + 0.1, depthSample) * alive;
+}
+`}</script>
+
+<!-- Fragment -->
+<script type="x-shader/x-fragment" id="fragmentshaderParticle">{`
+precision mediump float;
+
+uniform sampler2D uVideo;
+varying vec2 vUv;
+varying vec3 vColor;
+varying float vFade;
+
+void main() {
+  // Circular sprite mask for soft round particles
+  vec2 p = gl_PointCoord - 0.5;
+  float mask = smoothstep(0.5, 0.0, length(p));
+
+  vec3 col = vColor;
+
+  // Compose final color (you can switch to additive in material for glow)
+  float alpha = mask * vFade;
+
+  // Discard tiny alphas to keep the depth buffer clean
+  if (alpha < 0.01) discard;
+
+  gl_FragColor = vec4(col, alpha);
+}
+`}</script>
+
       </Head>
 
       <div className="containerV">
@@ -223,16 +300,7 @@ export default function HologramsPage() {
               When in AR mode, create a hologram by looking at a person/face/photo
               and tap on the screen.
             </p>
-            <div className="linkG">
-              <p>
-                <b>
-                  <a href="https://github.com/nosy-b/holography">
-                    https://github.com/nosy-b/holography
-                  </a>
-                </b>
-              </p>
-            </div>
-          </div>
+           </div>
         </div>
       </div>
       <div id="container"></div>
