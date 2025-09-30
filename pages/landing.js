@@ -20,429 +20,48 @@ export default function HomePage() {
           --xanthous: #fcbf49;
           --vanilla: #eae2b7;
         }
+        body {
+          font-family: "Inter", sans-serif;
+          background: var(--vanilla);
+        }
+        /* rest of your CSS here */
+      `}</style>
 
-      --background: var(--vanilla);
-      --on-background: #111;
-      --surface: #fff;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: "Inter", sans-serif;
-      background: var(--background);
-      color: var(--on-background);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    h1, h2, h3 {
-      font-family: "Orbitron", sans-serif;
-      letter-spacing: -0.5px;
-    }
-
-    .md-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    /* NAV */
-    .nav-header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: var(--surface);
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-    }
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 0;
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      color: var(--fire-engine-red);
-      text-decoration: none;
-    }
-    .nav-links {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .nav-links a {
-      text-decoration: none;
-      color: var(--on-background);
-      font-weight: 500;
-    }
-    .nav-links a:hover {
-      color: var(--fire-engine-red);
-    }
-
-    .dropdown {
-      position: relative;
-    }
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      top: 120%;
-      left: 0;
-      background: white;
-      border: 1px solid #eee;
-      border-radius: 8px;
-      padding: 10px 0;
-      min-width: 160px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    .dropdown:hover .dropdown-menu {
-      display: block;
-    }
-    .dropdown-menu a {
-      display: block;
-      padding: 8px 16px;
-      color: #111;
-      font-size: 14px;
-    }
-    .dropdown-menu a:hover {
-      background: var(--vanilla);
-    }
-
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 140px 0 80px;
-      background: linear-gradient(135deg, var(--prussian-blue), var(--fire-engine-red));
-      color: white;
-    }
-    .hero h1 {
-      font-size: 56px;
-      background: linear-gradient(135deg, var(--orange-wheel), var(--xanthous));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero p {
-      margin: 24px 0;
-      font-size: 18px;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .md-button {
-      border-radius: 100px;
-      padding: 12px 20px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-    }
-    .md-button-primary {
-      background: var(--orange-wheel);
-      color: white;
-    }
-    .md-button-outline {
-      border: 1px solid white;
-      color: white;
-    }
-
-    /* FEATURES */
-    .features {
-      padding: 100px 0;
-      background: var(--surface);
-    }
-    .section-header {
-      text-align: center;
-      margin-bottom: 60px;
-    }
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-    }
-    .feature-card {
-      background: var(--vanilla);
-      padding: 24px;
-      border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
-
-    /* CREATOR NOTE */
-    .creator-note {
-      padding: 100px 0;
-      background: var(--surface);
-    }
-    .note-content {
-      display: flex;
-      gap: 40px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .creator-photo {
-      width: 160px;
-      height: 160px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid var(--orange-wheel);
-      box-shadow: 0 0 25px rgba(0, 48, 73, 0.6), 0 0 45px rgba(214, 40, 40, 0.4);
-    }
-
-    /* CTA */
-    .cta {
-      padding: 120px 0;
-      background: var(--fire-engine-red);
-      text-align: center;
-      color: white;
-    }
-
-    /* FOOTER */
-    footer {
-      background: var(--prussian-blue);
-      color: white;
-      padding: 60px 0 30px;
-    }
-    .footer-bottom {
-      text-align: center;
-      opacity: 0.8;
-    }
-
-    /* MOBILE MENU */
-    .mobile-menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--on-background);
-      cursor: pointer;
-      padding: 8px;
-    }
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: -100%;
-      width: 280px;
-      height: 100vh;
-      background: var(--surface);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      z-index: 2000;
-      transition: left 0.3s ease;
-      padding: 24px;
-      overflow-y: auto;
-    }
-    .mobile-menu.active {
-      left: 0;
-    }
-    .mobile-menu nav a {
-      margin: 4px 0;
-      text-decoration: none;
-      color: var(--on-background);
-    }
-
-    @media (max-width: 900px) {
-      .nav-links {
-        display: none;
-      }
-      .mobile-menu-toggle {
-        display: block;
-      }
-    }
-  </style>
-</head>
-
-  <!-- NAV -->
-  <header class="nav-header">
-    <div class="md-container">
-      <nav>
-        <a href="/" class="logo">
-          <span class="material-symbols-rounded">view_in_ar</span>
-          XR Optimized
-        </a>
-        <div class="nav-links">
-          <a href="#features">Features</a>
-          <a href="#creator">About Chris</a>
-
-          <!-- Grouped Links -->
-          <div class="dropdown">
-            <a href="#">XR Tools ▾</a>
-            <div class="dropdown-menu">
-              <a href="AR-Studio/studio-master/studio.html">AR Studio</a>
-              <a href="XR-Test">XR Test</a>
-              <a href="ar-showcase.html">AR Showcase</a>
-              <a href="vologram.html">Vologram</a>
-              <a href="ar-hologram.html">Hologram</a>
-              <a href="terrain.html">Terrain</a>
-              <a href="workspace.html">Workspace</a>
-               <a href="gemini-ui/copy.html">gemini</a>
-            </div>
-          </div>
-
-          <div class="dropdown">
-            <a href="#">Apps ▾</a>
-            <div class="dropdown-menu">
-              <a href="assistant.html">Assistant</a>
-              <a href="video-player.html">Video Player</a>
-              <a href="browser.html">Browser</a>
-              <a href="maps.html">Maps</a>
-              <a href="menu.html">Menu</a>
-              <a href="shop.html">Shop</a>
-              <a href="gallery.html">Gallery</a>
-            </div>
-          </div>
-
-          <div class="dropdown">
-            <a href="#">Experiments ▾</a>
-            <div class="dropdown-menu">
-              <a href="beta.html">Beta</a>
-              <a href="old-chat.html">Old Chat</a>
-              <a href="gemini-ui/copy.html">Gemini Copy</a>
-              <a href="gemini-ui/index.html">Gemini UI</a>
-            </div>
-          </div>
-
-          <!-- GitHub -->
-          <a href="https://github.com/chichiwattyp2/xr-home-chat" target="_blank" class="md-button md-button-outline">
-            <span class="material-symbols-rounded">code</span>
-            GitHub
-          </a>
+      {/* NAV */}
+      <header className="nav-header">
+        <div className="md-container">
+          <nav>
+            <a href="/" className="logo">
+              XR Optimized
+            </a>
+            {/* ... */}
+          </nav>
         </div>
+      </header>
 
-        <!-- Mobile menu toggle -->
-        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-          <span class="material-symbols-rounded">menu</span>
-        </button>
-      </nav>
-    </div>
-  </header>
-
-  <!-- Mobile Menu -->
-  <div class="mobile-menu" id="mobileMenu">
-    <nav>
-      <a href="#features" onclick="toggleMobileMenu()">Features</a>
-      <a href="#creator" onclick="toggleMobileMenu()">About Chris</a>
-
-      <p style="font-weight:600; margin-top:12px;">XR Tools</p>
-      <a href="/Ar-studio" onclick="toggleMobileMenu()">AR Studio</a>
-      <a href="/XR-test" onclick="toggleMobileMenu()">XR Test</a>
-      <a href="/Ar-showcase" onclick="toggleMobileMenu()">AR Showcase</a>
-      <a href="/vologram" onclick="toggleMobileMenu()">Vologram</a>
-      <a href="/Terrain" onclick="toggleMobileMenu()">Terrain</a>
-      <a href="/Workspace" onclick="toggleMobileMenu()">Workspace</a>
-
-      <p style="font-weight:600; margin-top:12px;">Apps</p>
-      <a href="/Assistant" onclick="toggleMobileMenu()">Assistant</a>
-      <a href="/Video-player" onclick="toggleMobileMenu()">Video Player</a>
-      <a href="/Browser" onclick="toggleMobileMenu()">Browser</a>
-      <a href="/Maps" onclick="toggleMobileMenu()">Maps</a>
-      <a href="/Menu" onclick="toggleMobileMenu()">Menu</a>
-      <a href="/Shop" onclick="toggleMobileMenu()">Shop</a>
-      <a href="/Gallery" onclick="toggleMobileMenu()">Gallery</a>
-
-      <p style="font-weight:600; margin-top:12px;">Experiments</p>
-      <a href="/Beta" onclick="toggleMobileMenu()">Beta</a>
-      <a href="/Old-chat" onclick="toggleMobileMenu()">Old Chat</a>
-      <a href="/Gemini-copy" onclick="toggleMobileMenu()">Gemini Copy</a>
-      <a href="/Gemini-ui" onclick="toggleMobileMenu()">Gemini UI</a>
-
-      <a href="https://github.com/chichiwattyp2/xr-home-chat" target="_blank" style="margin-top:12px;">GitHub</a>
-    </nav>
-  </div>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="md-container">
-      <h1>Conversational AI in Virtual Reality</h1>
-      <p>
-        Hi, I’m <strong>Chris Watt-Pringle</strong> — designer, builder, and curious experimenter.  
-        XR Optimized is my playground for blending XR, AI, and design.  
-        Step into immersive experiences and see how I imagine the future of interaction.
-      </p>
-      <div class="hero-buttons">
-        <a href="#features" class="md-button md-button-primary">Explore Features</a>
-        <a href="#creator" class="md-button md-button-outline">Meet the Creator</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FEATURES -->
-  <section class="features" id="features">
-    <div class="md-container">
-      <div class="section-header">
-        <h2>What I’ve Built In</h2>
-        <p>Features I cared about while designing this project</p>
-      </div>
-      <div class="feature-grid">
-        <div class="feature-card"><h3>Immersive VR/AR</h3><p>Seamless WebXR experiences with A-Frame.</p></div>
-        <div class="feature-card"><h3>Voice + Text Chat</h3><p>Realtime AI conversations with OpenAI + WebRTC.</p></div>
-        <div class="feature-card"><h3>Edge Optimized</h3><p>Global performance via Vercel Edge Runtime.</p></div>
-        <div class="feature-card"><h3>Customizable</h3><p>Tweak, remix, and design your own XR spaces.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CREATOR -->
-  <section class="creator-note" id="creator">
-    <div class="md-container">
-      <div class="note-content">
-        <img src="your-photo-or-avatar.png" alt="Chris Watt-Pringle" class="creator-photo" />
-        <div>
-          <h2>From the Creator</h2>
-          <p>
-            I’m Chris Watt-Pringle, and I built XR Optimized to merge my love of design, technology,  
-            and storytelling. I wanted to explore how conversations with AI could feel alive —  
-            not just on a screen, but around us in XR.
-          </p>
-          <p>
-            My background spans cannabis brands, creative design, and immersive tech.  
-            This site is part lab, part playground — a way to push at the edges of XR.  
-            I hope it inspires you to build and experiment alongside me.
-          </p>
+      {/* HERO */}
+      <section className="hero">
+        <div className="md-container">
+          <h1>Conversational AI in Virtual Reality</h1>
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
 
-  <!-- CTA -->
-  <section class="cta">
-    <div class="md-container">
-      <h2>Ready to Build the Future?</h2>
-      <p>Join me and a growing community of creators designing next-gen XR + AI experiences.</p>
-      <a href="https://github.com/chichiwattyp2/xr-home-chat" target="_blank" class="md-button" style="background:white; color:var(--fire-engine-red);">Start Building</a>
-    </div>
-  </section>
+      {/* FOOTER */}
+      <footer>
+        <div className="md-container">
+          <p>XR Optimized — Crafted by Chris Watt-Pringle.</p>
+        </div>
+      </footer>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="md-container">
-      <p><strong>XR Optimized</strong> — Crafted by Chris Watt-Pringle.  
-      Blending AI, XR, and design — built with curiosity and coffee ☕.</p>
-      <div class="footer-bottom">
-        <p>&copy; 2024 XR Optimized · MIT License</p>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    function toggleMobileMenu() {
-      document.getElementById('mobileMenu').classList.toggle('active');
-    }
-  </script>
-
- </>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            function toggleMobileMenu() {
+              document.getElementById('mobileMenu').classList.toggle('active');
+            }
+          `,
+        }}
+      />
+    </>
   )
 }
