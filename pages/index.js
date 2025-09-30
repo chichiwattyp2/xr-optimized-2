@@ -13,7 +13,7 @@ export default function HomePage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {/* Stylesheets */}
-        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/studio.css" />
         <link rel="stylesheet" href="main/main.css" />
 
         {/* Scripts (will run client-side) */}
