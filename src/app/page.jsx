@@ -3,11 +3,11 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion'; // ✅ Needed for animation
-import Hero3DSection from "src/components/common/mainPage/SectionHome"
-import WhyChooseFancy from "src/components/common/mainPage/ReasonsSection"
-import HeroVideoSection from "src/components/common/mainPage/HeroSection";
-import MeetTheTeam from 'src/components/common/mainPage/MeetTheTeam';
-import TransformSection from "src/components/common/mainPage/TransformSection";
+import Hero3DSection from "@/components/common/mainPage/SectionHome"
+import WhyChooseFancy from "@/components/common/mainPage/ReasonsSection"
+import HeroVideoSection from "@/components/common/mainPage/HeroSection";
+import MeetTheTeam from '@/components/common/mainPage/MeetTheTeam';
+import TransformSection from "@/components/common/mainPage/TransformSection";
 const BubblesBackground = () => (
   <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
     {[...Array(25)].map((_, i) => (
