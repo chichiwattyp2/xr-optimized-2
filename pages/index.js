@@ -5,7 +5,7 @@ export default function Landing() {
   const [filter, setFilter] = useState("");
 
   const pages = [
-    { name: "Assistant1", path: "/Assistant1.html" },
+    { name: "Assistant1", path: "/assistant1.html" },
     { name: "Ar", path: "/ar.html" },
     { name: "Ar Showcase", path: "/ar-showcase.html" },
     { name: "Browser", path: "/browser.html" },
