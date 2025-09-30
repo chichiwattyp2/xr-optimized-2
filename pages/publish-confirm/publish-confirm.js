@@ -1,7 +1,8 @@
 "use client"
 
 import React, { useEffect } from "react"
-import { publishToGitHub } from "../../lib/packageUtils"
+import { publishToGitHub } from "@/lib/packageUtils"
+
 
 export default function PublishConfirmPage() {
   useEffect(() => {
