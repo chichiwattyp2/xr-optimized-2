@@ -1,87 +1,104 @@
 "use client"
 
-import React from "react"
-import Link from "next/link"
 import Head from "next/head"
 
 export default function HomePage() {
   return (
     <>
-  <head>
-    <title>AR Studio</title>
-    <link rel="shortcut icon" href="AR-Studio/assets/img/favicon.ico" />
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-   <!-- JS -->
-    <script src="header/header.js" type="module"></script>
-    <script src="main/main.js" type="module"></script>
-    <script src="feedback/stickybutton.js" type="module"></script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Chakra+Petch&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet" />
+      <Head>
+        <title>AR Studio</title>
+        <link rel="shortcut icon" href="/AR-Studio/assets/img/favicon.ico" />
+        <meta charSet="utf-8" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Main Stylesheets -->
-    <link rel="stylesheet" href="studio.css"/>
- 
+        {/* Google Fonts */}
+        <link
+          href="https://fonts.googleapis.com/css?family=Chakra+Petch&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap"
+          rel="stylesheet"
+        />
 
-   
- 
-  </head>
-  <body>
-    <page-header assetsUrl="assets"></page-header>
-    <div class="background">
-      <div class="content">
-        <p class="title">Web-enabled AR experiences</p>
-        <p class="paragraph">
-           I built this project using the open-source AR.js JavaScript framework, which makes it easy to create custom augmented reality experiences for the web.
-             With AR.js, you can build both location-based and marker-based AR applications that run directly in your browser—no app downloads or coding expertise required.
-        </p>
+        {/* Styles */}
+        <link rel="stylesheet" href="/studio.css" />
 
-        <img class="splashscreen" src="assets/img/splashscreen.png" alt="Demo image home page"/>
+        {/* Scripts (served from /public/) */}
+        <script src="/header/header.js" type="module"></script>
+        <script src="/main/main.js" type="module"></script>
+        <script src="/feedback/stickybutton.js" type="module"></script>
+      </Head>
 
-        <p class="lead">Pick your project type</p>
+      <div className="background">
+        <div className="content">
+          <p className="title">Web-enabled AR experiences</p>
+          <p className="paragraph">
+            I built this project using the open-source AR.js JavaScript framework,
+            which makes it easy to create custom augmented reality experiences for
+            the web. With AR.js, you can build both location-based and marker-based
+            AR applications that run directly in your browser—no app downloads or
+            coding expertise required.
+          </p>
 
-        <div>
-          <label class="radio-container paragraph">
-            <span class="radio-title">Location-based</span>
-            <input
-              id="location"
-              type="radio"
-              name="radio"
-              onclick="radioOnclick(this)"
-            />
-            <span>
-                Place your creation on a map, so it remains tied to a physical location.
-            </span>
-            <span class="checkmark"></span>
-          </label>
+          <img
+            className="splashscreen"
+            src="/assets/img/splashscreen.png"
+            alt="Demo image home page"
+          />
 
-          <label class="radio-container paragraph">
-            <span class="radio-title">Marker-based</span>
-            <input
-              id="marker"
-              type="radio"
-              name="radio"
-              onclick="radioOnclick(this)"
-            />
-            <span>
-                Connect your creation to a visual marker, which can be moved to any location.
-            </span>
-            <span class="checkmark"></span>
-          </label>
+          <p className="lead">Pick your project type</p>
 
-          <div class="buttons-container">
-            <a onclick="anchorOnclick(this)" id="start-building" class="primary-button">Start building</a>
-          </div>
-          <feedback-button></feedback-button>
-          <div id="error" class="error" style="visibility: hidden;">
-            Please, select a project type.
+          <div>
+            <label className="radio-container paragraph">
+              <span className="radio-title">Location-based</span>
+              <input
+                id="location"
+                type="radio"
+                name="radio"
+                onClick={() => window.radioOnclick?.(document.getElementById("location"))}
+              />
+              <span>
+                Place your creation on a map, so it remains tied to a physical
+                location.
+              </span>
+              <span className="checkmark"></span>
+            </label>
+
+            <label className="radio-container paragraph">
+              <span className="radio-title">Marker-based</span>
+              <input
+                id="marker"
+                type="radio"
+                name="radio"
+                onClick={() => window.radioOnclick?.(document.getElementById("marker"))}
+              />
+              <span>
+                Connect your creation to a visual marker, which can be moved to any
+                location.
+              </span>
+              <span className="checkmark"></span>
+            </label>
+
+            <div className="buttons-container">
+              <a
+                id="start-building"
+                className="primary-button"
+                onClick={() => window.anchorOnclick?.(document.getElementById("start-building"))}
+              >
+                Start building
+              </a>
+            </div>
+
+            <feedback-button></feedback-button>
+
+            <div id="error" className="error" style={{ visibility: "hidden" }}>
+              Please, select a project type.
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </body>
-</>
+    </>
   )
 }
