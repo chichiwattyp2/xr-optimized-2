@@ -1,4 +1,4 @@
-"use client"
+er"use client"
 
 import Head from "next/head"
 
@@ -22,10 +22,10 @@ export default function HomePage() {
         />
 
         {/* External scripts and styles */}
-        <script src="/components/header.js" type="module"></script>
-        <script src="/components/main.js" type="module"></script>
-        <script src="/components/stickybutton.js" type="module"></script>
-        <script src="/components/back-anchor.js" type="module"></script>
+        <script src="/components/header/header.js" type="module"></script>
+        <script src="/components/main/main.js" type="module"></script>
+        <script src="/components/feedback/stickybutton.js" type="module"></script>
+        <script src="/components/back-anchor/back-anchor.js" type="module"></script>
 
         <link rel="stylesheet" href="/css/studio.css" />
         <link rel="shortcut icon" href="/assets/img/favicon.ico" />
