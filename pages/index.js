@@ -172,18 +172,37 @@ export default function HomePage() {
       `}</style>
 
       {/* NAV */}
-      <header className="nav-header">
+    <header className="nav-header">
         <div className="md-container">
           <nav>
-            <a href="/" className="logo">XR Optimized</a>
+            <a href="/" className="logo">
+              <span className="material-symbols-rounded">view_in_ar</span>
+              XR Optimized
+            </a>
             <div className="nav-links">
               <a href="#features">Features</a>
               <a href="#creator">About Chris</a>
-              <a href="https://github.com/chichiwattyp2/xr-home-chat" target="_blank" className="md-button md-button-outline">GitHub</a>
+              <div className="dropdown">
+                <a href="#">XR Tools ▾</a>
+                <div className="dropdown-menu">
+                  <a href="AR-Studio/studio-master/studio.html">AR Studio</a>
+                  <a href="XR-Test">XR Test</a>
+                  <a href="ar-showcase.html">AR Showcase</a>
+                  <a href="vologram.html">Vologram</a>
+                  <a href="ar-hologram.html">Hologram</a>
+                  <a href="terrain.html">Terrain</a>
+                  <a href="workspace.html">Workspace</a>
+                  <a href="gemini-ui/copy.html">Gemini</a>
+                </div>
+              </div>
             </div>
+            <button className="mobile-menu-toggle" onClick={toggleMobileMenu}>
+              <span className="material-symbols-rounded">menu</span>
+            </button>
           </nav>
         </div>
       </header>
+
 
       {/* HERO */}
       <section className="hero">
