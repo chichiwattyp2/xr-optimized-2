@@ -29,7 +29,7 @@ export default function HomePage() {
         <script src="/components/back-anchor/back-anchor.js" type="module"></script>
 
         <link rel="stylesheet" href="/css/studio.css" />
-        <link rel="shortcut icon" href="/assets/img/favicon.ico" />
+        <link rel="shortcut icon" href="public/assets/img/favicon.ico" />
       </Head>
 
       <div className="background">
@@ -45,7 +45,7 @@ export default function HomePage() {
 
           <img
             className="splashscreen"
-            src="/assets/img/splashscreen.png"
+            src="/public/assets/img/splashscreen.png"
             alt="Demo image home page"
           />
 
