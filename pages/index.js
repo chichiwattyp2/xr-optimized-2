@@ -24,7 +24,7 @@ export default function Landing() {
     { name: "Assistant Shop", path: "/assistant-shop.html" },
     { name: "Assistant", path: "/assistant.html" },
     { name: "Geodome", path: "/geodome.html" },
-    { name: "Studio", path: "/Studio.html" },
+    { name: "Studio", path: "/studio.html" },
     { name: "XR Shop", path: "/xrshop.html" },
     { name: "XR Shop 2", path: "/xrshop2.html" },
     { name: "Wall UX", path: "/wall-ux/index.html" },
