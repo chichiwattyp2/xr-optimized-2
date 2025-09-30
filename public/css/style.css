@@ -1,0 +1,276 @@
+font-family: "ClobberGroteskW01-Medium";
+src: url("//db.onlinewebfonts.com/t/f4e31ff864f4297e98cd95bd1d07fd7b.eot");
+src: url("//db.onlinewebfonts.com/t/f4e31ff864f4297e98cd95bd1d07fd7b.eot?#iefix")
+    format("embedded-opentype"),
+  url("//db.onlinewebfonts.com/t/f4e31ff864f4297e98cd95bd1d07fd7b.woff2")
+    format("woff2"),
+  url("//db.onlinewebfonts.com/t/f4e31ff864f4297e98cd95bd1d07fd7b.woff")
+    format("woff"),
+  url("//db.onlinewebfonts.com/t/f4e31ff864f4297e98cd95bd1d07fd7b.ttf")
+    format("truetype"),
+  url("//db.onlinewebfonts.com/t/f4e31ff864f4297e98cd95bd1d07fd7b.svg#ClobberGroteskW01-Medium")
+    format("svg");
+
+font-family: "grifterbold";
+src: url("https://beta-supercruisr.neocities.org/assets/css/grifterbold-webfont.woff2")
+    format("woff2"),
+  url("https://beta-supercruisr.neocities.org/assets/css/grifterbold-webfont.woff")
+    format("woff");
+font-weight: normal;
+font-style: normal;
+
+/* Color Variables */
+:root {
+  --primary-color: #ff7d03;
+  --primary-color-dark: #ff7d03;
+  --secondary-color: #fffff;
+  --secondary-color-dark: #fffff0;
+  --passive-color: #ffffff;
+  --passive-color-dark: #f2f2f2;
+  --link-color: #fce005;
+  --max-z-index: 99999;
+}
+
+/* Typography */
+.title {
+  font-family: ClobberGroteskW01-Medium;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 3em;
+}
+
+.lead {
+  font-family: ClobberGroteskW01-Medium;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.75em;
+  line-height: 140%;
+}
+
+.paragraph,
+.small,
+.link,
+.error {
+  font-family: ClobberGroteskW01-Medium;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 140%;
+}
+
+.paragraph {
+  font-size: 1em;
+}
+
+.small {
+  font-size: 0.875em;
+}
+
+.link {
+  color: var(--link-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.error {
+  font-style: italic;
+  font-size: 1em;
+  color: #df0000;
+}
+
+/* Buttons */
+.primary-button,
+.secondary-button,
+.passive-button {
+  display: inline-block;
+  font-family: ClobberGroteskW01-Medium;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1em;
+  line-height: 1.25em;
+  height: 3.5em;
+  border: none;
+  border: 1px solid #ffffff;
+  box-sizing: border-box;
+
+  padding: 1em 1.25em;
+  margin: 1.875em 0;
+  text-decoration: none;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.primary-button:active,
+.secondary-button:active,
+.passive-button:active {
+  transform: translateY(4px);
+}
+
+.primary-button {
+  background: transparent;
+}
+
+.primary-button:hover {
+  background: transparent;
+}
+
+.secondary-button {
+  background: transparent;
+}
+
+.secondary-button:hover {
+  background: transparent;
+}
+
+.passive-button {
+  background: transparent;
+}
+
+.passive-button:hover {
+  background: transparent;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* body */
+body {
+  margin: 0;
+}
+
+hr {
+  margin: 2.25em 0.625em;
+  border: 1px solid var(--passive-color);
+}
+
+page-header {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  background: var(--passive-color);
+  z-index: var(--max-z-index);
+}
+
+page-footer {
+  position: absolute;
+  background: var(--secondary-color);
+  width: 100%;
+}
+
+.pages-content {
+  font-family: ClobberGroteskW01-Medium;
+  padding: 4em 12vw;
+}
+
+.pages-content-container {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 2em;
+}
+
+.pages-content-element {
+  width: 50%;
+  padding: 1em;
+  max-width: 30em;
+  margin-right: 1em;
+}
+
+/* TODO: move this to location.css */
+.pages-content-element .lead {
+  margin-top: 0;
+}
+
+/* TODO: move this to location.css */
+.pages-content-container:first-of-type {
+  margin-bottom: 2.25em;
+}
+
+/* TODO: resolve duplicate conflict. move this to the back-anchor component. */
+.back-anchor {
+  padding: 1em 0em;
+  height: 3rem;
+}
+
+.back-anchor {
+  padding: 1em;
+  font-size: 1em;
+}
+
+/* TODO: move .coordinates-input-container to location.css */
+.coordinates-input-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-bottom: 2.5rem;
+}
+
+.text-input {
+  border: 1px solid var(--passive-color-dark);
+  box-sizing: border-box;
+  border-radius: 5px;
+  height: 3.125rem;
+  padding: 1rem 1.25rem;
+  font-family: ClobberGroteskW01-Medium;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+input:focus {
+  outline: none;
+}
+
+#content-preview {
+  display: flex;
+  flex-direction: column;
+}
+
+.download-default-marker {
+  display: flex;
+  vertical-align: middle;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.beta {
+  font-family: ClobberGroteskW01-Medium;
+  margin-top: 5em;
+  background-color: #fff700;
+  padding: 1em;
+}
+
+.repo-url {
+  font-size: 1.25em;
+}
+
+@keyframes blink {
+  50% {
+    color: transparent;
+  }
+}
+.loader__dot {
+  animation: 1s blink infinite;
+}
+.loader__dot:nth-child(2) {
+  animation-delay: 250ms;
+}
+.loader__dot:nth-child(3) {
+  animation-delay: 500ms;
+}
+
+/* Responsive */
+@media screen and (max-width: 900px) {
+  /* Typography */
+  .title {
+    font-size: 2.5em;
+  }
+
+  .pages-content-container {
+    flex-direction: column;
+  }
+  .pages-content-element {
+    width: 100%;
+  }
+}
