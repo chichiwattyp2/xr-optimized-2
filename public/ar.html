@@ -3,34 +3,47 @@
   <head>
     <meta charset="utf-8">
     <meta name="theme-color" content="#ffffff">
-    <title>XR Labs</title>
-    <link rel="icon" href="img/icon.svg">
-    <meta name="description" content="A progressive XR demo. Powered by xr labs.">
+    <title>XR Domes</title>
+    <link rel="icon" href="img/icon-256.png">
+    <meta name="description" content="A progressive XR demo. Powered by SuperCruisr.">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
-
-    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <!-- script src="vendor/aframe-master-custom.js"></script -->
+    <!-- <script src="https://rawgit.com/aframevr/aframe/master/dist/aframe-master.js"></script> -->
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
       <script src="https://cdn.rawgit.com/zcanter/aframe-gradient-sky/master/dist/gradientsky.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
+   <script
+        src="https://raw.githack.com/AR-js-org/studio-backend/master/dist/arjs-studio-backend.min.js"></script>
     <script src="vendor/three.xr.js"></script>
      <script src="vendor/dat.gui.min.js"></script>
     <script src="vendor/aframe-xr.js"></script>
     <script src="vendor/aframe-input-mapping-component.js"></script>
     <script src="build.js"></script>
-    <link rel="stylesheet" href="main/main.css">
-      <link rel="stylesheet" href="main/main.css" />
-  <script src="components/back-anchor/back-anchor.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+     <link rel="stylesheet" href="marker/marker.css" />
+
+      
+    <!-- import JsZip -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.3.0/jszip.min.js"></script>
+
+    <!-- import web components -->
+    <script src="components/back-anchor/back-anchor.js"></script>
     <script src="components/file-holder/file-holder.js"></script>
     <script src="components/file-select/file-select.js"></script>
     <script src="components/header/header.js"></script>
     <script src="components/footer/footer.js"></script>
     <script src="components/model-controller/model-controller.js"></script>
-     <script src="components/header/header.js"></script>
-    <script src="main/main.js"></script>
-    <link rel="icon" type="image/png" href="assets/images/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="assets/images/favicon-16x16.png" sizes="16x16">
+
+    <!-- import utils -->
+    <script src="utils/fileHelper.js"></script>
+    <script src="utils/fileTemplate.js"></script>
+    <script src="utils/fileHandler.js"></script>
+    <script src="marker/marker.js" defer></script>
+    <link rel="icon" type="image/png" href="assets/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="assets/favicon-16x16.png" sizes="16x16">
   </head>
-  <body>
- <page-header assetsUrl="assets"></page-header>
+  <body onload="setDefaultMarker()">
+
   <div id="arui">
       <div id="arui-step1">
           <div id="arui-device-icon"><img src="assets/images/device-icon.png"/></div>
@@ -41,7 +54,7 @@
       </div>
     </div>
     <div id="container">
-      
+       <page-header assetsUrl="./assets"></page-header>
       <div id="body">
         <div id="upperSheet">
           <div id="visualSheet">
@@ -61,7 +74,7 @@
                   <a-assets>
                    <a-asset-item
           id="lego"
-          src="assets/models/lego.glb"
+          src="https://cdn.glitch.com/6b28578f-d32d-4827-b37d-986c31d59a4a%2Flego.glb"
         ></a-asset-item>
                     <img id="skymap" src="assets/images/sky.jpg" crossorigin="anonymous">
                     <img id="floor" src="assets/images/floor.jpg" crossorigin="anonymous">
@@ -152,55 +165,84 @@
         
       
       <div class="content">
-        <p class="title">Web-enabled AR/VR experiences</p>
-        <p class="paragraph">
-        
-        </p>
-
-       
-
-        <p class="lead">Pick your project type</p>
-
-        <div>
-          <label class="radio-container paragraph">
-            <span class="radio-title">Location-based</span>
-            <input
-              id="location"
-              type="radio"
-              name="radio"
-              onclick="radioOnclick(this)"
-            />
-            <span>
-                Place your creation on a map, so it remains tied to a physical location.
-            </span>
-            <span class="checkmark"></span>
-          </label>
-
-          <label class="radio-container paragraph">
-            <span class="radio-title">Marker-based</span>
-            <input
-              id="marker"
-              type="radio"
-              name="radio"
-              onclick="radioOnclick(this)"
-            />
-            <span>
-                Connect your creation to a visual marker, which can be moved to any location.
-            </span>
-            <span class="checkmark"></span>
-          </label>
-
-          <div class="buttons-container">
-              <a onclick="anchorOnclick(this)" id="start-building" class="primary-button">Start building</a>
-             
-          </div>
-          <div id="error" class="error" style="visibility: hidden;">
-            Please, select a project type.
-          </div>
+       <img class="default-marker-hidden" style="position: absolute; top: 0; right: -1000px;" src="assets/default-marker-no-border.png"/>
+    <div class="pages-content">
+        <back-anchor assetsUrl="assets"></back-anchor>
+        <div class="pages-content-container">
+            <div class="pages-content-element">
+                <p class="title">Marker-based</p>
+                <p class="paragraph">
+                    A marker-based experience uses a black and white image to anchor the GeoDome AR content.
+                    Your scene will appear when the marker is in the field of view of your camera.
+                </p>
+                <p class="paragraph">
+                    You can print a paper version of your marker (which we recommend), or display it on a screen.
+                </p>
+            </div>
         </div>
+
+        <div class="pages-content-container">
+            <div class="pages-content-element">
+                <p class="lead">1. Use a premade marker or upload your own</p>
+                <p class="paragraph">
+                    Here is a sample marker for you. Feel free to use it as the marker for your project.
+                    Alternatively, click “Upload image” to use a custom one. Not sure what makes a good marker? Check out <a class="link" target="_blank" href="https://github.com/AR-js-org/studio/blob/master/what-makes-a-good-marker.md">this guide</a>.
+                </p>
+                <label class="passive-button">
+                    <input id="marker-file" type="file" accept="image/png, image/jpeg" hidden
+                        onchange="handleMarkerUpload(this)" />
+                    Upload image
+                </label>
+                <p id="marker-error" class="error"></p>
+            </div>
+            <div id="marker-preview" target="marker-file">
+                <div class="marker">
+                    <img src="assets/default-marker.png"/>
+                </div>
+                <div class="download-marker" style="display: flex; justify-content: flex-end; padding: 1em 0;">
+                    <div class="download-default-marker">
+                        <span>
+                            <svg width="9.5" height="9" viewBox="0 0 9.5 9" fill="none">
+                                <path d="M16.5 8L15.09 6.59L9.5 12.17V0H7.5V12.17L1.92 6.58L0.5 8L8.5 16L16.5 8Z" fill="black"/>
+                            </svg>
+                        </span>
+                        <a class="filename" style="text-decoration: none; color: black; justify-self: flex-end;" href="assets/default-marker.png" download>Download marker</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pages-content-container">
+            <div class="pages-content-element">
+                <p class="lead">2. Choose the content </p>
+                <p class="paragraph">
+                    <p>Select the type of content you would like to link to your marker and then upload the file from your computer.</p>
+                    <ul>
+                        <li>3D Object (.gltf, .glb .zip; max size 50MB)</li>
+                        <li>Image (.jpg, .png, .gif; max size 15MB)</li>
+                        <!-- TODO fix the bug for audio -->
+                        <!-- <li>Audio (.mp3; max size 10MB)</li> -->
+                        <li>Video (.mp4; max size 25MB)</li>
+                    </ul>
+               
+                <label class="passive-button file-input">
+                    <input id="content-file" accept="*" type="file" hidden onchange="handleContentUpload(this)" />
+                    Upload file
+                </label>
+                <p id="content-error" class="error"></p>
+            </div>
+            <div id="content-preview" target="content-file">
+                <file-holder></file-holder>
+            </div>
+        </div>
+
+        <hr>
+    </div>
+     <page-footer></page-footer>
+    </div>
+   </div>
+    
       </div>
-    </div>
-    </div>
-   
+  
   </body>
 </html>
