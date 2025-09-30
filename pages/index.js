@@ -13,8 +13,8 @@ export default function HomePage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {/* Stylesheets */}
-        <link rel="stylesheet" href="css/studio.css" />
-        <link rel="stylesheet" href="main/main.css" />
+        <link rel="stylesheet" src="css/studio.css"/>
+        <link rel="stylesheet" src="main/main.css"/>
 
         {/* Scripts (will run client-side) */}
         <script src="components/header/header.js" />
