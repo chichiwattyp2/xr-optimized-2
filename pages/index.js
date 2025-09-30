@@ -196,8 +196,7 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <button className="mobile-menu-toggle" onClick={toggleMobileMenu}>
-              <span className="material-symbols-rounded">menu</span>
+           
             </button>
           </nav>
         </div>
