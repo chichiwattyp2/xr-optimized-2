@@ -24,7 +24,7 @@ export default function HomePage() {
 
         {/* External scripts and styles */}
         <script src="/components/header/header.js" type="module"></script>
-        <script src="/components/main/main.js" type="module"></script>
+        <script src="/main/main.js" type="module"></script>
         <script src="/components/feedback/stickybutton.js" type="module"></script>
         <script src="/components/back-anchor/back-anchor.js" type="module"></script>
 
