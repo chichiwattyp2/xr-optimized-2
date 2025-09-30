@@ -1,17 +1,16 @@
-"use client"
-
-import React from "react"
-import dynamic from "next/dynamic"
-
+'use client';
+import dynamic from 'next/dynamic';
 const ThreeDViewer = dynamic(
-  () => import("@/components/common/ThreeDViewer.jsx"),
+  () => import('@/components/common/RoomSelector/ThreeDViewer'),
   { ssr: false }
-)
+);
 
-export default function UploadImgPage() {
+const Page = () => {
   return (
-    <div>
+    <>
       <ThreeDViewer />
-    </div>
-  )
-}
+    </>
+  );
+};
+
+export default Page;
