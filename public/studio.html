@@ -10,10 +10,26 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Chakra+Petch&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet" />
+ <script src="https://aframe.io/releases/1.7.1/aframe.js"></script>
+    <script src="https://cdn.statically.io/gh/donmccurdy/aframe-extras/fe293f78/dist/aframe-extras.loaders.js"></script>
 
-    <!-- Main Stylesheets -->
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="main/main.css" />
+    <!-- import JsZip -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.3.0/jszip.min.js"></script>
+
+    <!-- import web components -->
+    <script src="components/back-anchor/back-anchor.js"></script>
+    <script src="components/file-holder/file-holder.js"></script>
+    <script src="components/file-select/file-select.js"></script>
+    <script src="components/header/header.js"></script>
+    <script src="components/footer/footer.js"></script>
+    <script src="components/model-controller/model-controller.js"></script>
+    <script src="components/feedback/stickybutton.js"></script>
+
+    <!-- import utils -->
+    <script src="utils/fileHelper.js"></script>
+    <script src="utils/fileTemplate.js"></script>
+    <script src="utils/fileHandler.js"></script>
+    <script src="marker/marker.js" defer></script>
 
     <!-- Inline color contrast fix for this page -->
     <style>
@@ -143,7 +159,7 @@
 
     <!-- JS -->
     <script src="components/header/header.js"></script>
-    <script src="pages/main/main.js"></script>
+    <script src="main/main.js"></script>
     <script src="components/feedback/stickybutton.js"></script>
   </head>
   <body>
