@@ -4,10 +4,11 @@ import React, { useEffect } from "react"
 
 export default function LocationPage() {
   useEffect(() => {
-    // create the pkg
+    if (typeof window === "undefined") return
+
     const pkg = new Package({
       arType: "location",
-      assetType: window.assetType, // image/audio/video/3d
+      assetType: window.assetType,
       assetFile: window.assetFile,
       assetParam: window.assetParam
     })
@@ -20,5 +21,5 @@ export default function LocationPage() {
     })
   }, [])
 
-  return <div id="ar-location" />
+  return <div id="ar-location">Generating AR location package…</div>
 }
