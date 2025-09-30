@@ -5,7 +5,7 @@
 import React, { useEffect } from "react"
 import Head from "next/head"
 
-export default function XR-Test() 
+export default function XRTest() {
   useEffect(() => {
     // All your inline scripts moved here so they run client-side
     // (copy/paste from your <script> blocks)
