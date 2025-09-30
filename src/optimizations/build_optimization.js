@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const { minify } = require('terser');
-const CleanCSS = require('clean-css');
+import CleanCSS from 'clean-css';
 const htmlMinifier = require('html-minifier-terser');
 
 class BuildOptimizer {
