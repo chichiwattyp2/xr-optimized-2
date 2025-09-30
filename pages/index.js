@@ -1,5 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+"use client"
+
+import React from "react"
+import Link from "next/link"
+import Head from "next/head"
+
+export default function HomePage() {
+  return (
+    <>
   <head>
     <title>AR Studio</title>
     <link rel="shortcut icon" href="AR-Studio/assets/img/favicon.ico" />
@@ -75,4 +82,6 @@
       </div>
     </div>
   </body>
-</html>
+</>
+  )
+}
