@@ -7,16 +7,19 @@ export default function HomePage() {
     <>
       <Head>
         <title>XR Studio</title>
+        <meta charSet="utf-8" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
 
-
-
-  <style>
-    :root {
-      --prussian-blue: #003049;
-      --fire-engine-red: #d62828;
-      --orange-wheel: #f77f00;
-      --xanthous: #fcbf49;
-      --vanilla: #eae2b7;
+      <style jsx global>{`
+        :root {
+          --prussian-blue: #003049;
+          --fire-engine-red: #d62828;
+          --orange-wheel: #f77f00;
+          --xanthous: #fcbf49;
+          --vanilla: #eae2b7;
+        }
 
       --background: var(--vanilla);
       --on-background: #111;
