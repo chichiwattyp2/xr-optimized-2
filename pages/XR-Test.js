@@ -1,9 +1,11 @@
 "use client"
 
+"use client"
+
 import React, { useEffect } from "react"
 import Head from "next/head"
 
-export default function HomePage() {
+export default function XR-Test() 
   useEffect(() => {
     // All your inline scripts moved here so they run client-side
     // (copy/paste from your <script> blocks)
