@@ -54,3 +54,26 @@ export default function Landing() {
       <ul style={{ listStyle: "none", padding: 0, maxWidth: "400px", margin: "0 auto" }}>
         {filteredPages.map((page, i) => (
           <li
+            key={i}
+            style={{
+              background: "#fff",
+              margin: "0.5rem 0",
+              padding: "0.8rem 1rem",
+              borderRadius: "8px",
+              boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+            }}
+          >
+            <a
+              href={page.path}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "none", color: "#0070f3", fontWeight: "bold" }}
+            >
+              {page.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
