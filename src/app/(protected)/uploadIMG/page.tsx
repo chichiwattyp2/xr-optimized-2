@@ -4,7 +4,7 @@ import React from "react"
 import dynamic from "next/dynamic"
 
 const ThreeDViewer = dynamic(
-  () => import("@/components/common/RoomSelector/ThreeDViewer"),
+  () => import("@/csrc/components/common/ThreeDViewer.jsx"),
   { ssr: false }
 )
 
