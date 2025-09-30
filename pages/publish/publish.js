@@ -10,15 +10,8 @@ export default function PublishPage() {
       if (typeof window === "undefined") return
 
       try {
-        // Example: build a package from session
         const pkg = new Package(window.session)
-
-        // Serve as GitHub or ZIP depending on your flow
-        const result = await pkg.serve({
-          packageType: "zip"
-        })
-
-        console.log("Package served:", result)
+        await pkg.serve({ packageType: "zip" })
         setStatus("Package created successfully!")
       } catch (err) {
         console.error("Publish failed", err)
@@ -30,7 +23,7 @@ export default function PublishPage() {
   }, [])
 
   return (
-    <div style={{ padding: "2rem" }}>
+    <div>
       <h1>Publishing</h1>
       <p>{status}</p>
     </div>
