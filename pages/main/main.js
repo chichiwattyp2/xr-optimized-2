@@ -7,7 +7,6 @@ export default function MainPage() {
   const [errorVisible, setErrorVisible] = useState(false)
 
   useEffect(() => {
-    // Reset all inputs on load
     if (typeof document !== "undefined") {
       document.querySelectorAll("input").forEach((input) => {
         input.checked = false
@@ -16,9 +15,8 @@ export default function MainPage() {
   }, [])
 
   const handleRadioClick = (e) => {
-    const id = e.target.id
-    setRadioState(id)
-    setErrorVisible(false) // clear any previous error
+    setRadioState(e.target.id)
+    setErrorVisible(false)
   }
 
   const handleAnchorClick = (e) => {
@@ -35,45 +33,23 @@ export default function MainPage() {
   }
 
   return (
-    <div className="main-page">
+    <div>
       <h1>Select AR Mode</h1>
 
-      <div className="radio-options">
-        <label>
-          <input
-            type="radio"
-            id="marker"
-            name="mode"
-            onClick={handleRadioClick}
-          />
-          Marker
-        </label>
+      <label>
+        <input type="radio" id="marker" name="mode" onClick={handleRadioClick} /> Marker
+      </label>
+      <label>
+        <input type="radio" id="location" name="mode" onClick={handleRadioClick} /> Location
+      </label>
 
-        <label>
-          <input
-            type="radio"
-            id="location"
-            name="mode"
-            onClick={handleRadioClick}
-          />
-          Location
-        </label>
-      </div>
+      <br />
 
-      <a
-        id="start-building"
-        href={getHref()}
-        onClick={handleAnchorClick}
-        className="btn"
-      >
+      <a id="start-building" href={getHref()} onClick={handleAnchorClick}>
         Start Building
       </a>
 
-      {errorVisible && (
-        <p id="error" style={{ color: "red", visibility: "visible" }}>
-          Please select an option before continuing.
-        </p>
-      )}
+      {errorVisible && <p style={{ color: "red" }}>Please select an option first.</p>}
     </div>
   )
 }
