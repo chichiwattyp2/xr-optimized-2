@@ -94,7 +94,7 @@ export default function WebARPage() {
     <a-scene
         vr-mode-ui='enabled: false;'
         renderer="logarithmicDepthBuffer: true; precision: medium;"
-        embedded arjs='trackingMethod: best; sourceType: webcam; debugUIEnabled: false;'>
+        embedded arjs='trackingMethod: best; sourceType: webcam; debugUIEnabled: false;'
         renderer="logarithmicDepthBuffer: true; precision: high; antialias: true; alpha: true; colorManagement: true;"
         webxr="requiredFeatures: hit-test,local-floor; optionalFeatures: dom-overlay,anchors,light-estimation,hand-tracking,depth-sensing,plane-detection; overlayElement: #arControls;"
         ar-hit-test="target: #reticle; type: map"
