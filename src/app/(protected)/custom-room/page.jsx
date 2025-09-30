@@ -1,18 +1,12 @@
+"use client"
 
-'use client';
-import dynamic from 'next/dynamic';
-const CustomRoom = dynamic(
-  () => import CustomRoom from '@/components/common/RoomSelector/CustomRoom',
+import React from "react"
+import CustomRoom from "@/components/common/RoomSelector/CustomRoom"
 
-  { ssr: false }
-);
-
-const Page = () => {
+export default function CustomRoomPage() {
   return (
-    <>
+    <div>
       <CustomRoom />
-    </>
-  );
-};
-
-export default Page;
+    </div>
+  )
+}
