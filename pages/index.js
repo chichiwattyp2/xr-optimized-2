@@ -23,12 +23,12 @@ export default function HomePage() {
         />
 
         {/* Styles */}
-        <link rel="stylesheet" href="/studio.css" />
+        <link rel="stylesheet" href="studio.css" />
 
         {/* Scripts (served from /public/) */}
-        <script src="/header/header.js" type="module"></script>
-        <script src="/main/main.js" type="module"></script>
-        <script src="/feedback/stickybutton.js" type="module"></script>
+        <script src="./../components/header/header.js" type="module"></script>
+        <script src="main/main.js" type="module"></script>
+        <script src="./../components/feedback/stickybutton.js" type="module"></script>
       </Head>
 
       <div className="background">
@@ -44,7 +44,7 @@ export default function HomePage() {
 
           <img
             className="splashscreen"
-            src="/assets/img/splashscreen.png"
+            src="./../public/assets/img/splashscreen.png"
             alt="Demo image home page"
           />
 
