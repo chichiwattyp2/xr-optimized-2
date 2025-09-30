@@ -1,7 +1,10 @@
 'use client';
 import dynamic from 'next/dynamic';
-const ThreeDViewer = dynamic(
-  () => import('@/components/common/RoomSelector/ThreeDViewer'),
+const ThreeDViewer = dynamic(() => import('@/components/common/RoomSelector/ThreeDViewer'), {
+  ssr: false,
+})
+
+),
   { ssr: false }
 );
 
