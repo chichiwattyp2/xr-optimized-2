@@ -14,3 +14,11 @@ const eslintConfig = [
 ];
 
 export default eslintConfig;
+
+{
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-require-imports": "off",
+    "@typescript-eslint/no-this-alias": "off"
+  }
+}
