@@ -1,7 +1,8 @@
 'use client';
 import dynamic from 'next/dynamic';
 const SceneComponent = dynamic(
-  () => import('@/components/common/sceneComponent.jsx'),
+  () => import SceneComponent from '@/components/common/sceneComponent',
+
   { ssr: false }
 );
 
