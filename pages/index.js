@@ -28,7 +28,7 @@ export default function HomePage() {
         {/* Scripts (served from /public/) */}
         <script src="/components/header/header.js" type="module"></script>
         <script src="/main/main.js" type="module"></script>
-        <script src="/components/feedback/stickybutton.js" type="module"></script>
+        <script src="/pages/components/feedback/stickybutton.js" type="module"></script>
       </Head>
 
    
