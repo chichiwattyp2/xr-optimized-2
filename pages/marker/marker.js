@@ -1,28 +1,21 @@
 "use client"
 
 import React, { useEffect } from "react"
+import { serveZipPackage } from "@/lib/packageUtils"
 
 export default function MarkerPage() {
   useEffect(() => {
-    if (typeof window === "undefined") return
-
-    const markerPattern = window.markerPattern
-
-    const pkg = new Package({
-      arType: "marker",
-      assetType: window.assetType,
-      assetFile: window.assetFile,
-      assetParam: window.assetParam,
-      markerPatt: markerPattern
-    })
-
-    pkg.serve({ packageType: "zip" }).then((base64) => {
-      const link = document.createElement("a")
-      link.href = `data:application/zip;base64,${base64}`
-      link.download = "marker-ar.zip"
-      link.click()
-    })
+    serveZipPackage(
+      {
+        arType: "marker",
+        assetType: window.assetType,
+        assetFile: window.assetFile,
+        assetParam: window.assetParam,
+        markerPatt: window.markerPattern,
+      },
+      "marker-ar.zip"
+    )
   }, [])
 
-  return <div id="ar-marker">Generating AR marker package…</div>
+  return <h1>Marker AR Page</h1>
 }
