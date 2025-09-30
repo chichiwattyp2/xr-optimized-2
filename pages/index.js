@@ -22,7 +22,7 @@ export default function HomePage() {
 <script src="./components/feedback/stickybutton.js"></script>
 </head>
 
-<body>
+
 <page-header assetsUrl="assets"></page-header>
 <div class="background">
 <div class="content">
@@ -89,6 +89,7 @@ Connect your creation to a visual marker, which can be moved to any location.
           </div>
         </div>
       </div>
-    </>
+             
+  </>
   )
 }
