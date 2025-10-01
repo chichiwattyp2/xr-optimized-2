@@ -1,59 +1,63 @@
 {
   "products": [
     {
-      "category": "phone",
-      "brand": "Samsung",
-      "name": "Galaxy S10",
-      "shortName": "Galaxy S10",
-      "description": "The next generation Samsung Galaxy S10 is as powerful, intelligent and intuitive as you are, providing endless possibilities and next- level power in performance, productivity, creation and design. The S10 features pro lenses to capture stunning photos, a powerful processor, and a long-lasting battery to optimize power and performance.",
+      "category": "disposable_vape",
+      "brand": "Traveler's / iLabs",
+      "name": "1ml Apple Sauce Disposable Vape",
+      "shortName": "Apple Sauce (Disp)",
+      "description": "Flavours: Apple sauce with hints of vanilla and a touch of earthiness. Effects: a perfect balance of euphoria and relaxation, easing stress while keeping focus. :contentReference[oaicite:0]{index=0}",
       "specs": [
-        "6.1\" Infinity Display, Quad HD+ Dynamic AMOLED",
-        "12MP Super Speed Dual Pixel ; 16MP Ultra Wide ; 12MP 2x Zoom",
-        "512GB Storage / 8GB RAM",
-        "7nm Octa-core Snapdragon 855",
-        "3,400 mAh ; All-Day Battery ; Wireless PowerShare"
+        "Type: Hybrid",
+        "Parent Profiles: Sour Apple × Animal Cookies",
+        "USB Type-C charging",
+        "Auto-pull + button press",
+        "Metal body construction",
+        "Strain-accent design",
+        "Calibrated voltage",
+        "Ceramic mesh coil tech",
+        "Filled with 1ml cannabinoid distillate and terpenes",
+        "Free from solvents, heavy metals, carrier oils, viscosity agents"
       ],
-      "model": "models/s10-scaled.glb",
-      "price": 399
+      "model": "models/travelers-apple-sauce-disposable.glb",
+      "price": 795
+      
     },
     {
-      "category": "tv",
-      "brand": "Samsung",
-      "name": "Q70T QLED 4K UHD HDR Smart TV (2020)",
-      "shortName": "Q70T QLED 4K",
-      "description": "Equipped with Quantum Dot Technology, this TV unleashes a massive spectrum of a billion shades of color. Samsung's powerful 4K Quantum processor automatically optimizes the picture to deliver a more immersive experience. A sleek, elegant, and minimalistic design from any angle draws you into the screen.",
+      "category": "vape_cartridge",
+      "brand": "Awaken / iLabs",
+      "name": "1ml Durban Poison Etched Vape Cartridge",
+      "shortName": "Durban Poison",
+      "description": "Spicy, pine-forward flavors with sweet anise and spearmint. Offers a cerebral uplift, focus, creativity, and energizing effects. :contentReference[oaicite:0]{index=0}",
       "specs": [
-        "QUANTUM PROCESSOR 4K: This powerful processor uses deep learning AI to transform everything you watch into stunning 4K.",
-        "MOTION RATE 240: Minimizes motion blur on screen, so action-packed movies and sports stay smooth and crisp.",
-        "AMBIENT MODE +: Blends into your space by turning a blank screen into enticing visuals or at-a-glance info.",
-        "QUANTUM HDR: Expands the range of color and detail beyond what's possible on HDTVs.",
-        "DUAL LED: A system of dedicated warm and cool LED backlights enhance contrast details.",
-        "ALEXA BUILT-IN: Voice control your TV and your day, hands-free. Just ask Alexa to change the channel, search for movies, play music, control smart home devices, get sports updates and more."
+        "Type: Sativa",
+        "Strain: South African Landrace",
+        "Color / Build: Postless cartridge, dual airway, embedded coil, ceramic plate",
+        "Leak-proof, drop-safe, BPA-free materials"
       ],
-      "sizes": [
+      "strains": [
         {
           "model": "models/Qx0T-primary-55.glb",
-          "size": "55\"",
-          "price": 999
+          "strain": "Durban Poison",
+          "price": 1000
         },
         {
           "model": "models/Qx0T-primary-65.glb",
-          "size": "65\"",
-          "price": 1199
+          "strain": "Watermelon Yeti",
+          "price": 1100
         },
         {
           "model": "models/Qx0T-primary-75.glb",
-          "size": "75\"",
-          "price": 1999
+          "strain": "Purple Urkle",
+          "price": 1100
         },
         {
           "model": "models/Qx0T-primary-85.glb",
-          "size": "85\"",
-          "price": 2499
+          "strain": "Taffy Slapper",
+          "price": 1100
         }
       ],
       "model": "models/Qx0T-primary-55.glb",
-      "price": 1199
+      "price": 1100
     }
 
   ]
