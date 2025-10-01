@@ -5,7 +5,7 @@
       "brand": "Traveler's / iLabs",
       "name": "1ml Apple Sauce Disposable Vape",
       "shortName": "Apple Sauce (Disp)",
-      "description": "Flavours: Apple sauce with hints of vanilla and a touch of earthiness. Effects: a perfect balance of euphoria and relaxation, easing stress while keeping focus. :contentReference[oaicite:0]{index=0}",
+      "description": "Flavours: Apple sauce with hints of vanilla and a touch of earthiness. Effects: a perfect balance of euphoria and relaxation, easing stress while keeping focus",
       "specs": [
         "Type: Hybrid",
         "Parent Profiles: Sour Apple × Animal Cookies",
@@ -27,7 +27,7 @@
       "brand": "Awaken / iLabs",
       "name": "1ml Durban Poison Etched Vape Cartridge",
       "shortName": "Durban Poison",
-      "description": "Spicy, pine-forward flavors with sweet anise and spearmint. Offers a cerebral uplift, focus, creativity, and energizing effects. :contentReference[oaicite:0]{index=0}",
+      "description": "Spicy, pine-forward flavors with sweet anise and spearmint. Offers a cerebral uplift, focus, creativity, and energizing effects.",
       "specs": [
         "Type: Sativa",
         "Strain: South African Landrace",
@@ -62,3 +62,4 @@
 
   ]
 }
+
