@@ -1,6 +1,7 @@
 "use client"
 
 import Head from "next/head"
+import Script from "next/script"
 
 export default function ShopPage() {
   return (
@@ -8,23 +9,21 @@ export default function ShopPage() {
       <Head>
         <title>Assistant + Shop (Staging)</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-        {/* A-Frame core + env */}
-        <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
-        <script src="https://unpkg.com/aframe-environment-component@1.3.1/dist/aframe-environment-component.min.js"></script>
-
-        {/* Custom components */}
-        <script src="/js/product-card.js"></script>
-        <script src="/js/assistant-shop.js" defer></script>
-
         <style>{`html,body{margin:0;height:100%;background:#000}`}</style>
       </Head>
 
-      <a-scene
-    webxr="requiredFeatures: hit-test,local-floor; optionalFeatures: dom-overlay; overlayElement: #arControls;"
->
-       <a-entity camera position="0 1.6 0" look-controls wasd-controls ar-cursor>
-        {/* Camera + cursor */}
+      {/* A-Frame + components */}
+      <Script src="https://aframe.io/releases/1.7.1/aframe.min.js" strategy="beforeInteractive" />
+      <Script src="https://unpkg.com/aframe-environment-component@1.3.1/dist/aframe-environment-component.min.js" strategy="beforeInteractive" />
+      <Script src="/js/product-card.js" strategy="afterInteractive" />
+      <Script src="/js/assistant-shop.js" strategy="afterInteractive" />
+
+      <div id="arControls"></div>
+
+      <a-scene webxr="requiredFeatures: hit-test, local-floor; optionalFeatures: dom-overlay; overlayElement: #arControls;">
+        {/* Camera */}
+        <a-entity camera position="0 1.6 0" look-controls wasd-controls ar-cursor></a-entity>
+
         {/* Lights */}
         <a-entity light="type: directional; intensity: 0.6; color: #ffffff" position="0 3 -2"></a-entity>
         <a-entity light="type: point; intensity: 0.35; color: #7be2ff" position="2 2 1"></a-entity>
