@@ -20,16 +20,11 @@ export default function ShopPage() {
         <style>{`html,body{margin:0;height:100%;background:#000}`}</style>
       </Head>
 
-      <a-scene renderer="colorManagement: true">
+      <a-scene
+    webxr="requiredFeatures: hit-test,local-floor; optionalFeatures: dom-overlay; overlayElement: #arControls;"
+>
+       <a-entity camera position="0 1.6 0" look-controls wasd-controls ar-cursor>
         {/* Camera + cursor */}
-        <a-entity
-          camera
-          position="0 1.6 0"
-          look-controls
-          cursor="rayOrigin: mouse"
-          raycaster="objects: .ray"
-        ></a-entity>
-
         {/* Lights */}
         <a-entity light="type: directional; intensity: 0.6; color: #ffffff" position="0 3 -2"></a-entity>
         <a-entity light="type: point; intensity: 0.35; color: #7be2ff" position="2 2 1"></a-entity>
