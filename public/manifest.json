@@ -1,6 +1,6 @@
 {
-  "name": "XR Shop",
-  "short_name": "XR Shop",
+  "name": "XR Labs",
+  "short_name": "XR Labs",
   "description": "Online shop enhanced with XR",
   "icons": [
     {
@@ -10,8 +10,8 @@
     }
   ],
   "display": "standalone",
-  "scope": "/xr-shop/",
-  "start_url": "/xr-shop/",
+  "scope": "/public/",
+  "start_url": "/public/",
   "background_color": "#ffffff",
   "theme_color": "#000000"
 }
