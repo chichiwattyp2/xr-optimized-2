@@ -23,97 +23,69 @@ body {
 }
 
 /* AR Controls Container */
+/* Position all overlay elements properly */
+#instructions,
+#status,
+#modelPanel,
 #arControls {
-    position: fixed !important;
-    bottom: 20px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    z-index: 999;
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 25px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    width: auto;
-    height: fit-content;
-    max-width: 90%;
-    max-height: 60px;
-    margin: 0 !important;
-    top: auto !important;
+  position: absolute;
+  z-index: 10;
+  pointer-events: auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* AR Button Styles */
-.ar-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: none;
-    border-radius: 20px;
-    color: white;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-    position: relative;
-    overflow: hidden;
-    white-space: nowrap;
-    flex: 0 0 auto;
-    height: 40px;
-    line-height: 1;
-    box-sizing: border-box;
+/* Align AR Controls to the bottom center */
+#arControls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  bottom: 2vh;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.ar-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
+/* Status bar top right */
+#status {
+  top: 1rem;
+  right: 1rem;
 }
 
-.ar-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+/* Instruction overlay in the center (initial screen) */
+#instructions {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 1rem;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border-radius: 8px;
 }
 
-.ar-button:hover::before {
-    opacity: 1;
+/* Model panel (left side panel) */
+#modelPanel {
+  top: 10vh;
+  left: 1rem;
+  width: 140px;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 1rem;
+  border-radius: 6px;
+  color: white;
+  overflow-y: auto;
+  max-height: 70vh;
 }
 
-.ar-button:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.4);
+/* Hide class */
+.hidden {
+  display: none !important;
 }
 
-.ar-button.secondary {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+/* Optional: style for safe area (iOS) */
+body {
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
-.ar-button.secondary:hover {
-    box-shadow: 0 6px 20px rgba(240, 147, 251, 0.6);
-}
-
-.ar-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-}
 
 /* Specific button styles */
 #placeButton {
@@ -462,6 +434,69 @@ a-scene canvas {
         padding: 0;
         overflow: hidden;
     }
+    /* Position all overlay elements properly */
+#instructions,
+#status,
+#modelPanel,
+#arControls {
+  position: absolute;
+  z-index: 10;
+  pointer-events: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Align AR Controls to the bottom center */
+#arControls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  bottom: 2vh;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Status bar top right */
+#status {
+  top: 1rem;
+  right: 1rem;
+}
+
+/* Instruction overlay in the center (initial screen) */
+#instructions {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 1rem;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border-radius: 8px;
+}
+
+/* Model panel (left side panel) */
+#modelPanel {
+  top: 10vh;
+  left: 1rem;
+  width: 140px;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 1rem;
+  border-radius: 6px;
+  color: white;
+  overflow-y: auto;
+  max-height: 70vh;
+}
+
+/* Hide class */
+.hidden {
+  display: none !important;
+}
+
+/* Optional: style for safe area (iOS) */
+body {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
     
     #arControls {
         position: fixed !important;
@@ -569,23 +604,7 @@ a-scene canvas {
         background: white;
         color: black;
     }
-    
-    #arControls,
-    #modelPanel,
-    #status,
-    #reticle {
-        display: none;
-    }
-    
-    #instructions {
-        position: static;
-        transform: none;
-        background: white;
-        color: black;
-        box-shadow: none;
-        border: 1px solid #ccc;
-    }
-    #overlayContainer {
+   #overlayContainer {
   position: absolute;
   top: 0;
   left: 0;
@@ -597,6 +616,4 @@ a-scene canvas {
 
 #overlayContainer > * {
   pointer-events: auto; /* Allows clicking buttons */
-}
-
 }
