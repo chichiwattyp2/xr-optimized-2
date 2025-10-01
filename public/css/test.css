@@ -585,4 +585,18 @@ a-scene canvas {
         box-shadow: none;
         border: 1px solid #ccc;
     }
+    #overlayContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+#overlayContainer > * {
+  pointer-events: auto; /* Allows clicking buttons */
+}
+
 }
