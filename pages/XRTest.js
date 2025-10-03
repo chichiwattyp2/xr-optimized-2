@@ -239,15 +239,7 @@ export default function XRTest() {
     
 
   
-    <a-entity id="room">
-      <a-plane position="0 0 0" rotation="-90 0 0" width="30" height="30" material="src: #floorTex; repeat: 4 4; roughness: 0.9" shadow="receive: true"></a-plane>
-      <a-box color="#151515" depth="0.2" height="6" width="30" position="0 3 -15"></a-box>
-      <a-box color="#151515" depth="30" height="6" width="0.2" position="-15 3 0"></a-box>
-      <a-box color="#151515" depth="30" height="6" width="0.2" position="15 3 0"></a-box>
-      <a-box color="#222" depth="0.2" height="0.2" width="30" position="0 6 -15"></a-box>
-     
-      <a-box color="#0bd3ff" width="6" height="0.2" depth="0.5" position="0 3.5 -7" material="emissive: #0bd3ff; emissiveIntensity: 1.2"></a-box>
-    </a-entity>
+  
 
 
 <a-entity
@@ -256,7 +248,7 @@ export default function XRTest() {
         dialog-popup="
           openIconImage: assets/info.jpg;
           closeIconImage: assets/close.jpg;
-          title: Welcome To SuperCruisr;
+          title: Welcome To XR Labs;
           body: To move around the enviroment: line up the white CIRLCE cursor on your screen with the floating crystals and click or tap.
           to release your cursor on desktop. press the ESC key.;
           "></a-entity>
