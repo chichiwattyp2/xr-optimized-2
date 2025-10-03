@@ -20,7 +20,9 @@
  <!-- includes -->
 
 
-<a-scene renderer="colorManagement: true">
+<!--a-scene renderer="colorManagement: true"-->
+  <a-scene renderer="antialias: true; colorManagement: true; sortObjects: true; foveationLevel: 2;" vr-mode-ui="enabled: true">
+
   <!-- Camera + mouse ray -->
   <a-entity camera position="0 1.6 0" look-controls
             cursor="rayOrigin: mouse"
