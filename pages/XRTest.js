@@ -200,71 +200,133 @@ export default function XRTest() {
       </div>
 
       {/* Your entire A-Frame scene remains untouched */}
-      <a-scene
-        renderer="colorManagement: true; physicallyCorrectLights: true;"
-        background="color: #0b0b0b"
-        vr-mode-ui="enabled: true"
-      >
-        <a-assets>
+      <a-scene renderer="colorManagement: true; physicallyCorrectLights: true;" background="color: #0b0b0b" vr-mode-ui="enabled: true">
+      <a-assets>
+       
           <img
             id="dawn"
-            crossOrigin="anonymous"
+            crossorigin="anonymous"
             src="https://cdn.glitch.com/9f5d1b92-a581-4134-8864-9bd98ff8ed97%2Fdawn.jpeg"
           />
+
           <a-asset-item
             id="roomer"
             src="https://cdn.glitch.com/9f5d1b92-a581-4134-8864-9bd98ff8ed97%2Fglassedit.glb"
           ></a-asset-item>
-          <a-asset-item
-            id="roboto"
-            src="https://cdn.aframe.io/fonts/Roboto-msdf.json"
-          ></a-asset-item>
-        </a-assets>
+        
+        
+    
+      <!-- Font for <a-text> -->
+      <a-asset-item id="roboto" src="https://cdn.aframe.io/fonts/Roboto-msdf.json"></a-asset-item>
+     
+    
+       
+      </a-assets>
+  <!-- Hidden “host” for the player + analyser -->
+      <a-entity id="playerHost" audioanalyser spotify position="0 0 0" visible="false"></a-entity>
+
+      <!-- Centered UI panel in front of the camera -->
+      <a-entity position="-7.70206 4.78398 8.53435" spotify-panel-ui="" rotation="0 180 0"></a-entity>
+
+       <a-sky src="#dawn"></a-sky>
+
+        <!-- directional light and ambient lighting -->
 
         <a-entity
-          id="playerHost"
-          audioanalyser=""
-          spotify=""
-          position="0 0 0"
-          visible="false"
+          light="color: #ccccff; intensity: 1; type: ambient;"
+          visible=""
         ></a-entity>
+    
 
-        <a-entity
-          position="-7.70206 4.78398 8.53435"
-          spotify-panel-ui=""
-          rotation="0 180 0"
-        ></a-entity>
+    <!-- 
+    <a-entity id="room">
+      <a-plane position="0 0 0" rotation="-90 0 0" width="30" height="30" material="src: #floorTex; repeat: 4 4; roughness: 0.9" shadow="receive: true"></a-plane>
+      <a-box color="#151515" depth="0.2" height="6" width="30" position="0 3 -15"></a-box>
+      <a-box color="#151515" depth="30" height="6" width="0.2" position="-15 3 0"></a-box>
+      <a-box color="#151515" depth="30" height="6" width="0.2" position="15 3 0"></a-box>
+      <a-box color="#222" depth="0.2" height="0.2" width="30" position="0 6 -15"></a-box>
+     
+      <a-box color="#0bd3ff" width="6" height="0.2" depth="0.5" position="0 3.5 -7" material="emissive: #0bd3ff; emissiveIntensity: 1.2"></a-box>
+    </a-entity>-->
+<!--travel-->
 
-        <a-sky src="#dawn"></a-sky>
-        <a-entity light="color: #ccccff; intensity: 1; type: ambient;"></a-entity>
+<!--<a-entity
+        id="dialog"
+        position="0 1.2 -4"
+        dialog-popup="
+          openIconImage: assets/info.jpg;
+          closeIconImage: assets/close.jpg;
+          title: Welcome To SuperCruisr;
+          body: To move around the enviroment: line up the white CIRLCE cursor on your screen with the floating crystals and click or tap.
+          to release your cursor on desktop. press the ESC key.;
+          "></a-entity>-->
+<a-gltf-model src="#roomer" position="47.87792 -11.04427 -10.03337" gltf-model="https://cdn.glitch.com/9f5d1b92-a581-4134-8864-9bd98ff8ed97%2Fglassedit.glb" rotation="0 180 0" scale="1.5 1.5 1.5">
+        </a-gltf-model>
+<a-entity id="travel">
+        <!--  CHECKPOINTS BEGIN -->
+        <a-icosahedron
+          checkpoint=""
+          color="#FF926B"
+          radius="0.25"
+          position="-2.83815 1.03616 -4.50222"
+          material="normalMap: true; roughness: 0; metalness: 0.3;  transparent: true; opacity: 1"
+          rotation="0 151.5181857798522 0"
+          animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"
+          geometry=""
+          event-set__enter="_event: mouseenter; _target: #Text; visible: true"
+                  event-set__leave="_event: mouseleave; _target: #Text; visible: false">
+        <a-text id="Text" value="This is a checkpoint" align="center" color="#FFF" visible="false" position="0 -0.55 0.55"
+                geometry="primitive: plane; width: 1.75" material="color: #333"></a-text>
+        </a-icosahedron>
+       
+        <a-icosahedron
+          checkpoint=""
+          color="#FF926B"
+          radius="0.25"
+          position="10.38706 4.51096 -15.13568"
+          material="normalMap: true; roughness: 0; metalness: 0.3;  transparent: true; opacity: 1"
+          rotation="0 155.26644895094998 0"
+          animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"
+          geometry=""
+        ></a-icosahedron>
+        <a-icosahedron
+          checkpoint=""
+          color="#FF926B"
+          radius="0.25"
+          position="23.23242 6.96579 -4.0634"
+          material="normalMap: true; roughness: 0; metalness: 0.3;  transparent: true; opacity: 1"
+          rotation="0 155.26644895094998 0"
+          animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"
+          geometry=""
+        ></a-icosahedron>
+        <a-icosahedron
+          checkpoint=""
+          color="#FF926B"
+          radius="0.25"
+          position="3.97271 6.96579 -10.7524"
+          material="normalMap: true; roughness: 0; metalness: 0.3;  transparent: true; opacity: 1"
+          rotation="0 155.26644895094998 0"
+          animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"
+          geometry=""
+        ></a-icosahedron>
+        <a-icosahedron
+          checkpoint=""
+          color="#FF926B"
+          radius="0.25"
+          position="-5.85937 4.97873 -10.7524"
+          material="normalMap: true; roughness: 0; metalness: 0.3;  transparent: true; opacity: 1"
+          rotation="0 155.26644895094998 0"
+          animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"
+          geometry=""
+        ></a-icosahedron></a-entity>
 
-        <a-gltf-model
-          src="#roomer"
-          position="47.87792 -11.04427 -10.03337"
-          rotation="0 180 0"
-          scale="1.5 1.5 1.5"
-        ></a-gltf-model>
-
-        <a-entity id="store" store-builder=""></a-entity>
-
-        <a-entity
-          id="rig"
-          movement-controls="controls: checkpoint"
-          checkpoint-controls="mode: animate"
-          position="0 2.22085 6.6555"
-          rotation="0 0 0"
-        >
+    <!-- Shelves + Products (procedural via component) -->
+    <!-- a-entity id="store" store-builder></a-entity -->
+    
+   <a-entity id="rig" movement-controls="controls: checkpoint" checkpoint-controls="mode: animate" position="0 2.22085 6.6555" rotation="0 0 0">
           <a-camera>
-            <a-entity
-              cursor=""
-              position="0.00705 0.04225 -1.70324"
-              geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
-              material="shader: flat; color: #CCC"
-              raycaster=""
-            ></a-entity>
-          </a-camera>
-        </a-entity>
-      </a-scene>
+         <a-entity cursor="" position="0.00705 0.04225 -1.70324" geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03" material="shader: flat; color: #CCC" raycaster=""></a-entity></a-camera></a-entity>
+    </a-scene>
     </>
   )
 }
