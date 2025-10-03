@@ -21,7 +21,7 @@ export default function Landing() {
     { name: "Video Player", path: "/video-player.html" },
     { name: "Vologram", path: "/vologram.html" },
     { name: "Workspace", path: "/workspace.html" },
-    { name: "XR Test", path: "/XRTest" },
+    { name: "XR Test", path: "/XR-Test.html" },
     { name: "AR Hologram", path: "/ar-hologram" },
     { name: "Assistant Shop", path: "/assistant-shop.html" },
     { name: "Assistant", path: "/assistant.html" },
