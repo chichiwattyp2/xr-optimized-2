@@ -216,7 +216,7 @@ export default function XRTest() {
         
         
     
-      <!-- Font for <a-text> -->
+   
       <a-asset-item id="roboto" src="https://cdn.aframe.io/fonts/Roboto-msdf.json"></a-asset-item>
      
     
@@ -320,8 +320,6 @@ export default function XRTest() {
           geometry=""
         ></a-icosahedron></a-entity>
 
-    <!-- Shelves + Products (procedural via component) -->
-    <!-- a-entity id="store" store-builder></a-entity -->
     
    <a-entity id="rig" movement-controls="controls: checkpoint" checkpoint-controls="mode: animate" position="0 2.22085 6.6555" rotation="0 0 0">
           <a-camera>
