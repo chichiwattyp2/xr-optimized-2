@@ -222,15 +222,15 @@ export default function XRTest() {
     
        
       </a-assets>
-  <!-- Hidden “host” for the player + analyser -->
+
       <a-entity id="playerHost" audioanalyser spotify position="0 0 0" visible="false"></a-entity>
 
-      <!-- Centered UI panel in front of the camera -->
+
       <a-entity position="-7.70206 4.78398 8.53435" spotify-panel-ui="" rotation="0 180 0"></a-entity>
 
        <a-sky src="#dawn"></a-sky>
 
-        <!-- directional light and ambient lighting -->
+
 
         <a-entity
           light="color: #ccccff; intensity: 1; type: ambient;"
@@ -238,7 +238,7 @@ export default function XRTest() {
         ></a-entity>
     
 
-    <!-- 
+  
     <a-entity id="room">
       <a-plane position="0 0 0" rotation="-90 0 0" width="30" height="30" material="src: #floorTex; repeat: 4 4; roughness: 0.9" shadow="receive: true"></a-plane>
       <a-box color="#151515" depth="0.2" height="6" width="30" position="0 3 -15"></a-box>
@@ -247,10 +247,10 @@ export default function XRTest() {
       <a-box color="#222" depth="0.2" height="0.2" width="30" position="0 6 -15"></a-box>
      
       <a-box color="#0bd3ff" width="6" height="0.2" depth="0.5" position="0 3.5 -7" material="emissive: #0bd3ff; emissiveIntensity: 1.2"></a-box>
-    </a-entity>-->
-<!--travel-->
+    </a-entity>
 
-<!--<a-entity
+
+<a-entity
         id="dialog"
         position="0 1.2 -4"
         dialog-popup="
@@ -259,11 +259,11 @@ export default function XRTest() {
           title: Welcome To SuperCruisr;
           body: To move around the enviroment: line up the white CIRLCE cursor on your screen with the floating crystals and click or tap.
           to release your cursor on desktop. press the ESC key.;
-          "></a-entity>-->
+          "></a-entity>
 <a-gltf-model src="#roomer" position="47.87792 -11.04427 -10.03337" gltf-model="https://cdn.glitch.com/9f5d1b92-a581-4134-8864-9bd98ff8ed97%2Fglassedit.glb" rotation="0 180 0" scale="1.5 1.5 1.5">
         </a-gltf-model>
 <a-entity id="travel">
-        <!--  CHECKPOINTS BEGIN -->
+          
         <a-icosahedron
           checkpoint=""
           color="#FF926B"
