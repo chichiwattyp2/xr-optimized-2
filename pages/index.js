@@ -6,6 +6,7 @@ export default function Landing() {
 
   const pages = [
     { name: "Assistant1", path: "/assistant1.html" },
+     { name: "Assistant2", path: "/assistant-shop.html" },
     { name: "Ar", path: "/ar.html" },
     { name: "MR", path: "/AR-studio.html" },
     { name: "AR Showcase", path: "/ar-showcase.html" },
