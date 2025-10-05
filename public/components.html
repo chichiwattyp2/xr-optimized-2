@@ -18,6 +18,9 @@
   <script src="https://unpkg.com/aframe-globe-component@1.15.0/dist/aframe-globe-component.min.js" defer></script>
   <script src="https://unpkg.com/@kumitterer/aframe-click-drag-component@4.0.1/dist/aframe-click-drag-component.min.js" defer></script>
   
+  <!-- Super Shooter Kit -->
+  <script src="https://unpkg.com/aframe-super-shooter-kit/dist/aframe-super-shooter-kit.min.js"></script>
+  
   <style>
     body { 
       margin: 0; 
@@ -109,19 +112,18 @@
 </head>
 <body>
   <div id="info">
-    <h3>A-Frame VR</h3>
+    <h3>🔫 A-Frame VR Shooter</h3>
     <p><strong>WASD</strong> - Move around</p>
     <p><strong>Mouse</strong> - Look around</p>
-    <p><strong>Click & Drag</strong> - Move objects!</p>
-    <p><strong>Click objects</strong> - Change colors</p>
-    <p><strong>Click ground</strong> - Teleport!</p>
+    <p><strong>CLICK</strong> - SHOOT! 💥</p>
+    <p><strong>Click & Drag</strong> - Move objects</p>
+    <p><strong>Click ground</strong> - Teleport</p>
     
     <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.2);">
+      <div class="feature">Click to Shoot Targets!</div>
       <div class="feature">Click & Drag Objects</div>
       <div class="feature">3D Globe Visualization</div>
-      <div class="feature">Terminal Display</div>
       <div class="feature">Force Graph Network</div>
-      <div class="feature">Environment (Forest)</div>
       <div class="feature">VR Controllers</div>
     </div>
   </div>
@@ -131,7 +133,7 @@
     <div class="component">A-Frame 1.7.1</div>
     <div class="component">Extras 7.6.0</div>
     <div class="component">Environment 1.3.7</div>
-    <div class="component">Event Set 5.0.0</div>
+    <div class="component">Super Shooter Kit</div>
     <div class="component">Force Graph 3.0.8</div>
     <div class="component">Globe 1.15.0</div>
     <div class="component">Click-Drag 4.0.1</div>
@@ -141,10 +143,19 @@
     fog="type: linear; color: #d0e0f0; near: 10; far: 50">
     
     <a-assets>
-     <img id="floor" src="assets/floor.png">
+      <img id="floor" src="assets/floor.png">
     </a-assets>
 
-    <!-- Camera with Movement Controls -->
+    <!-- Bullet Template (Hidden) -->
+    <a-entity 
+      id="bulletTemplate" 
+      bullet
+      geometry="primitive: sphere; radius: 0.08" 
+      material="color: #FF6600; metalness: 0.8; emissive: #FF6600; emissiveIntensity: 0.8"
+      visible="false">
+    </a-entity>
+
+    <!-- Camera with Movement Controls and Shooter -->
     <a-entity 
       id="rig" 
       movement-controls="speed: 0.2; fly: false"
@@ -154,23 +165,26 @@
         id="camera"
         camera 
         look-controls
-        position="0 1.6 0">
+        position="0 1.6 0"
+        shooter="activeBulletTemplate: #bulletTemplate">
         
         <a-cursor
           fuse="false"
-          raycaster="objects: .interactive, .teleportable">
+          raycaster="objects: .interactive, .teleportable, .target">
         </a-cursor>
       </a-entity>
       
-      <!-- VR Controllers -->
+      <!-- VR Controllers with Shooter -->
       <a-entity 
         hand-controls="hand: left"
-        laser-controls="hand: left">
+        laser-controls="hand: left"
+        shooter="activeBulletTemplate: #bulletTemplate">
       </a-entity>
       
       <a-entity 
         hand-controls="hand: right"
-        laser-controls="hand: right">
+        laser-controls="hand: right"
+        shooter="activeBulletTemplate: #bulletTemplate">
       </a-entity>
     </a-entity>
 
@@ -187,11 +201,102 @@
     <a-plane 
       class="teleportable"
       shadow="receive: true"
-       material="src:#floor; repeat: 700 700; transparent: true;" 
-       height="500" 
-       width="500" 
-       rotation="-90 0 0"></a-plane>
-     
+      material="src:#floor; repeat: 700 700; transparent: true;" 
+      height="500" 
+      width="500" 
+      rotation="-90 0 0">
+    </a-plane>
+
+    <!-- === SHOOTING TARGETS SECTION === -->
+    <a-text 
+      value="🎯 SHOOTING RANGE 🎯" 
+      color="#FF0000" 
+      width="8"
+      align="center"
+      position="0 4 -18"
+      animation="property: scale; to: 1.1 1.1 1.1; dir: alternate; loop: true; dur: 1000">
+    </a-text>
+
+    <!-- Easy Targets (Close Range) -->
+    <a-box
+      class="target"
+      target="healthPoints: 3"
+      position="-4 1.5 -18"
+      color="#FF6B6B"
+      shadow
+      animation="property: rotation; to: 0 360 0; loop: true; dur: 4000">
+    </a-box>
+
+    <a-sphere
+      class="target"
+      target="healthPoints: 5"
+      position="0 1.5 -18"
+      radius="0.6"
+      color="#4ECDC4"
+      shadow
+      animation="property: position; to: 0 2.5 -18; dir: alternate; loop: true; dur: 2000">
+    </a-sphere>
+
+    <a-cylinder
+      class="target"
+      target="healthPoints: 3"
+      position="4 1.5 -18"
+      radius="0.5"
+      height="1.2"
+      color="#FFE66D"
+      shadow
+      animation="property: rotation; to: 360 360 0; loop: true; dur: 5000">
+    </a-cylinder>
+
+    <!-- Medium Targets (Mid Range) -->
+    <a-dodecahedron
+      class="target"
+      target="healthPoints: 7"
+      position="-6 2 -25"
+      radius="0.7"
+      color="#A8E6CF"
+      material="metalness: 0.5"
+      shadow
+      animation="property: position; to: -6 3 -25; dir: alternate; loop: true; dur: 3000">
+    </a-dodecahedron>
+
+    <a-octahedron
+      class="target"
+      target="healthPoints: 10"
+      position="6 2 -25"
+      radius="0.8"
+      color="#FF6F91"
+      material="metalness: 0.5; emissive: #FF6F91; emissiveIntensity: 0.3"
+      shadow
+      animation="property: rotation; to: 360 360 360; loop: true; dur: 6000">
+    </a-octahedron>
+
+    <!-- Hard Targets (Far Range - Moving) -->
+    <a-torus-knot
+      class="target"
+      target="healthPoints: 15"
+      position="0 2.5 -30"
+      radius="0.5"
+      radius-tubular="0.15"
+      color="#FFB347"
+      material="metalness: 0.7; emissive: #FFB347; emissiveIntensity: 0.4"
+      shadow
+      animation="property: position; to: 3 2.5 -30; dir: alternate; loop: true; dur: 2500"
+      animation__rotate="property: rotation; to: 360 720 360; loop: true; dur: 8000">
+    </a-torus-knot>
+
+    <!-- Bonus Moving Target -->
+    <a-sphere
+      class="target"
+      target="healthPoints: 20"
+      position="-8 2 -22"
+      radius="0.4"
+      color="#9D4EDD"
+      material="metalness: 0.8; emissive: #9D4EDD; emissiveIntensity: 0.5"
+      shadow
+      animation="property: position; to: 8 2 -22; dir: alternate; loop: true; dur: 4000"
+      animation__scale="property: scale; to: 1.3 1.3 1.3; dir: alternate; loop: true; dur: 1000">
+    </a-sphere>
 
     <!-- === INTERACTIVE DRAGGABLE OBJECTS - CENTER AREA === -->
     
@@ -332,8 +437,8 @@
     <a-entity 
       id="globe"
       globe='
-        globe-image-url: assets/earth-blue-marble.jpg;
-        bump-image-url: assets/earth-topology.png;
+        globe-image-url: https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg;
+        bump-image-url: https://unpkg.com/three-globe/example/img/earth-topology.png;
         show-atmosphere: true;
         atmosphere-color: lightskyblue;
         atmosphere-altitude: 0.15;
@@ -350,9 +455,10 @@
         points-color: color;
         points-label: label'
       position="-12 2.5 -8"
-      scale="0.05 0.05 0.05"
+      scale="1.8 1.8 1.8"
       animation="property: rotation; to: 0 360 0; loop: true; dur: 60000; easing: linear">
     </a-entity>
+
     <!-- Globe Label -->
     <a-text 
       value="3D Earth Globe" 
@@ -457,12 +563,58 @@
     </a-entity>
 
     <!-- Sky -->
-  <a-sky color="#e69138"></a-sky>
+    <a-sky color="#e69138"></a-sky>
   </a-scene>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       console.log('A-Frame Scene Loading...');
+
+      // Click-to-shoot component for desktop/mobile
+      AFRAME.registerComponent('click-to-shoot', {
+        init: function () {
+          this.el.addEventListener('click', () => {
+            this.el.emit('shoot');
+          });
+        }
+      });
+
+      // Hit handler for visual feedback
+      AFRAME.registerComponent('hit-handler', {
+        dependencies: ['material'],
+        init: function () {
+          var el = this.el;
+          
+          el.addEventListener('hit', () => {
+            // Flash white when hit
+            el.setAttribute('material', 'color', '#ffffff');
+            setTimeout(() => {
+              el.setAttribute('material', 'color', '#ff0000');
+            }, 100);
+            console.log('Target hit!');
+          });
+          
+          el.addEventListener('die', () => {
+            console.log('Target destroyed!');
+            // Explosion animation
+            el.setAttribute('animation', {
+              property: 'scale',
+              to: '0.1 0.1 0.1',
+              dur: 500,
+              easing: 'easeInQuad'
+            });
+            el.setAttribute('animation__rotate', {
+              property: 'rotation',
+              to: '360 360 360',
+              dur: 500,
+              easing: 'easeInQuad'
+            });
+            setTimeout(() => {
+              el.parentNode.removeChild(el);
+            }, 500);
+          });
+        }
+      });
 
       // Custom color changer
       AFRAME.registerComponent('color-changer', {
@@ -483,18 +635,28 @@
       scene.addEventListener('loaded', () => {
         console.log('Scene Loaded Successfully!');
         console.log('Components Active:', Object.keys(AFRAME.components).length);
-        console.log('Globe | Force Graph | Click-Drag | Terminal | Environment');
+        console.log('Globe | Force Graph | Click-Drag | Terminal | SHOOTER');
         
-        // Add color changer to interactive elements
+        // Add color changer to interactive elements (non-targets)
         document.querySelectorAll('.interactive').forEach(el => {
           el.setAttribute('color-changer', '');
         });
         
-        console.log('Ready to interact!');
-        console.log('Click objects to change colors!');
-        console.log('Click and drag colored shapes to move them!');
-        console.log('Look left to see the rotating Earth globe!');
-        console.log('Look right to see the force graph network!');
+        // Add hit handlers to all targets
+        document.querySelectorAll('.target').forEach(el => {
+          el.setAttribute('hit-handler', '');
+        });
+        
+        // Add click-to-shoot to camera
+        document.querySelector('#camera').setAttribute('click-to-shoot', '');
+        
+        console.log('🎯 Ready to interact!');
+        console.log('🔫 CLICK TO SHOOT! Aim at targets!');
+        console.log('💥 Targets flash white when hit!');
+        console.log('💀 Keep shooting until targets explode!');
+        console.log('🎨 Click draggable objects to change colors!');
+        console.log('🌍 Look left for the rotating Earth globe!');
+        console.log('🕸️ Look right for the force graph network!');
       });
     });
   </script>
