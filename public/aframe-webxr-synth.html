@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A-Frame WebXR Audio Synthesizer</title>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body { font-family: 'Courier New', monospace; }
+    
+    #hud {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #0ff;
+      border-radius: 10px;
+      color: #0ff;
+      min-width: 250px;
+      z-index: 1000;
+    }
+    
+    #hud h3 {
+      margin: 0 0 10px 0;
+      color: #f0f;
+      text-shadow: 0 0 10px #f0f;
+    }
+    
+    .hud-item {
+      margin: 5px 0;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+    
+    .hud-value {
+      color: #ff0;
+      font-weight: bold;
+    }
+    
+    #controls {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 15px;
+      z-index: 1000;
+    }
+    
+    .control-btn {
+      padding: 15px 30px;
+      background: linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(255, 0, 255, 0.2));
+      border: 2px solid #0ff;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(0, 255, 255, 0.3);
+      text-transform: uppercase;
+    }
+    
+    .control-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 30px rgba(0, 255, 255, 0.5);
+    }
+    
+    .control-btn.active {
+      background: linear-gradient(135deg, rgba(0, 255, 255, 0.5), rgba(255, 0, 255, 0.5));
+    }
+  </style>
+</head>
+<body>
+  <div id="hud">
+    <h3>AFRAME WEBXR SYNTH</h3>
+    <div class="hud-item">
+      <span>FPS:</span>
+      <span class="hud-value" id="fps">60</span>
+    </div>
+    <div class="hud-item">
+      <span>BPM:</span>
+      <span class="hud-value" id="bpm">120</span>
+    </div>
+    <div class="hud-item">
+      <span>MODE:</span>
+      <span class="hud-value" id="mode">AMBIENT</span>
+    </div>
+    <div class="hud-item">
+      <span>XR:</span>
+      <span class="hud-value" id="xr-status">READY</span>
+    </div>
+  </div>
+  
+  <div id="controls">
+    <button class="control-btn" id="play-btn">PLAY</button>
+    <button class="control-btn" id="mode-btn">MODE</button>
+    <button class="control-btn" id="tempo-btn">TEMPO</button>
+  </div>
+
+  <a-scene background="color: #000011" fog="type: exponential; color: #000033; density: 0.02" audio-visualizer>
+    <!-- Camera Rig -->
+    <a-entity id="rig" position="0 0 5">
+      <a-camera id="camera" position="0 1.6 0" wasd-controls="acceleration: 20" look-controls></a-camera>
+      
+      <!-- VR Controllers -->
+      <a-entity id="leftHand" 
+                laser-controls="hand: left" 
+                raycaster="objects: .interactive; far: 10"
+                line="color: cyan; opacity: 0.75"></a-entity>
+      
+      <a-entity id="rightHand" 
+                laser-controls="hand: right"
+                raycaster="objects: .interactive; far: 10"
+                line="color: magenta; opacity: 0.75"></a-entity>
+    </a-entity>
+
+    <!-- Lighting -->
+    <a-light type="ambient" color="#404040" intensity="0.5"></a-light>
+    <a-light type="directional" position="5 10 5" intensity="1" castShadow="true"></a-light>
+    <a-light type="point" position="5 2 5" color="#ff00ff" intensity="0.5"></a-light>
+    <a-light type="point" position="-5 2 5" color="#00ffff" intensity="0.5"></a-light>
+    <a-light type="point" position="0 2 -5" color="#ffff00" intensity="0.5"></a-light>
+
+    <!-- Floor -->
+    <a-plane position="0 0 0" rotation="-90 0 0" width="50" height="50" 
+             color="#111111" metalness="0.8" roughness="0.2" 
+             shadow="receive: true" class="interactive"></a-plane>
+    
+    <!-- Grid -->
+    <a-entity geometry="primitive: plane; width: 50; height: 50"
+              material="color: #00ffff; opacity: 0.1; transparent: true; side: double; wireframe: true"
+              rotation="-90 0 0" position="0 0.01 0"></a-entity>
+
+    <!-- Main Audio Orb -->
+    <a-entity id="audio-orb" position="0 1.5 0">
+      <a-icosahedron radius="1" detail="4"
+                     material="color: #00ffff; emissive: #00ffff; emissiveIntensity: 0.5; 
+                              metalness: 0.8; roughness: 0.2; opacity: 0.9; transparent: true"
+                     animation="property: rotation; to: 360 360 0; loop: true; dur: 20000; easing: linear"
+                     audio-reactive="type: scale"
+                     shadow="cast: true"></a-icosahedron>
+      
+      <a-icosahedron radius="0.98" detail="4"
+                     material="color: #ff00ff; wireframe: true; opacity: 0.5; transparent: true"
+                     animation="property: rotation; to: -360 -360 0; loop: true; dur: 25000; easing: linear"></a-icosahedron>
+    </a-entity>
+
+    <!-- Particle System -->
+    <a-entity id="particles" 
+              particle-system="preset: default; color: #00ffff, #ff00ff; size: 0.1; maxAge: 3; 
+                              particleCount: 1000; accelerationValue: 0 0 0; velocityValue: 0 0 0"
+              position="0 1.5 0"
+              audio-reactive="type: particles"></a-entity>
+
+    <!-- Frequency Bars (Circular arrangement) -->
+    <a-entity id="freq-bars"></a-entity>
+
+    <!-- Skybox Stars -->
+    <a-entity id="stars" 
+              particle-system="preset: default; color: #ffffff; size: 0.5; maxAge: 100; 
+                              particleCount: 5000; accelerationValue: 0 0 0; velocityValue: 0 0 0;
+                              rotationAngle: 0; rotationAxis: y"
+              position="0 0 0"></a-entity>
+
+    <!-- Sky -->
+    <a-sky color="#000033"></a-sky>
+  </a-scene>
+
+  <script>
+    // Euclidean Rhythm Generator
+    class EuclideanRhythm {
+      static generate(steps, pulses) {
+        if (pulses > steps) pulses = steps;
+        if (pulses === 0) return new Array(steps).fill(0);
+        
+        let pattern = [];
+        let counts = [];
+        let remainders = [];
+        let divisor = steps - pulses;
+        remainders.push(pulses);
+        let level = 0;
+        
+        while (remainders[level] > 1) {
+          counts.push(Math.floor(divisor / remainders[level]));
+          remainders.push(divisor % remainders[level]);
+          divisor = remainders[level];
+          level++;
+        }
+        counts.push(divisor);
+        
+        const build = (lev) => {
+          if (lev === -1) pattern.push(0);
+          else if (lev === -2) pattern.push(1);
+          else {
+            for (let i = 0; i < counts[lev]; i++) build(lev - 1);
+            if (remainders[lev] !== 0) build(lev - 2);
+          }
+        };
+        
+        build(level);
+        return pattern;
+      }
+    }
+
+    // Audio Engine
+    class AudioEngine {
+      constructor() {
+        this.isPlaying = false;
+        this.bpm = 120;
+        this.currentMode = 0;
+        this.modes = ['AMBIENT', 'TECHNO', 'DUBSTEP', 'TRANCE'];
+        this.audioContext = null;
+        this.analyzer = null;
+        this.masterGain = null;
+        this.sequenceInterval = null;
+        this.currentStep = 0;
+        this.pattern = [];
+        this.audioLevel = 0;
+      }
+      
+      async init() {
+        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        this.analyzer = this.audioContext.createAnalyser();
+        this.analyzer.fftSize = 256;
+        this.analyzer.connect(this.audioContext.destination);
+        
+        this.masterGain = this.audioContext.createGain();
+        this.masterGain.gain.value = 0.5;
+        this.masterGain.connect(this.analyzer);
+        
+        this.setupSequences();
+      }
+      
+      setupSequences() {
+        const mode = this.modes[this.currentMode];
+        if (mode === 'AMBIENT') {
+          this.pattern = [
+            { notes: [261.63, 329.63, 392.00], type: 'pad' },
+            { notes: [220.00, 277.18, 329.63], type: 'pad' },
+            { notes: [196.00, 246.94, 293.66], type: 'pad' },
+            { notes: [174.61, 220.00, 261.63], type: 'pad' }
+          ];
+        } else if (mode === 'TECHNO') {
+          const kickPattern = EuclideanRhythm.generate(16, 4);
+          this.pattern = kickPattern.map((kick, i) => ({
+            kick: kick,
+            bass: [130.81, 196.00, 116.54, 174.61][i % 4],
+            type: 'techno'
+          }));
+        } else if (mode === 'DUBSTEP') {
+          this.pattern = [
+            { notes: [65.41], type: 'wobble' },
+            { notes: [], type: 'silence' },
+            { notes: [98.00], type: 'wobble' }
+          ];
+        } else {
+          const notes = [261.63, 329.63, 392.00, 523.25, 392.00, 329.63];
+          this.pattern = notes.map(note => ({ notes: [note], type: 'arp' }));
+        }
+      }
+      
+      playNote(frequency, type = 'sine', duration = 0.2) {
+        const now = this.audioContext.currentTime;
+        const osc = this.audioContext.createOscillator();
+        const gain = this.audioContext.createGain();
+        
+        osc.type = type;
+        osc.frequency.value = frequency;
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(0.3, now + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + duration);
+        
+        osc.connect(gain);
+        gain.connect(this.masterGain);
+        osc.start(now);
+        osc.stop(now + duration);
+      }
+      
+      playStep() {
+        if (!this.isPlaying || !this.pattern) return;
+        
+        const step = this.pattern[this.currentStep % this.pattern.length];
+        
+        if (step.notes && step.notes.length > 0) {
+          step.notes.forEach(note => {
+            const type = step.type === 'pad' ? 'sine' : 
+                        step.type === 'techno' ? 'square' : 'sawtooth';
+            const duration = step.type === 'pad' ? 1.0 : 0.2;
+            this.playNote(note, type, duration);
+          });
+        }
+        
+        if (step.type === 'techno' && step.kick) {
+          this.playNote(60, 'sine', 0.1);
+        }
+        
+        this.currentStep++;
+      }
+      
+      async start() {
+        if (!this.audioContext) await this.init();
+        if (this.audioContext.state === 'suspended') await this.audioContext.resume();
+        
+        this.isPlaying = true;
+        this.currentStep = 0;
+        const stepTime = 60000 / (this.bpm * 4);
+        this.sequenceInterval = setInterval(() => this.playStep(), stepTime);
+      }
+      
+      stop() {
+        this.isPlaying = false;
+        if (this.sequenceInterval) {
+          clearInterval(this.sequenceInterval);
+          this.sequenceInterval = null;
+        }
+      }
+      
+      changeMode() {
+        this.currentMode = (this.currentMode + 1) % this.modes.length;
+        const wasPlaying = this.isPlaying;
+        if (wasPlaying) this.stop();
+        this.setupSequences();
+        if (wasPlaying) this.start();
+        return this.modes[this.currentMode];
+      }
+      
+      changeTempo(delta) {
+        this.bpm = Math.max(60, Math.min(200, this.bpm + delta));
+        if (this.isPlaying) {
+          this.stop();
+          this.start();
+        }
+        return this.bpm;
+      }
+      
+      getLevel() {
+        if (!this.analyzer) return 0;
+        const dataArray = new Uint8Array(this.analyzer.frequencyBinCount);
+        this.analyzer.getByteFrequencyData(dataArray);
+        let sum = 0;
+        for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
+        this.audioLevel = (sum / dataArray.length) / 255;
+        return this.audioLevel;
+      }
+      
+      getFrequencyData() {
+        if (!this.analyzer) return new Uint8Array(16);
+        const dataArray = new Uint8Array(this.analyzer.frequencyBinCount);
+        this.analyzer.getByteFrequencyData(dataArray);
+        return dataArray;
+      }
+      
+      getWaveform() {
+        if (!this.analyzer) return new Uint8Array(16);
+        const dataArray = new Uint8Array(this.analyzer.fftSize);
+        this.analyzer.getByteTimeDomainData(dataArray);
+        return dataArray;
+      }
+    }
+
+    // Initialize Audio Engine
+    const audioEngine = new AudioEngine();
+
+    // Wait for A-Frame to be ready before registering components
+    if (typeof AFRAME !== 'undefined') {
+      registerComponents();
+    } else {
+      window.addEventListener('load', registerComponents);
+    }
+
+    function registerComponents() {
+    // A-Frame Component: Audio Reactive
+    AFRAME.registerComponent('audio-reactive', {
+      schema: {
+        type: { type: 'string', default: 'scale' }
+      },
+      
+      init: function() {
+        this.time = 0;
+      },
+      
+      tick: function(time, deltaTime) {
+        this.time += deltaTime / 1000;
+        const level = audioEngine.getLevel();
+        
+        if (this.data.type === 'scale') {
+          const scale = 1 + level * 0.5;
+          this.el.object3D.scale.set(scale, scale, scale);
+          
+          // Color based on audio
+          const hue = (this.time * 0.1 + level) % 1;
+          const mesh = this.el.getObject3D('mesh');
+          if (mesh && mesh.material) {
+            mesh.material.color.setHSL(hue, 1, 0.5);
+            if (mesh.material.emissive) {
+              mesh.material.emissive.setHSL(hue, 1, 0.5);
+            }
+          }
+        }
+      }
+    });
+    } // End registerComponents
+
+    // Create Frequency Bars (wait for DOM)
+    window.addEventListener('DOMContentLoaded', function() {
+    const freqBarsContainer = document.querySelector('#freq-bars');
+    const barCount = 16;
+    
+    for (let i = 0; i < barCount; i++) {
+      const angle = (i / barCount) * Math.PI * 2;
+      const radius = 4;
+      const x = Math.cos(angle) * radius;
+      const z = Math.sin(angle) * radius;
+      const hue = i / barCount;
+      
+      const bar = document.createElement('a-box');
+      bar.setAttribute('position', `${x} 0.5 ${z}`);
+      bar.setAttribute('width', '0.2');
+      bar.setAttribute('height', '1');
+      bar.setAttribute('depth', '0.2');
+      bar.setAttribute('color', `hsl(${hue * 360}, 100%, 50%)`);
+      bar.setAttribute('metalness', '0.8');
+      bar.setAttribute('roughness', '0.2');
+      bar.setAttribute('shadow', 'cast: true');
+      bar.classList.add('freq-bar');
+      bar.dataset.index = i;
+      freqBarsContainer.appendChild(bar);
+    }
+    }); // End DOMContentLoaded
+
+    // Animation Loop - set up directly, not inside DOMContentLoaded
+    let frameCount = 0;
+    
+    AFRAME.registerComponent('audio-visualizer', {
+      tick: function(time, deltaTime) {
+        frameCount++;
+        
+        // Update FPS
+        const fps = Math.round(1000 / deltaTime);
+        document.getElementById('fps').textContent = fps;
+        
+        // Get audio data
+        const level = audioEngine.getLevel();
+        const freqData = audioEngine.getFrequencyData();
+        
+        // Debug: log every 60 frames
+        if (frameCount % 60 === 0) {
+          console.log('Frame:', frameCount, 'Audio level:', level.toFixed(3), 'Playing:', audioEngine.isPlaying, 'Context:', audioEngine.audioContext?.state);
+        }
+        
+        // Update frequency bars
+        const bars = document.querySelectorAll('.freq-bar');
+        bars.forEach((bar, i) => {
+          const freqIndex = Math.floor((i / bars.length) * freqData.length);
+          const freqValue = freqData[freqIndex] / 255;
+          const scale = 0.1 + freqValue * 5;
+          const y = scale / 2;
+          
+          if (bar.object3D) {
+            bar.object3D.scale.y = scale;
+            bar.object3D.position.y = y;
+            
+            // Update color
+            const hue = (i / bars.length + level) % 1;
+            const mesh = bar.getObject3D('mesh');
+            if (mesh && mesh.material) {
+              mesh.material.color.setHSL(hue, 1, 0.5 + freqValue * 0.5);
+            }
+          }
+        });
+      }
+    });
+
+    // UI Controls
+    document.getElementById('play-btn').addEventListener('click', async () => {
+      console.log('Play button clicked, current state:', audioEngine.isPlaying);
+      if (audioEngine.isPlaying) {
+        audioEngine.stop();
+        document.getElementById('play-btn').textContent = 'PLAY';
+        document.getElementById('play-btn').classList.remove('active');
+        console.log('Audio stopped');
+      } else {
+        try {
+          await audioEngine.start();
+          document.getElementById('play-btn').textContent = 'STOP';
+          document.getElementById('play-btn').classList.add('active');
+          console.log('Audio started, BPM:', audioEngine.bpm, 'Mode:', audioEngine.modes[audioEngine.currentMode]);
+        } catch (error) {
+          console.error('Error starting audio:', error);
+        }
+      }
+    });
+    
+    document.getElementById('mode-btn').addEventListener('click', () => {
+      const newMode = audioEngine.changeMode();
+      document.getElementById('mode').textContent = newMode;
+    });
+    
+    document.getElementById('tempo-btn').addEventListener('click', () => {
+      const newBPM = audioEngine.changeTempo(10);
+      document.getElementById('bpm').textContent = newBPM;
+    });
+
+    // Keyboard controls
+    window.addEventListener('keydown', (e) => {
+      switch(e.key) {
+        case ' ':
+          e.preventDefault();
+          document.getElementById('play-btn').click();
+          break;
+        case 'm':
+          document.getElementById('mode-btn').click();
+          break;
+        case 'ArrowUp':
+          audioEngine.changeTempo(5);
+          document.getElementById('bpm').textContent = audioEngine.bpm;
+          break;
+        case 'ArrowDown':
+          audioEngine.changeTempo(-5);
+          document.getElementById('bpm').textContent = audioEngine.bpm;
+          break;
+      }
+    });
+
+    // VR Enter/Exit
+    const scene = document.querySelector('a-scene');
+    if (scene) {
+      scene.addEventListener('enter-vr', () => {
+        document.getElementById('hud').style.display = 'none';
+        document.getElementById('controls').style.display = 'none';
+        document.getElementById('xr-status').textContent = 'IN VR';
+      });
+      
+      scene.addEventListener('exit-vr', () => {
+        document.getElementById('hud').style.display = 'block';
+        document.getElementById('controls').style.display = 'flex';
+        document.getElementById('xr-status').textContent = 'READY';
+      });
+    }
+  </script>
+</body>
+</html>
