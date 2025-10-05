@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XRSH-Style A-Frame — 3D Reading Mode (Momentum Scroll)</title>
+  <meta name="description" content="Immersive A-Frame WebXR reader with 3D panels, smooth momentum scroll, and adaptive desktop/VR interface." />
+
+  <!-- A-Frame core -->
+  <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
+
+  <style>
+    html,body{margin:0;height:100%;background:#0b0d12}
+    .ui-hud{position:fixed;left:12px;bottom:12px;color:#cdd7ff;font:14px/1.4 system-ui,sans-serif;background:rgba(8,10,15,.5);padding:10px 12px;border:1px solid rgba(255,255,255,.08);border-radius:12px;backdrop-filter:blur(6px)}
+    .ui-hud b{color:#9fd1ff}
+    .credit{position:fixed;right:12px;bottom:12px;font:12px/1.2 system-ui,sans-serif;color:#a0a6b8;opacity:.8}
+    .credit a{color:#9fd1ff;text-decoration:none}
+    .search-panel{position:fixed;top:12px;left:12px;width:min(520px,92vw);background:rgba(10,12,18,.78);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:10px;backdrop-filter:blur(6px);color:#d9e1ff;box-shadow:0 6px 24px rgba(0,0,0,.35);z-index:99999}
+    .search-panel .row{display:flex;gap:8px;align-items:center}
+    .search-panel input{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 12px;color:#eaf0ff;outline:none}
+    .search-panel select,.search-panel button{border:1px solid rgba(255,255,255,.14);background:rgba(159,209,255,.12);color:#cfe5ff;border-radius:10px;padding:8px 10px;cursor:pointer}
+    .results{margin-top:8px;max-height:40vh;overflow:auto}
+    .result{padding:8px;border-radius:10px;border:1px solid transparent}
+    .result:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.07)}
+    .source{opacity:.75;font-size:12px}
+    .desktop-only{display:block}@media (max-width:768px){.desktop-only{display:none}}
+  </style>
+</head>
+<body>
+  <!-- HUD -->
+  <div class="search-panel">
+    <div class="row">
+      <input id="webQuery" placeholder="Search the web…" onkeydown="if(event.key==='Enter'){runSearch()}" />
+      <select id="providerSel">
+        <option value="google">Google</option>
+        <option value="wikipedia">Wikipedia</option>
+      </select>
+      <button onclick="runSearch()">Search</button>
+      <button onclick="clear3DLinks()">Clear 3-D</button>
+    </div>
+    <div id="results" class="results"></div>
+    <div class="source">Google requires API key + CX; Wikipedia is open.</div>
+  </div>
+
+  <div class="ui-hud">
+    <div><b>Move</b>: Scroll · W/S · ⬆️⬇️ · <b>Look</b>: Mouse/drag · <b>VR</b>: Click goggles</div>
+    <div><b>Interact</b>: Gaze / click objects</div>
+  </div>
+  <div class="credit">Built with <a href="https://aframe.io/" target="_blank">A-Frame</a></div>
+
+  <!-- === 3D Scene === -->
+  <a-scene>
+    <a-entity id="rig" position="0 1.6 0">
+      <a-camera look-controls wasd-controls>
+        <a-cursor raycaster="objects:.clickable" fuse-timeout="500"></a-cursor>
+      </a-camera>
+    </a-entity>
+
+    <a-entity id="browser3d" position="0 3 -3">
+      <a-plane width="3.2" height="2" color="#0d1117" material="opacity:0.98;side:double"></a-plane>
+      <a-plane width="3.16" height="1.96" color="#1b2230" position="0 0 0.01"></a-plane>
+      <a-plane width="3.1" height="0.25" color="#161b22" position="0 0.85 0.02"></a-plane>
+      <a-plane width="0.9" height="0.18" color="#222a36" position="-1.1 0.85 0.03"></a-plane>
+      <a-text id="b3d-tabtitle" value="New Tab" align="left" width="0.8" color="#cfe5ff" position="-1.4 0.85 0.04"></a-text>
+      <a-plane width="2.2" height="0.16" color="#101826" position="0.5 0.65 0.03"></a-plane>
+      <a-text id="b3d-url" value="https://google.com" align="left" width="1.9" color="#9cc3ff" position="-0.55 0.65 0.04"></a-text>
+      <a-text id="b3d-article" value="Search results will appear here." align="left" width="2.8" wrap-count="86" color="#eee" position="-1.45 0.5 0.05"></a-text>
+
+      <!-- Scroll controls -->
+      <a-text id="scrollUp" value="▲" position="1.55 0.6 0.04" color="#fff" class="clickable desktop-only" opacity="0"></a-text>
+      <a-text id="scrollDown" value="▼" position="1.55 -0.6 0.04" color="#fff" class="clickable desktop-only" opacity="0"></a-text>
+    </a-entity>
+  </a-scene>
+
+  <script>
+  /* === Paragraph panels === */
+  function spawnTextPanels(text,container){
+    const paragraphs=text.split(/(?<=[.!?])\s+/).filter(p=>p.trim().length>60&&p.length<1200).slice(0,15);
+    let y=0.3,z=-0.2;
+    paragraphs.forEach((p,i)=>{
+      const plane=document.createElement('a-plane');
+      plane.setAttribute('width',2.8);
+      plane.setAttribute('height',0.4+Math.min(p.length/350,1.0));
+      plane.setAttribute('color','#111723');
+      plane.setAttribute('material','opacity:0;side:double');
+      plane.setAttribute('position',`0 ${y-i*0.6} ${z-i*0.01}`);
+      plane.classList.add('paragraph-panel');
+      plane.setAttribute('animation__fade',`property:material.opacity;from:0;to:0.85;dur:800;delay:${i*150}`);
+      const txt=document.createElement('a-text');
+      txt.setAttribute('value',p.trim());
+      txt.setAttribute('width',2.6);
+      txt.setAttribute('align','left');
+      txt.setAttribute('color','#dfe6ff');
+      txt.setAttribute('wrap-count','90');
+      txt.setAttribute('position','-1.3 0 0.01');
+      plane.appendChild(txt);
+      container.appendChild(plane);
+    });
+    document.querySelector('#b3d-article').setAttribute('value',`Loaded ${paragraphs.length} panels.`);
+  }
+
+  /* === Momentum scroll === */
+  let scrollVelocity=0;
+  function applyScrollMomentum(){
+    if(Math.abs(scrollVelocity)<0.001)return;
+    scrollView(scrollVelocity);
+    scrollVelocity*=0.9; // friction
+    requestAnimationFrame(applyScrollMomentum);
+  }
+
+  function scrollView(delta){
+    const rig=document.querySelector('#rig');
+    const pos=rig.getAttribute('position');
+    rig.setAttribute('position',{x:pos.x,y:pos.y,z:pos.z+delta});
+  }
+
+  /* === Core navigation === */
+  async function browser3DNavigate(url,title){
+    const b=document.querySelector('#browser3d');
+    document.querySelector('#b3d-url').setAttribute('value',url);
+    document.querySelector('#b3d-tabtitle').setAttribute('value',title||url);
+    document.querySelector('#b3d-article').setAttribute('value','Loading…');
+    b.querySelectorAll('.paragraph-panel').forEach(el=>el.remove());
+
+    const match=url.match(/wikipedia\.org\/wiki\/([^?#]+)/);
+    if(match){
+      const page=encodeURIComponent(match[1]);
+      try{
+        let r=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${page}`);
+        if(r.status===404){
+          const search=await fetch(`https://en.wikipedia.org/w/rest.php/v1/search/title?q=${page}&limit=1`);
+          const data=await search.json();
+          if(data.pages?.length){
+            const alt=encodeURIComponent(data.pages[0].title);
+            r=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${alt}`);
+          }
+        }
+        if(!r.ok){
+          document.querySelector('#b3d-article').setAttribute('value','Wikipedia article not found.');
+          return;
+        }
+        const j=await r.json();
+        const txt=j.extract||j.description||'No text available.';
+        spawnTextPanels(txt,b);
+      }catch(e){
+        console.warn('Wikipedia load error:',e);
+        document.querySelector('#b3d-article').setAttribute('value','Could not load Wikipedia article.');
+      }
+      return;
+    }
+
+    try{
+      const prox=`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+      const r=await fetch(prox);
+      const t=await r.text();
+      const clean=t.replace(/<script[\s\S]*?<\/script>/gi,'')
+                   .replace(/<style[\s\S]*?<\/style>/gi,'')
+                   .replace(/<[^>]*>/g,' ')
+                   .replace(/\s+/g,' ')
+                   .trim();
+      spawnTextPanels(clean,b);
+    }catch(e){
+      console.warn(e);
+      document.querySelector('#b3d-article').setAttribute('value','Failed to load (CORS or blocked).');
+    }
+  }
+
+  /* === Search === */
+  async function runSearch(){
+    const q=document.querySelector('#webQuery').value.trim();
+    if(!q||q.length<3)return alert('Enter a longer search term.');
+    let results=[];
+    const KEY=window.GOOGLE_CSE_KEY||"AIzaSyCxAKG61ipQvxz5j1kwD4gSwHJFDbm31xg";
+    const CX=window.GOOGLE_CSE_CX||"e56edbc72ca7c4df9";
+    try{
+      const url=`https://www.googleapis.com/customsearch/v1?key=${KEY}&cx=${CX}&q=${encodeURIComponent(q)}&num=8`;
+      const r=await fetch(url);
+      if(!r.ok)throw new Error('Google search failed or blocked');
+      const j=await r.json();
+      results=(j.items||[]).map(it=>({title:it.title,url:it.link,description:it.snippet}));
+      if(!results.length)throw new Error('No Google results');
+      browser3DNavigate(results[0].url,results[0].title);
+      document.querySelector('#results').innerHTML=results.map(r=>`<div class="result"><b>${r.title}</b><br>${r.description}<br><a href="${r.url}" target="_blank">${r.url}</a></div>`).join('');
+    }catch(e){
+      console.warn(e);
+      try{
+        const wurl=`https://en.wikipedia.org/w/rest.php/v1/search/title?q=${encodeURIComponent(q)}&limit=8`;
+        const wr=await fetch(wurl,{headers:{accept:'application/json'}});
+        const j=await wr.json();
+        results=(j.pages||[]).map(p=>({title:p.title,url:`https://en.wikipedia.org/wiki/${encodeURIComponent(p.title.replace(/ /g,'_'))}`,description:p.description||'Wikipedia'}));
+        if(!results.length)return alert('No results found.');
+        browser3DNavigate(results[0].url,results[0].title);
+      }catch{alert('Search failed.');}
+    }
+  }
+
+  function clear3DLinks(){document.querySelector('#results').innerHTML='';}
+
+  /* === Event hooks === */
+  document.addEventListener('DOMContentLoaded',()=>{
+    browser3DNavigate('https://en.wikipedia.org/wiki/A-Frame_(web_framework)','A-Frame');
+    const up=document.querySelector('#scrollUp'),dn=document.querySelector('#scrollDown');
+    [up,dn].forEach(btn=>{
+      btn.setAttribute('animation__fadein','property:opacity;from:0;to:1;dur:800;delay:400');
+    });
+    up.addEventListener('click',()=>{scrollVelocity=-0.2;applyScrollMomentum();});
+    dn.addEventListener('click',()=>{scrollVelocity=0.2;applyScrollMomentum();});
+  });
+
+  document.addEventListener('keydown',e=>{
+    if(['ArrowUp','w','W'].includes(e.key)){scrollVelocity=-0.25;applyScrollMomentum();}
+    if(['ArrowDown','s','S'].includes(e.key)){scrollVelocity=0.25;applyScrollMomentum();}
+  });
+
+  window.addEventListener('wheel',e=>{
+    scrollVelocity+=e.deltaY>0?0.04:-0.04;
+    applyScrollMomentum();
+  },{passive:true});
+  </script>
+</body>
+</html>
