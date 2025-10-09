@@ -6,6 +6,7 @@ export default function Landing() {
 
   const pages = [
     { name: "test", path: "/menutest.html" },
+     { name: "Training", path: "/ilabs-training.html" },
     { name: "music player", path: "/aframe-webxr-synth.html" },
     { name: "components", path: "/components.html" },
      { name: "browser", path: "/xrbrowser.html" },
