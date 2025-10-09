@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iLabs WebXR Training</title>
+  <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    #ui-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 20px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+      color: white;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .header p {
+      margin: 5px 0 0 0;
+      opacity: 0.8;
+      font-size: 14px;
+    }
+
+    .model-selector {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(15, 23, 42, 0.9);
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      pointer-events: all;
+    }
+
+    .model-selector-label {
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .model-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .model-btn {
+      padding: 10px 16px;
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.5);
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+      text-align: left;
+    }
+
+    .model-btn:hover {
+      background: rgba(59, 130, 246, 0.4);
+      transform: translateX(2px);
+    }
+
+    .model-btn.active {
+      background: rgba(251, 191, 36, 0.3);
+      border-color: #fbbf24;
+      font-weight: 600;
+    }
+
+    .progress {
+      position: absolute;
+      top: 220px;
+      right: 20px;
+      background: rgba(15, 23, 42, 0.9);
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: white;
+    }
+
+    .progress-label {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .progress-count {
+      color: #94a3b8;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .question-card {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 500px;
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+      display: none;
+      pointer-events: all;
+    }
+
+    .question-card.active {
+      display: block;
+      animation: slideUp 0.3s ease-out;
+    }
+
+    .question-card h3 {
+      margin: 0 0 16px 0;
+      color: #fbbf24;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .question-card p {
+      margin: 0 0 20px 0;
+      color: white;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-btn {
+      padding: 14px 20px;
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.5);
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      font-size: 15px;
+      text-align: left;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+
+    .option-btn:hover {
+      background: rgba(59, 130, 246, 0.4);
+      transform: translateX(4px);
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .model-selector {
+        top: auto;
+        bottom: 20px;
+        left: 20px;
+        right: auto;
+      }
+      .progress {
+        top: 20px;
+        right: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- UI Overlay -->
+  <div id="ui-overlay">
+    <!-- Header -->
+    <div class="header">
+      <h1>iLabs Training</h1>
+      <p>Select a model and click components to test your knowledge</p>
+    </div>
+
+    <!-- Model Selector -->
+    <div class="model-selector">
+      <div class="model-selector-label">Select Model</div>
+      <div class="model-buttons">
+        <button class="model-btn active" onclick="switchModel('model1')">Awaken Etched Cartridge</button>
+        <button class="model-btn" onclick="switchModel('model2')">Natural Balance Tincture</button>
+        <button class="model-btn" onclick="switchModel('model3')">Travelers Disposable</button>
+        <button class="model-btn" onclick="switchModel('model4')">Healing Balm</button>
+        <button class="model-btn" onclick="switchModel('model5')">Pug Dab Co</button>
+        <button class="model-btn" onclick="switchModel('model6')">Awaken Etched Disposable</button>
+      </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress">
+      <div class="progress-label">Progress</div>
+      <div class="progress-count"><span id="progress">0</span>/3</div>
+    </div>
+
+    <!-- Question Card -->
+    <div class="question-card" id="questionCard">
+      <h3 id="questionTitle"></h3>
+      <p id="questionText"></p>
+      <div class="options" id="options"></div>
+    </div>
+  </div>
+
+  <!-- A-Frame Scene -->
+  <a-scene>
+    <!-- Camera -->
+   
+<a-entity id="camera" camera position="0 1.6 5" look-controls
+              cursor="rayOrigin: mouse"
+              raycaster="objects: .clickable"></a-entity>
+              
+              <!-- Lighting -->
+    <a-entity light="type: ambient; intensity: 0.8"></a-entity>
+    <a-entity light="type: directional; intensity: 1" position="2 4 2"></a-entity>
+    <a-entity light="type: point; intensity: 0.5" position="-2 2 2"></a-entity>
+
+    <!-- 3D Models -->
+    <a-entity 
+      id="mainModel"
+      gltf-model="EXPORT2.glb"
+      position="0 0 0"
+      scale="1 1 1"
+      rotation="0 0 0"
+    ></a-entity>
+
+    <!-- TOP Hotspot -->
+    <a-sphere
+      id="hotspot1"
+       class="clickable"
+      position="0 2 0"
+      radius="0.1"
+      color="#3b82f6"
+      animation="property: scale; to: 1.3 1.3 1.3; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine"
+    ></a-sphere>
+    <a-text value="1" position="0 2.15 0" align="center" color="#ffffff" width="1.5"></a-text>
+    <a-text id="status1" value="" position="0.15 2 0" align="center" width="2"></a-text>
+
+    <!-- MIDDLE Hotspot -->
+    <a-sphere
+      id="hotspot2"
+       class="clickable"
+      position="0 1 0"
+      radius="0.1"
+      color="#3b82f6"
+      animation="property: scale; to: 1.3 1.3 1.3; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine"
+    ></a-sphere>
+    <a-text value="2" position="0 1.15 0" align="center" color="#ffffff" width="1.5"></a-text>
+    <a-text id="status2" value="" position="0.15 1 0" align="center" width="2"></a-text>
+
+    <!-- BOTTOM Hotspot -->
+    <a-sphere
+      id="hotspot3"
+       class="clickable"
+      position="0 0 0"
+      radius="0.1"
+      color="#3b82f6"
+      animation="property: scale; to: 1.3 1.3 1.3; dur: 1000; dir: alternate; loop: true; easing: easeInOutSine"
+    ></a-sphere>
+    <a-text value="3" position="0 0.15 0" align="center" color="#ffffff" width="1.5"></a-text>
+    <a-text id="status3" value="" position="0.15 0 0" align="center" width="2"></a-text>
+
+    <!-- Ground -->
+    <a-plane
+      position="0 -0.5 0"
+      rotation="-90 0 0"
+      width="10"
+      height="10"
+      color="#1f2937"
+    ></a-plane>
+
+    <!-- Sky -->
+    <a-sky color="#0f172a"></a-sky>
+  </a-scene>
+
+  <script>
+    // MODEL CONFIGURATION
+    const models = {
+      model1: {
+        file: 'EXPORT2.glb',
+        name: 'Awaken Etched Cartridge'
+      },
+      model2: {
+        file: 'nb.glb',
+        name: 'Natural Balance Tincture'
+      },
+      model3: {
+        file: 'EXPORT7.glb',
+        name: 'Travelers Disposable'
+      },
+      model4: {
+        file: 'EXPORT9.glb',
+        name: 'Healing Balm'
+      },
+      model5: {
+        file: 'pug.glb',
+        name: 'Pug Dab Co'
+      },
+      model6: {
+        file: 'etcheddispo.glb',
+        name: 'Awaken Etched Disposable'
+      }
+    };
+
+    let currentModel = 'model1';
+
+    // Quiz data - Different questions for each model
+    const modelQuestions = {
+      model1: [ // Awaken Etched Cartridge
+        {
+          id: 'hotspot1',
+          label: '1',
+          question: 'What feature of the Awaken Etched cartridge helps reduce clogging compared to traditional cartridges?',
+          options: ['Wider airway design', 'Ceramic heating element', 'Advanced coil technology', 'Temperature control'],
+          correctAnswer: 0
+        },
+        {
+          id: 'hotspot2',
+          label: '2',
+          question: 'The cartridge has a dual-airway system — how does that affect airflow and vapor production?',
+          options: ['Restricts airflow', 'Improves airflow and increases vapor', 'No significant effect', 'Reduces vapor temperature'],
+          correctAnswer: 1
+        },
+        {
+          id: 'hotspot3',
+          label: '3',
+          question: 'What is the minimum battery / connector spec (e.g. thread type) you must match to reliably use an Awaken Etched cartridge?',
+          options: ['510 thread', 'Magnetic adapter', 'USB-C', 'Proprietary connector'],
+          correctAnswer: 0
+        }
+      ],
+      model2: [ // Natural Balance Tincture
+        {
+          id: 'hotspot1',
+          label: '1',
+          question: 'What is the cannabinoid ratio (e.g. 1:1 CBD : THC, or FECO) used in Natural Balance Tincture?',
+          options: ['1:1 CBD:THC', 'Full spectrum FECO', 'CBD only', 'THC dominant'],
+          correctAnswer: 0
+        },
+        {
+          id: 'hotspot2',
+          label: '2',
+          question: 'How is the tincture typically administered (e.g. sublingually, mixed into food), and what factors influence absorption speed?',
+          options: ['Topically applied', 'Sublingually for faster absorption', 'Mixed in water', 'Inhaled as vapor'],
+          correctAnswer: 1
+        },
+        {
+          id: 'hotspot3',
+          label: '3',
+          question: 'What storage conditions (temperature, light exposure) are ideal to preserve potency of the tincture?',
+          options: ['Warm and bright', 'Cool, dark place', 'Refrigerator only', 'Room temperature, direct sunlight'],
+          correctAnswer: 1
+        }
+      ],
+      model3: [ // Travelers Disposable
+        {
+          id: 'hotspot1',
+          label: '1',
+          question: 'What are the advantages and disadvantages of a disposable vape device like the Travelers compared with refillable cartridges?',
+          options: ['More expensive, less convenient', 'Convenient, no maintenance but less eco-friendly', 'Requires assembly', 'Better flavor, harder to use'],
+          correctAnswer: 1
+        },
+        {
+          id: 'hotspot2',
+          label: '2',
+          question: 'What safety or waste-management issues should you consider when disposing of a used Travelers disposable device?',
+          options: ['Throw in regular trash', 'Battery recycling and proper disposal', 'Burn it safely', 'No special considerations'],
+          correctAnswer: 1
+        },
+        {
+          id: 'hotspot3',
+          label: '3',
+          question: 'The Travelers line includes different flavor / strain options — what determines which strain a user should choose?',
+          options: ['Price only', 'Desired effects and personal preference', 'Color of packaging', 'Random selection'],
+          correctAnswer: 1
+        }
+      ],
+      model4: [ // Healing Balm
+        {
+          id: 'hotspot1',
+          label: '1',
+          question: 'What are the primary active botanicals (or "nature\'s healers") included in the Healing Balm formula?',
+          options: ['Synthetic compounds', 'CBD, arnica, lavender, calendula', 'Petroleum jelly', 'Alcohol-based'],
+          correctAnswer: 1
+        },
+        {
+          id: 'hotspot2',
+          label: '2',
+          question: 'In which use-cases or conditions (e.g. muscle soreness, skin irritation) is the Healing Balm intended to be applied?',
+          options: ['Internal use only', 'Muscle soreness, skin irritation, inflammation', 'Hair care', 'Dental issues'],
+          correctAnswer: 1
+        },
+        {
+          id: 'hotspot3',
+          label: '3',
+          question: 'How long after application should a user wait before washing the area (or before product absorption is complete)?',
+          options: ['Immediately', '15-30 minutes for full absorption', '24 hours', 'Never wash'],
+          correctAnswer: 1
+        }
+      ],
+      model5: [ // Pug Dab Co
+        {
+          id: 'hotspot1',
+          label: '1',
+          question: 'What kind of concentrate (e.g. shatter, budder, wax, live resin) does Pug Dab Co specialize in?',
+          options: ['Edibles', 'Live resin and premium concentrates', 'Flower only', 'Tinctures'],
+          correctAnswer: 1
+        },
+        {
+          id: 'hotspot2',
+          label: '2',
+          question: 'What is the recommended method for dosing or vaporizing a dab from Pug Dab Co to minimize waste?',
+          options: ['High heat combustion', 'Low-temp dab at 315-450°F', 'Mix with flower', 'Eat directly'],
+          correctAnswer: 1
+        },
+        {
+          id: 'hotspot3',
+          label: '3',
+          question: 'What purity or testing standards (e.g. solvent residue levels) should be verified before using a Pug Dab Co product?',
+          options: ['No testing needed', 'Third-party lab tests for potency and residual solvents', 'Visual inspection only', 'Smell test'],
+          correctAnswer: 1
+        }
+      ],
+      model6: [ // Awaken Etched Disposable
+        {
+          id: 'hotspot1',
+          label: '1',
+          question: 'What makes the Awaken Etched Disposable different from standard disposables in terms of design and performance?',
+          options: ['Lower price point', 'Enhanced airflow, ceramic core technology, and etched chamber precision', 'Larger battery only', 'Standard design with basic features'],
+          correctAnswer: 1
+        },
+        {
+          id: 'hotspot2',
+          label: '2',
+          question: 'How should a customer be advised to store their Awaken Etched Disposable to maintain optimal vapor quality and prevent clogging?',
+          options: ['Any position is fine', 'Store upright, room temperature, avoid direct sunlight', 'Refrigerate immediately', 'Keep in hot car'],
+          correctAnswer: 1
+        },
+        {
+          id: 'hotspot3',
+          label: '3',
+          question: 'When a customer reports low vapor production, what steps should be checked before concluding the device is faulty?',
+          options: ['Replace immediately', 'Check battery charge, airflow path, preheat function, and oil viscosity', 'Shake vigorously', 'Return to store'],
+          correctAnswer: 1
+        }
+      ]
+    };
+
+    let answers = {};
+    let currentHotspot = null;
+
+    // Switch model function
+    function switchModel(modelId) {
+      console.log('Switching to:', modelId);
+      currentModel = modelId;
+      
+      // Update model
+      const modelEntity = document.getElementById('mainModel');
+      modelEntity.setAttribute('gltf-model', models[modelId].file);
+      
+      // Reset answers
+      answers = {};
+      document.getElementById('progress').textContent = '0';
+      
+      // Reset hotspot colors and status
+      for (let i = 1; i <= 3; i++) {
+        document.getElementById(`hotspot${i}`).setAttribute('color', '#3b82f6');
+        document.getElementById(`status${i}`).setAttribute('value', '');
+      }
+      
+      // Re-initialize hotspots with new questions
+      const currentQuestions = modelQuestions[currentModel];
+      currentQuestions.forEach(hotspot => {
+        const element = document.getElementById(hotspot.id);
+        if (element) {
+          // Remove old listeners by cloning
+          const newElement = element.cloneNode(true);
+          element.parentNode.replaceChild(newElement, element);
+          
+          // Add new listener with updated question
+          newElement.addEventListener('click', () => {
+            console.log('Clicked hotspot:', hotspot.id);
+            showQuestion(hotspot);
+          });
+        }
+      });
+      
+      // Update button states
+      document.querySelectorAll('.model-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      
+      // Close question card if open
+      document.getElementById('questionCard').classList.remove('active');
+      currentHotspot = null;
+    }
+
+    // Wait for A-Frame scene to be ready
+    const scene = document.querySelector('a-scene');
+    
+    if (scene.hasLoaded) {
+      init();
+    } else {
+      scene.addEventListener('loaded', init);
+    }
+
+    function init() {
+      console.log('A-Frame scene loaded!');
+      
+      // Add click listeners to hotspots
+      const currentQuestions = modelQuestions[currentModel];
+      currentQuestions.forEach(hotspot => {
+        const element = document.getElementById(hotspot.id);
+        if (element) {
+          element.addEventListener('click', () => {
+            console.log('Clicked hotspot:', hotspot.id);
+            showQuestion(hotspot);
+          });
+          element.setAttribute('material', 'shader: flat');
+        }
+      });
+    }
+
+    function showQuestion(hotspot) {
+      currentHotspot = hotspot;
+      const card = document.getElementById('questionCard');
+      const title = document.getElementById('questionTitle');
+      const text = document.getElementById('questionText');
+      const optionsContainer = document.getElementById('options');
+
+      title.textContent = `Component ${hotspot.label}`;
+      text.textContent = hotspot.question;
+
+      // Clear and populate options
+      optionsContainer.innerHTML = '';
+      hotspot.options.forEach((option, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = option;
+        btn.onclick = () => handleAnswer(index);
+        optionsContainer.appendChild(btn);
+      });
+
+      // Highlight selected hotspot
+      document.getElementById(hotspot.id).setAttribute('color', '#fbbf24');
+      card.classList.add('active');
+    }
+
+    function handleAnswer(optionIndex) {
+      const isCorrect = optionIndex === currentHotspot.correctAnswer;
+      const hotspotId = currentHotspot.id;
+      
+      answers[hotspotId] = isCorrect ? 'correct' : 'incorrect';
+
+      // Update hotspot color
+      const color = isCorrect ? '#4ade80' : '#ef4444';
+      document.getElementById(hotspotId).setAttribute('color', color);
+
+      // Update status text
+      const statusNum = hotspotId.replace('hotspot', '');
+      const statusEl = document.getElementById(`status${statusNum}`);
+      statusEl.setAttribute('value', isCorrect ? '✓' : '✗');
+      statusEl.setAttribute('color', color);
+
+      // Update progress
+      document.getElementById('progress').textContent = Object.keys(answers).length;
+
+      // Hide question card after delay
+      setTimeout(() => {
+        document.getElementById('questionCard').classList.remove('active');
+        currentHotspot = null;
+      }, 1500);
+    }
+  </script>
+</body>
+</html>
