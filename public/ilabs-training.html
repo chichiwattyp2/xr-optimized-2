@@ -238,12 +238,11 @@
   <!-- A-Frame Scene -->
   <a-scene>
     <!-- Camera -->
-   
-<a-entity id="camera" camera position="0 1.6 5" look-controls
+    <a-entity id="camera" camera position="0 1.6 5" look-controls
               cursor="rayOrigin: mouse"
               raycaster="objects: .clickable"></a-entity>
               
-              <!-- Lighting -->
+    <!-- Lighting -->
     <a-entity light="type: ambient; intensity: 0.8"></a-entity>
     <a-entity light="type: directional; intensity: 1" position="2 4 2"></a-entity>
     <a-entity light="type: point; intensity: 0.5" position="-2 2 2"></a-entity>
@@ -260,7 +259,7 @@
     <!-- TOP Hotspot -->
     <a-sphere
       id="hotspot1"
-       class="clickable"
+      class="clickable"
       position="0 2 0"
       radius="0.1"
       color="#3b82f6"
@@ -272,7 +271,7 @@
     <!-- MIDDLE Hotspot -->
     <a-sphere
       id="hotspot2"
-       class="clickable"
+      class="clickable"
       position="0 1 0"
       radius="0.1"
       color="#3b82f6"
@@ -284,7 +283,7 @@
     <!-- BOTTOM Hotspot -->
     <a-sphere
       id="hotspot3"
-       class="clickable"
+      class="clickable"
       position="0 0 0"
       radius="0.1"
       color="#3b82f6"
@@ -293,8 +292,9 @@
     <a-text value="3" position="0 0.15 0" align="center" color="#ffffff" width="1.5"></a-text>
     <a-text id="status3" value="" position="0.15 0 0" align="center" width="2"></a-text>
 
-    <!-- Ground -->
+    <!-- Ground (hidden in AR) -->
     <a-plane
+      id="ground"
       position="0 -0.5 0"
       rotation="-90 0 0"
       width="10"
@@ -302,8 +302,8 @@
       color="#1f2937"
     ></a-plane>
 
-    <!-- Sky -->
-    <a-sky color="#0f172a"></a-sky>
+    <!-- Sky (hidden in AR) -->
+    <a-sky id="sky" color="#0f172a"></a-sky>
   </a-scene>
 
   <script>
@@ -552,6 +552,25 @@
           });
           element.setAttribute('material', 'shader: flat');
         }
+      });
+
+      // Hide ground and sky in AR mode
+      const ground = document.getElementById('ground');
+      const sky = document.getElementById('sky');
+      
+      scene.addEventListener('enter-vr', () => {
+        // Check if we're in AR mode (not VR)
+        if (scene.is('ar-mode')) {
+          console.log('Entering AR mode - hiding environment');
+          ground.setAttribute('visible', 'false');
+          sky.setAttribute('visible', 'false');
+        }
+      });
+
+      scene.addEventListener('exit-vr', () => {
+        console.log('Exiting AR mode - showing environment');
+        ground.setAttribute('visible', 'true');
+        sky.setAttribute('visible', 'true');
       });
     }
 
