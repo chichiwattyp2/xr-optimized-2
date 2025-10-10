@@ -5,198 +5,264 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>iLabs WebXR Training</title>
   <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.6.0/dist/aframe-extras.min.js"></script>
+  <script src="https://unpkg.com/aframe-environment-component@1.5./dist/aframe-environment-component.min.js"></script>
+ 
   <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    }
+  body {
+  margin: 0;
+  overflow: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #000000;
+}
 
-    #ui-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      pointer-events: none;
-      z-index: 100;
-    }
+#ui-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 100;
+}
 
-    .header {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      padding: 20px;
-      background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
-      color: white;
-    }
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 24px 32px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0) 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 
-    .header h1 {
-      margin: 0;
-      font-size: 24px;
-      font-weight: bold;
-    }
+.header-logo {
+  width: 60px;
+  height: 60px;
+  filter: invert(1);
+  flex-shrink: 0;
+}
 
-    .header p {
-      margin: 5px 0 0 0;
-      opacity: 0.8;
-      font-size: 14px;
-    }
+.header-content {
+  flex: 1;
+}
 
-    .model-selector {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: rgba(15, 23, 42, 0.9);
-      padding: 16px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.1);
-      pointer-events: all;
-    }
+.header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+}
 
-    .model-selector-label {
-      color: white;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
+.header p {
+  margin: 8px 0 0 0;
+  opacity: 0.6;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+  color: #ffffff;
+}
 
-    .model-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+.model-selector {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  pointer-events: all;
+}
 
-    .model-btn {
-      padding: 10px 16px;
-      background: rgba(59, 130, 246, 0.2);
-      border: 1px solid rgba(59, 130, 246, 0.5);
-      border-radius: 8px;
-      color: white;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 500;
-      transition: all 0.2s;
-      text-align: left;
-    }
+.model-selector-label {
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 16px;
+}
 
-    .model-btn:hover {
-      background: rgba(59, 130, 246, 0.4);
-      transform: translateX(2px);
-    }
+.model-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-    .model-btn.active {
-      background: rgba(251, 191, 36, 0.3);
-      border-color: #fbbf24;
-      font-weight: 600;
-    }
+.model-btn {
+  padding: 12px 18px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+}
 
-    .progress {
-      position: absolute;
-      top: 220px;
-      right: 20px;
-      background: rgba(15, 23, 42, 0.9);
-      padding: 12px 16px;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.1);
-      color: white;
-    }
+.model-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateX(3px);
+}
 
-    .progress-label {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
+.model-btn.active {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
+  font-weight: 500;
+}
 
-    .progress-count {
-      color: #94a3b8;
-      font-size: 24px;
-      font-weight: bold;
-    }
+.progress {
+  position: absolute;
+  top: 220px;
+  left: 24px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 16px 20px;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: #ffffff;
+}
 
-    .question-card {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      max-width: 500px;
-      background: rgba(15, 23, 42, 0.95);
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-      border: 1px solid rgba(255,255,255,0.1);
-      display: none;
-      pointer-events: all;
-    }
+.progress-label {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
 
-    .question-card.active {
-      display: block;
-      animation: slideUp 0.3s ease-out;
-    }
+.progress-count {
+  color: #ffffff;
+  font-size: 32px;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
 
-    .question-card h3 {
-      margin: 0 0 16px 0;
-      color: #fbbf24;
-      font-size: 18px;
-      font-weight: 600;
-    }
+.question-card {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 520px;
+  background: rgba(0, 0, 0, 0.95);
+  border-radius: 2px;
+  padding: 28px 32px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  display: none;
+  pointer-events: all;
+}
 
-    .question-card p {
-      margin: 0 0 20px 0;
-      color: white;
-      font-size: 16px;
-      line-height: 1.5;
-    }
+.question-card.active {
+  display: block;
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+.question-card h3 {
+  margin: 0 0 18px 0;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
 
-    .option-btn {
-      padding: 14px 20px;
-      background: rgba(59, 130, 246, 0.2);
-      border: 1px solid rgba(59, 130, 246, 0.5);
-      border-radius: 8px;
-      color: white;
-      cursor: pointer;
-      font-size: 15px;
-      text-align: left;
-      transition: all 0.2s;
-      font-weight: 500;
-    }
+.question-card p {
+  margin: 0 0 24px 0;
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 1.7;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+  opacity: 0.9;
+}
 
-    .option-btn:hover {
-      background: rgba(59, 130, 246, 0.4);
-      transform: translateX(4px);
-    }
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateX(-50%) translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-      }
-    }
+.option-btn {
+  padding: 16px 22px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 400;
+  letter-spacing: 0.3px;
+}
 
-    @media (max-width: 768px) {
-      .model-selector {
-        top: auto;
-        bottom: 20px;
-        left: 20px;
-        right: auto;
-      }
-      .progress {
-        top: 20px;
-        right: 20px;
-      }
-    }
+.option-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateX(6px);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .header-logo {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .header h1 {
+    font-size: 22px;
+  }
+  
+  .model-selector {
+    top: auto;
+    bottom: 24px;
+    left: 20px;
+    right: auto;
+    padding: 16px;
+  }
+  
+  .progress {
+    top: 20px;
+    left: 20px;
+    padding: 12px 16px;
+  }
+  
+  .question-card {
+    padding: 24px;
+    max-width: 100%;
+  }
+}
   </style>
 </head>
 <body>
@@ -204,8 +270,11 @@
   <div id="ui-overlay">
     <!-- Header -->
     <div class="header">
-      <h1>iLabs Training</h1>
-      <p>Select a model and click components to test your knowledge</p>
+      <img src="ilabs-logo.png" alt="iLabs Logo" class="header-logo">
+      <div class="header-content">
+        <h1>iLabs Training</h1>
+        <p>Select a model and click components to test your knowledge</p>
+      </div>
     </div>
 
     <!-- Model Selector -->
@@ -236,26 +305,24 @@
   </div>
 
   <!-- A-Frame Scene -->
-  <a-scene>
+   <a-scene fog="type: linear; color: #222222; far: 20;">
     <!-- Camera -->
-    <a-entity id="camera" camera position="0 1.6 5" look-controls
-              cursor="rayOrigin: mouse"
-              raycaster="objects: .clickable"></a-entity>
-              
+    <a-entity id="camera" camera position="0 1.6 5"
+    look-controls
+    wasd-controls
+    cursor="rayOrigin: mouse"
+    raycaster="objects: .clickable"></a-entity>
+      <a-assets>
+        <img id="floor" src="assets/floor.png"/>
+      </a-assets>         
+
     <!-- Lighting -->
     <a-entity light="type: ambient; intensity: 0.8"></a-entity>
     <a-entity light="type: directional; intensity: 1" position="2 4 2"></a-entity>
     <a-entity light="type: point; intensity: 0.5" position="-2 2 2"></a-entity>
 
     <!-- 3D Models -->
-    <a-entity 
-      id="mainModel"
-      gltf-model="EXPORT2.glb"
-      position="0 0 0"
-      scale="1 1 1"
-      rotation="0 0 0"
-    ></a-entity>
-
+   <a-entity id="mainModel" gltf-model="tubes.glb" rotation="0 -45 0" position="-1.02793 0 -1.07418"></a-entity>
     <!-- TOP Hotspot -->
     <a-sphere
       id="hotspot1"
@@ -293,24 +360,17 @@
     <a-text id="status3" value="" position="0.15 0 0" align="center" width="2"></a-text>
 
     <!-- Ground (hidden in AR) -->
-    <a-plane
-      id="ground"
-      position="0 -0.5 0"
-      rotation="-90 0 0"
-      width="10"
-      height="10"
-      color="#1f2937"
-    ></a-plane>
 
-    <!-- Sky (hidden in AR) -->
-    <a-sky id="sky" color="#0f172a"></a-sky>
+  <a-plane  id="ground" material="src:#floor; repeat: 700 700; transparent: true;" height="500" width="500" rotation="-90 0 0"></a-plane>
+ 
+  <a-sky color="#FFFFFF"></a-sky>
   </a-scene>
 
   <script>
     // MODEL CONFIGURATION
     const models = {
       model1: {
-        file: 'EXPORT2.glb',
+        file: 'tubes.glb',
         name: 'Awaken Etched Cartridge'
       },
       model2: {
