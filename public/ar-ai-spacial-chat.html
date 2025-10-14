@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>XRBlocks AR Chat - Visual Communication</title>
+    <title>AR Chat - Visual Communication</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <style>
@@ -48,6 +48,63 @@
         button.active {
             background: rgba(118, 75, 162, 1);
         }
+        #inputContainer {
+            position: absolute;
+            bottom: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        #messageInput {
+            padding: 10px 15px;
+            width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(102, 126, 234, 0.5);
+            border-radius: 5px;
+            outline: none;
+            font-size: 14px;
+        }
+        #messageInput:focus {
+            border-color: rgba(102, 126, 234, 1);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        #messageInput::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        #speakerSelect {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(102, 126, 234, 0.5);
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+        }
+        #speakerSelect option {
+            background: #1a1a1a;
+        }
+        #sendBtn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        #sendBtn:hover {
+            transform: scale(1.05);
+        }
+        #sendBtn:active {
+            transform: scale(0.95);
+        }
     </style>
     <!-- Using stable Three.js version that's known to work -->
     <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
@@ -63,11 +120,23 @@
 <body>
     <div id="info">
         <h2>🎭 XRBlocks AR Chat</h2>
-        <p>Click anywhere to place messages • Press buttons to toggle features</p>
+        <p>Type a message • Enter to send • ↑↓ for history • Alt+1-5 for speaker • Ctrl+L to clear • Click in 3D space</p>
+    </div>
+    
+    <div id="inputContainer">
+        <select id="speakerSelect">
+            <option value="You">👤 You</option>
+            <option value="Alice">👩 Alice</option>
+            <option value="Bob">👨 Bob</option>
+            <option value="AI">🤖 AI Assistant</option>
+            <option value="System">⚙️ System</option>
+        </select>
+        <input type="text" id="messageInput" placeholder="Type your message here..." maxlength="200" autofocus>
+        <button id="sendBtn">Send 📤</button>
     </div>
     
     <div id="controls">
-        <button id="addMessage">Add Message</button>
+        <button id="addMessage">Random Message</button>
         <button id="clearAll">Clear All</button>
         <button id="animateBtn">Animate</button>
         <button id="demoMode">Start Demo</button>
@@ -89,6 +158,8 @@
                 this.raycaster = new THREE.Raycaster();
                 this.mouse = new THREE.Vector2();
                 this.demoMode = false;
+                this.messageHistory = []; // Store sent messages for history
+                this.historyIndex = -1; // Current position in history
                 this.demoMessages = [
                     { text: "Welcome to AR Chat!", speaker: "System", color: 0x00ff00 },
                     { text: "How's the weather today?", speaker: "Alice", color: 0x667eea },
@@ -280,20 +351,85 @@
                 canvas.width = 512;
                 canvas.height = 128;
                 
+                // Speaker-specific colors
+                let gradientColors = ['rgba(102, 126, 234, 0.9)', 'rgba(118, 75, 162, 0.9)'];
+                switch(speaker) {
+                    case 'You':
+                        gradientColors = ['rgba(102, 126, 234, 0.9)', 'rgba(118, 75, 162, 0.9)'];
+                        break;
+                    case 'Alice':
+                        gradientColors = ['rgba(240, 147, 251, 0.9)', 'rgba(245, 87, 108, 0.9)'];
+                        break;
+                    case 'Bob':
+                        gradientColors = ['rgba(88, 193, 238, 0.9)', 'rgba(33, 150, 243, 0.9)'];
+                        break;
+                    case 'AI':
+                    case 'AI Assistant':
+                        gradientColors = ['rgba(0, 255, 136, 0.9)', 'rgba(0, 200, 83, 0.9)'];
+                        break;
+                    case 'System':
+                        gradientColors = ['rgba(255, 193, 7, 0.9)', 'rgba(255, 152, 0, 0.9)'];
+                        break;
+                    default:
+                        gradientColors = ['rgba(156, 39, 176, 0.9)', 'rgba(103, 58, 183, 0.9)'];
+                }
+                
                 // Draw background
                 const gradient = context.createLinearGradient(0, 0, canvas.width, 0);
-                gradient.addColorStop(0, 'rgba(102, 126, 234, 0.9)');
-                gradient.addColorStop(1, 'rgba(118, 75, 162, 0.9)');
+                gradient.addColorStop(0, gradientColors[0]);
+                gradient.addColorStop(1, gradientColors[1]);
                 context.fillStyle = gradient;
                 context.roundRect(10, 10, canvas.width - 20, canvas.height - 20, 15);
                 context.fill();
                 
+                // Draw border glow
+                context.shadowColor = gradientColors[0];
+                context.shadowBlur = 10;
+                context.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                context.lineWidth = 2;
+                context.roundRect(10, 10, canvas.width - 20, canvas.height - 20, 15);
+                context.stroke();
+                context.shadowBlur = 0;
+                
                 // Draw text
                 context.fillStyle = '#ffffff';
-                context.font = 'bold 28px Arial';
+                context.font = 'bold 24px Arial';
                 context.fillText(`${speaker}:`, 30, 45);
-                context.font = '24px Arial';
-                context.fillText(text.substring(0, 30) + (text.length > 30 ? '...' : ''), 30, 80);
+                context.font = '20px Arial';
+                
+                // Word wrap for longer messages
+                const maxWidth = canvas.width - 60;
+                const words = text.split(' ');
+                let line = '';
+                let y = 75;
+                const lineHeight = 25;
+                
+                for (let word of words) {
+                    const testLine = line + word + ' ';
+                    const metrics = context.measureText(testLine);
+                    
+                    if (metrics.width > maxWidth && line !== '') {
+                        context.fillText(line.trim(), 30, y);
+                        line = word + ' ';
+                        y += lineHeight;
+                        if (y > canvas.height - 20) break; // Stop if text goes beyond canvas
+                    } else {
+                        line = testLine;
+                    }
+                }
+                if (y <= canvas.height - 20) {
+                    context.fillText(line.trim(), 30, y);
+                }
+                
+                // Add timestamp
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString('en-US', { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                });
+                context.font = '12px Arial';
+                context.fillStyle = 'rgba(255, 255, 255, 0.6)';
+                context.fillText(timeStr, canvas.width - 80, canvas.height - 20);
                 
                 // Create texture and sprite
                 const texture = new THREE.CanvasTexture(canvas);
@@ -318,6 +454,19 @@
                     );
                 }
                 
+                // Add entrance animation
+                messageGroup.scale.set(0, 0, 0);
+                const targetScale = 1;
+                const animateIn = () => {
+                    if (messageGroup.scale.x < targetScale) {
+                        messageGroup.scale.x += 0.1;
+                        messageGroup.scale.y += 0.1;
+                        messageGroup.scale.z += 0.1;
+                        requestAnimationFrame(animateIn);
+                    }
+                };
+                animateIn();
+                
                 this.scene.add(messageGroup);
                 this.messages.push({
                     group: messageGroup,
@@ -325,7 +474,8 @@
                     speaker: speaker,
                     sprite: sprite,
                     startOpacity: 1,
-                    age: 0
+                    age: 0,
+                    timestamp: Date.now()
                 });
                 
                 // Limit messages
@@ -336,6 +486,34 @@
                 
                 // Add visual effect
                 this.createMessageEffect(messageGroup.position);
+                
+                // Play sound effect (using Web Audio API)
+                this.playMessageSound();
+            }
+            
+            playMessageSound() {
+                try {
+                    // Create a simple beep sound
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.value = 800;
+                    oscillator.type = 'sine';
+                    
+                    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                    gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.2);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.2);
+                } catch (e) {
+                    // Silently fail if audio is not supported
+                    console.log('Audio not available');
+                }
             }
 
             createMessageEffect(position) {
@@ -391,6 +569,118 @@
             }
 
             setupEventListeners() {
+                // Keyboard input handling
+                const messageInput = document.getElementById('messageInput');
+                const speakerSelect = document.getElementById('speakerSelect');
+                const sendBtn = document.getElementById('sendBtn');
+                
+                // Send message function
+                const sendMessage = () => {
+                    const text = messageInput.value.trim();
+                    const speaker = speakerSelect.value;
+                    
+                    if (text) {
+                        this.addMessage(text, speaker);
+                        
+                        // Add to history if it's from "You"
+                        if (speaker === 'You') {
+                            this.messageHistory.push(text);
+                            this.historyIndex = this.messageHistory.length;
+                        }
+                        
+                        messageInput.value = '';
+                        messageInput.focus(); // Keep focus on input
+                        
+                        // Visual feedback on send button
+                        sendBtn.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            sendBtn.style.transform = 'scale(1)';
+                        }, 100);
+                        
+                        // Auto-response in demo mode
+                        if (this.demoMode && speaker === 'You') {
+                            setTimeout(() => {
+                                const responses = [
+                                    "That's interesting! Tell me more.",
+                                    "I see what you mean.",
+                                    "Great point!",
+                                    "Let me visualize that for you...",
+                                    "Fascinating perspective!"
+                                ];
+                                const response = responses[Math.floor(Math.random() * responses.length)];
+                                this.addMessage(response, 'AI');
+                            }, 1500);
+                        }
+                    }
+                };
+                
+                // Send on Enter key
+                messageInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        sendMessage();
+                    }
+                });
+                
+                // Navigate message history with arrow keys
+                messageInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        if (this.historyIndex > 0) {
+                            this.historyIndex--;
+                            messageInput.value = this.messageHistory[this.historyIndex];
+                        }
+                    } else if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        if (this.historyIndex < this.messageHistory.length - 1) {
+                            this.historyIndex++;
+                            messageInput.value = this.messageHistory[this.historyIndex];
+                        } else {
+                            this.historyIndex = this.messageHistory.length;
+                            messageInput.value = '';
+                        }
+                    }
+                });
+                
+                // Send on button click
+                sendBtn.addEventListener('click', sendMessage);
+                
+                // Quick speaker change with keyboard shortcuts
+                document.addEventListener('keydown', (e) => {
+                    // Alt + 1-5 to change speaker
+                    if (e.altKey) {
+                        switch(e.key) {
+                            case '1':
+                                speakerSelect.value = 'You';
+                                break;
+                            case '2':
+                                speakerSelect.value = 'Alice';
+                                break;
+                            case '3':
+                                speakerSelect.value = 'Bob';
+                                break;
+                            case '4':
+                                speakerSelect.value = 'AI';
+                                break;
+                            case '5':
+                                speakerSelect.value = 'System';
+                                break;
+                        }
+                    }
+                    
+                    // Ctrl + L to clear all
+                    if (e.ctrlKey && e.key === 'l') {
+                        e.preventDefault();
+                        this.clearMessages();
+                    }
+                    
+                    // Ctrl + D for demo mode
+                    if (e.ctrlKey && e.key === 'd') {
+                        e.preventDefault();
+                        this.startDemo();
+                    }
+                });
+                
+                // Random message button
                 document.getElementById('addMessage').addEventListener('click', () => {
                     const messages = [
                         "Hello XR World!",
@@ -408,6 +698,7 @@
                 document.getElementById('clearAll').addEventListener('click', () => {
                     this.clearMessages();
                     this.demoMode = false;
+                    messageInput.focus();
                 });
 
                 document.getElementById('animateBtn').addEventListener('click', (e) => {
@@ -419,6 +710,9 @@
                     this.startDemo();
                     e.target.classList.add('active');
                 });
+                
+                // Focus input on load
+                messageInput.focus();
             }
 
             onMouseMove(event) {
