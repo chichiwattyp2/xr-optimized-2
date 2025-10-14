@@ -5,6 +5,7 @@ export default function Landing() {
   const [filter, setFilter] = useState("");
 
   const pages = [
+    { name: "AR/AI Spacial Chat", path: "/ar-ai-spacial-chat.html" },
     { name: "test", path: "/menutest.html" },
      { name: "Training", path: "/ilabs-training.html" },
     { name: "music player", path: "/aframe-webxr-synth.html" },
