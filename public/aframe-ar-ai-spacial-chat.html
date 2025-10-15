@@ -25,7 +25,29 @@
   <!-- Custom Components -->
   <script src="js/htmlbuild.js"></script>
   <script src="js/travel-node-component.js"></script>
+ <script>
+   AFRAME.registerComponent('showbutton', {
+  schema: { target: { type: 'selector' } },
+  init: function () {
+    let show = false;
+    this.el.addEventListener("click", () => {
+      if (!this.data.target) {
+        console.warn("Target not found for showbutton component");
+        return;
+      }
+      if (show) {
+        this.data.target.setAttribute("visible", "false");
+        this.el.querySelector("a").innerHTML = "Show Box";
+      } else {
+        this.data.target.setAttribute("visible", "true");
+        this.el.querySelector("a").innerHTML = "Hide Box";
+      }
+      show = !show;
+    });
+  }
+});
 
+    </script>
   <style>
     /* ============================================
        BASE STYLES
@@ -878,20 +900,7 @@ Type 'help' for commands
     // A-FRAME CUSTOM COMPONENTS
     // ============================================
 
-    // Show/Hide Button Component
-    AFRAME.registerComponent('showbutton', {
-      schema: { target: { type: 'selector' } },
-      init: function () {
-        let show = false;
-        this.el.addEventListener("click", () => {
-          if (!this.data.target) return;
-          show = !show;
-          this.data.target.setAttribute("visible", show.toString());
-          const link = this.el.querySelector("a");
-          if (link) link.innerHTML = show ? "Hide Box" : "Show Box";
-        });
-      }
-    });
+    
 
     // Color Changer Component
     AFRAME.registerComponent('color-changer', {
