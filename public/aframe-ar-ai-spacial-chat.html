@@ -552,7 +552,7 @@
 
     <!-- Header -->
     <div class="header">
-      <img src="ilabs-logo.png" alt="iLabs Logo" class="header-logo">
+      <img src="training/ilabs-logo.png" alt="iLabs Logo" class="header-logo">
       <div class="header-content">
         <h1>iLabs Training</h1>
         <p>Select a model and click components to test your knowledge</p>
@@ -600,9 +600,12 @@
               animation__fade="property: opacity; from: 0; to: 1; dur: 300">
             </a-mixin>
             <audio id="message-sound" src="sound.wav"></audio>
-            <img id="floor" src="floor.png">
+            <img id="floor" src="training/assets/floor.png">
             <img id="dawn" crossorigin="anonymous" src="dawn.jpeg">
             <a-asset-item id="villa" src="villa.glb"></a-asset-item>
+             <a-asset-item id="tvstage" src="tvstage.glb"></a-asset-item>
+              <a-asset-item id="tvshelf" src="tvshelf.glb"></a-asset-item>
+              <a-asset-item id="couch" src="couch.glb"></a-asset-item>
             <audio id="click-sound" crossorigin="anonymous" src="click.ogg"></audio>
           </a-assets>
 
@@ -645,34 +648,24 @@
           <a-entity id="effects-container"></a-entity>
 
           <!-- Camera Rig -->
-          <a-entity id="rig" movement-controls="speed: 0.2" position="15.941 1.878 -15.677">
-            <a-entity id="camera" camera position="-0.908 1.6 9.084" look-controls wasd-controls 
-              shooter click-to-shoot rotation="1.146 -9.282 0">
-              <a-cursor color="#F0F0F0" raycaster></a-cursor>
-            </a-entity>
+          <a-entity id="rig" movement-controls="speed: 0.2" position="15.941 1.878 -15.677" gamepad-controls="" trackpad-controls="" keyboard-controls="" touch-controls="">
+            <a-entity id="camera" camera="" position="-0.908 1.42048 9.084" look-controls="" wasd-controls="" shooter="" click-to-shoot="" rotation="-5.500394833255904 -32.54400276343093 0">
+              <a-cursor color="#F0F0F0" raycaster=""></a-cursor>
+            <a-text position="0 -0.1 -1" width="1" align="center" color="lavender"></a-text></a-entity>
           </a-entity>
 
-          <!-- AI Assistant Avatar -->
-          <a-entity id="ai-assistant" position="20.108 -0.074 -14.296" scale="7 7 7" rotation="0 300 0">
-            <a-entity id="avatar-model" 
-              gltf-model="https://models.readyplayer.me/68efc63e34d7560bffd3e9cc.glb" 
-              scale="0.3 0.3 0.3" rotation="0 390.32 0"
-              animation="dur: 20000; easing: linear; loop: true; property: rotation; to: 0 540 0">
+           <!-- AI Assistant Avatar -->
+       <a-entity id="ai-assistant" position="12.26628 -0.0712 -12.84397" scale="7 7 7" rotation="0 300 0" look-at="#camera">
+            <a-entity id="avatar-model" gltf-model="https://models.readyplayer.me/68efc63e34d7560bffd3e9cc.glb" scale="0.3 0.3 0.3" rotation="0 425.74476559982156 0" animation="dur: 20000; easing: linear; loop: true; property: rotation; to: 0 540 0">
             </a-entity>
             
-            <a-box id="avatar-mouth" position="0 0.15 0.12" width="0.08" height="0.02" depth="0.02" 
-              color="#FF6B9D" material="emissive: #FF6B9D; emissiveIntensity: 0.5">
+            <a-box id="avatar-mouth" position="0 0.15 0.12" width="0.08" height="0.02" depth="0.02" color="#FF6B9D" material="emissive: #FF6B9D; emissiveIntensity: 0.5">
             </a-box>
             
-            <a-sphere id="avatar-status" position="0 0.613 0" radius="0.05" color="#00ff88" 
-              material="emissive: #00ff88; emissiveIntensity: 0.5" 
-              animation="dir: alternate; loop: true; property: scale; to: 1.2 1.2 1.2">
+            <a-sphere id="avatar-status" position="0 0.66585 0" radius="0.05" color="#00ff88" material="emissive: #00ff88; emissiveIntensity: 0.5" animation="dir: alternate; loop: true; property: scale; to: 1.2 1.2 1.2">
             </a-sphere>
             
-            <a-text value="AI Assistant" align="center" position="0 0.65 0" scale="0.5 0.5 0.5" color="#ffffff">
-            </a-text>
           </a-entity>
-
           <!-- Lighting -->
           <a-entity light="type: ambient; intensity: 0.5"></a-entity>
           <a-entity light="type: directional; intensity: 0.8; castShadow: true" position="-2 5 2"></a-entity>
@@ -682,7 +675,7 @@
 
           <!-- Test Area with Hotspots -->
           <a-entity id="testarea" position="15.374 1.354 -0.290" class="target" rotation="0 180 0">
-            <a-entity id="mainModel" gltf-model="etcheddispo.glb" rotation="0 -45 0" position="-1.028 0 -1.074">
+            <a-entity id="mainModel" gltf-model="training/etcheddispo.glb" rotation="0 -45 0" position="-1.028 0 -1.074">
             </a-entity>
 
             <!-- Hotspot 1 -->
@@ -711,8 +704,8 @@
           </a-entity>
 
           <!-- HTML Content Panels -->
-          <a-entity id="html stuff" class="clickable" position="14.944 0.735 -7.691">
-            <a-entity id="menu-left" class="screen menu dark" htmlembed position="-2.712 2.5 -4.476" rotation="0 45 0">
+       <a-entity id="html stuff" class="clickable" position="16.39054 0.67283 -10.45345" rotation="0 -9 0">
+            <a-entity id="menu-left" class="screen menu dark" htmlembed="" position="-2.712 2.5 -4.476" rotation="0 45 0" style="display: none; position: absolute; top: 0px; left: 0px; overflow: hidden;">
               <h2>Menu</h2>
               <ul>
                 <li><a href="#" class="button">Home</a></li>
@@ -722,8 +715,8 @@
               </ul>
             </a-entity>
 
-            <a-entity id="main" class="screen dark main" htmlembed position="0 2.5 -5">
-              <div id="page1">
+            <a-entity id="main" class="screen dark main" htmlembed="" position="0 2.5 -5" style="display: none; position: absolute; top: 0px; left: 0px; overflow: hidden;">
+              <div id="page1" class="activehack">
                 <h1>iLabs - Cannabis Products Delivered Nationwide</h1>
                 <p>Shop edibles, oils, topicals, vape pens, disposable vapes, cartridges, capsules, and dabs, delivered throughout South Africa.</p>
                 <p>Explore best sellers from our house brands (including Awaken) and discover limited drops.</p>
@@ -738,7 +731,7 @@
                   <li><strong>Formats:</strong> Tinctures, softgels, creams, balms, specialty oils</li>
                   <li><strong>Highlights:</strong> Nationwide delivery, clear labeling, consistent dosing</li>
                 </ul>
-                <div class="code">Shop > Wellness > Choose category > Select format > Add to cart</div>
+                <div class="code">Shop &gt; Wellness &gt; Choose category &gt; Select format &gt; Add to cart</div>
                 <a href="#" class="button prev">Prev Page</a>
                 <a href="#slide3" class="button next">Next Page</a>
               </div>
@@ -766,7 +759,7 @@
               </div>
             </a-entity>
 
-            <a-entity id="links" class="screen menu dark" htmlembed position="2.712 2.5 -4.476" rotation="0 -45 0">
+            <a-entity id="links" class="screen menu dark" htmlembed="" position="2.712 2.5 -4.476" rotation="0 -45 0" style="display: none; position: absolute; top: 0px; left: 0px; overflow: hidden;">
               <h2>Links</h2>
               <ul>
                 <li><a class="button" href="https://ilabs.co.za/">Shop iLabs</a></li>
@@ -845,16 +838,21 @@ Type 'help' for commands
 
           <!-- Villa Model -->
           <a-gltf-model src="#villa" position="-15.793 -7.535 6.401"></a-gltf-model>
+          
+           <a-gltf-model src="#tvshelf" position="-0.29334 6.98918 -15.49546" gltf-model="tvshelf.glb" scale="2 2 2" rotation="0 90 0"></a-gltf-model>
+          <!--a-gltf-model src="#fireplace" position="-11.53904 -0.28765 0.95988" gltf-model="fireplace.glb" rotation="0 90 0"></a-gltf-model-->
+            <a-gltf-model src="#couch" position="10.21077 7.5887 -7.22961" gltf-model="couch.glb" scale="2 2 2" rotation="0 -90 0"></a-gltf-model>
+         <a-gltf-model src="#couch2" position="25.11123 0.21024 0.96267" gltf-model="couch2.glb" scale="2 2 1.48" rotation="0 180 0"></a-gltf-model> 
+          <!--a-gltf-model src="#tvstage" position="15.793 -23.54995 24.9557" gltf-model="tvstage.glb" scale="0.3 0.3 0.3"></a-gltf-model--->
+          <!--houselights--->
 
+<a-entity light="intensity: 0.7; type: ambient" position="8.12253 10.85381 -14.64529"></a-entity>
           <!-- Sky -->
           <a-sky src="#dawn"></a-sky>
 
           <!-- Travel Nodes -->
           <a-entity id="travelnodes" position="15.540 0.492 -7.126">
-            <a-icosahedron position="0.3 1 -4" id="1" color="#FF926B" radius="0.3" 
-              travel-node="axis: x,z; transition: move; animationDur: 100; travelTarget: #camera"
-              sound="on: click; src: click.ogg">
-            </a-icosahedron>
+           
             <a-icosahedron position="-34.259 0.562 -14.618" id="2" color="#FF926B" radius="0.3" 
               travel-node="axis: x,z; transition: move; animationDur: 100; travelTarget: #camera"
               sound="on: click; src: click.ogg">
@@ -984,145 +982,54 @@ Type 'help' for commands
     let currentHotspot = null;
 
     const modelQuestions = {
-      model1: [ // Awaken Etched Cartridge
+      model1: [
         {
           id: 'hotspot1',
           label: '1',
-          question: 'What feature of the Awaken Etched cartridge helps reduce clogging compared to traditional cartridges?',
-          options: ['Wider airway design', 'Ceramic heating element', 'Advanced coil technology', 'Temperature control'],
-          correctAnswer: 0
+          question: 'What feature of the Awaken Etched cartridge helps reduce clogging?',
+          options: ['Wider airway design', 'Ceramic heating', 'Advanced coil technology', 'Temperature control'],
+          correctAnswer: 2
         },
         {
           id: 'hotspot2',
           label: '2',
-          question: 'The cartridge has a dual-airway system — how does that affect airflow and vapor production?',
-          options: ['Restricts airflow', 'Improves airflow and increases vapor', 'No significant effect', 'Reduces vapor temperature'],
+          question: 'How does the dual-airway system affect vapor production?',
+          options: ['Restricts airflow', 'Improves airflow and vapor', 'No effect', 'Reduces temperature'],
           correctAnswer: 1
         },
         {
           id: 'hotspot3',
           label: '3',
-          question: 'What is the minimum battery / connector spec (e.g. thread type) you must match to reliably use an Awaken Etched cartridge?',
-          options: ['510 thread', 'Magnetic adapter', 'USB-C', 'Proprietary connector'],
+          question: 'What thread type does the Awaken Etched cartridge use?',
+          options: ['510 thread', 'Magnetic adapter', 'USB-C', 'Proprietary'],
           correctAnswer: 0
         }
       ],
-      model2: [ // Natural Balance Tincture
+      model2: [
         {
           id: 'hotspot1',
           label: '1',
-          question: 'What is the cannabinoid ratio (e.g. 1:1 CBD : THC, or FECO) used in Natural Balance Tincture?',
+          question: 'What is the cannabinoid ratio in Natural Balance Tincture?',
           options: ['1:1 CBD:THC', 'Full spectrum FECO', 'CBD only', 'THC dominant'],
           correctAnswer: 0
         },
         {
           id: 'hotspot2',
           label: '2',
-          question: 'How is the tincture typically administered (e.g. sublingually, mixed into food), and what factors influence absorption speed?',
-          options: ['Topically applied', 'Sublingually for faster absorption', 'Mixed in water', 'Inhaled as vapor'],
+          question: 'How is the tincture typically administered?',
+          options: ['Topically', 'Sublingually for faster absorption', 'Mixed in water', 'Inhaled'],
           correctAnswer: 1
         },
         {
           id: 'hotspot3',
           label: '3',
-          question: 'What storage conditions (temperature, light exposure) are ideal to preserve potency of the tincture?',
-          options: ['Warm and bright', 'Cool, dark place', 'Refrigerator only', 'Room temperature, direct sunlight'],
+          question: 'What storage conditions preserve tincture potency?',
+          options: ['Warm and bright', 'Cool, dark place', 'Refrigerator only', 'Direct sunlight'],
           correctAnswer: 1
         }
       ],
-      model3: [ // Travelers Disposable
-        {
-          id: 'hotspot1',
-          label: '1',
-          question: 'What are the advantages and disadvantages of a disposable vape device like the Travelers compared with refillable cartridges?',
-          options: ['More expensive, less convenient', 'Convenient, no maintenance but less eco-friendly', 'Requires assembly', 'Better flavor, harder to use'],
-          correctAnswer: 1
-        },
-        {
-          id: 'hotspot2',
-          label: '2',
-          question: 'What safety or waste-management issues should you consider when disposing of a used Travelers disposable device?',
-          options: ['Throw in regular trash', 'Battery recycling and proper disposal', 'Burn it safely', 'No special considerations'],
-          correctAnswer: 1
-        },
-        {
-          id: 'hotspot3',
-          label: '3',
-          question: 'The Travelers line includes different flavor / strain options — what determines which strain a user should choose?',
-          options: ['Price only', 'Desired effects and personal preference', 'Color of packaging', 'Random selection'],
-          correctAnswer: 1
-        }
-      ],
-      model4: [ // Healing Balm
-        {
-          id: 'hotspot1',
-          label: '1',
-          question: 'What are the primary active botanicals (or "nature\'s healers") included in the Healing Balm formula?',
-          options: ['Synthetic compounds', 'CBD, arnica, lavender, calendula', 'Petroleum jelly', 'Alcohol-based'],
-          correctAnswer: 1
-        },
-        {
-          id: 'hotspot2',
-          label: '2',
-          question: 'In which use-cases or conditions (e.g. muscle soreness, skin irritation) is the Healing Balm intended to be applied?',
-          options: ['Internal use only', 'Muscle soreness, skin irritation, inflammation', 'Hair care', 'Dental issues'],
-          correctAnswer: 1
-        },
-        {
-          id: 'hotspot3',
-          label: '3',
-          question: 'How long after application should a user wait before washing the area (or before product absorption is complete)?',
-          options: ['Immediately', '15-30 minutes for full absorption', '24 hours', 'Never wash'],
-          correctAnswer: 1
-        }
-      ],
-      model5: [ // Pug Dab Co
-        {
-          id: 'hotspot1',
-          label: '1',
-          question: 'What kind of concentrate (e.g. shatter, budder, wax, live resin) does Pug Dab Co specialize in?',
-          options: ['Edibles', 'Live resin and premium concentrates', 'Flower only', 'Tinctures'],
-          correctAnswer: 1
-        },
-        {
-          id: 'hotspot2',
-          label: '2',
-          question: 'What is the recommended method for dosing or vaporizing a dab from Pug Dab Co to minimize waste?',
-          options: ['High heat combustion', 'Low-temp dab at 315-450°F', 'Mix with flower', 'Eat directly'],
-          correctAnswer: 1
-        },
-        {
-          id: 'hotspot3',
-          label: '3',
-          question: 'What purity or testing standards (e.g. solvent residue levels) should be verified before using a Pug Dab Co product?',
-          options: ['No testing needed', 'Third-party lab tests for potency and residual solvents', 'Visual inspection only', 'Smell test'],
-          correctAnswer: 1
-        }
-      ],
-      model6: [ // Awaken Etched Disposable
-        {
-          id: 'hotspot1',
-          label: '1',
-          question: 'What makes the Awaken Etched Disposable different from standard disposables in terms of design and performance?',
-          options: ['Lower price point', 'Enhanced airflow, ceramic core technology, and etched chamber precision', 'Larger battery only', 'Standard design with basic features'],
-          correctAnswer: 1
-        },
-        {
-          id: 'hotspot2',
-          label: '2',
-          question: 'How should a customer be advised to store their Awaken Etched Disposable to maintain optimal vapor quality and prevent clogging?',
-          options: ['Any position is fine', 'Store upright, room temperature, avoid direct sunlight', 'Refrigerate immediately', 'Keep in hot car'],
-          correctAnswer: 1
-        },
-        {
-          id: 'hotspot3',
-          label: '3',
-          question: 'When a customer reports low vapor production, what steps should be checked before concluding the device is faulty?',
-          options: ['Replace immediately', 'Check battery charge, airflow path, preheat function, and oil viscosity', 'Shake vigorously', 'Return to store'],
-          correctAnswer: 1
-        }
-      ]
-   };
+      // Add other models...
+    };
 
     function switchModel(modelId) {
       currentModel = modelId;
@@ -1240,8 +1147,8 @@ Type 'help' for commands
         
         this.speakerColors = {
           'You': '#667eea',
-          'Tom': '#f093fb',
-          'Alex': '#58c1ee',
+          'Alice': '#f093fb',
+          'Bob': '#58c1ee',
           'AI': '#00ff88',
           'System': '#ffc107'
         };
@@ -1392,7 +1299,8 @@ Type 'help' for commands
       constructor() {
         // 🔑 IMPORTANT: Replace with your OpenAI API key
         // Get one at: https://platform.openai.com/api-keys
-        this.OPENAI_API_KEY = 'sk-proj-your-actual-key-here' 
+        this.OPENAI_API_KEY = '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';
+        
         this.isSpeaking = false;
         this.isMuted = false;
         this.isListening = false;
