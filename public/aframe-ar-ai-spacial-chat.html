@@ -23,8 +23,8 @@
   <script src="https://unpkg.com/aframe-super-shooter-kit/dist/aframe-super-shooter-kit.min.js"></script>
   
   <!-- Custom Components -->
-  <script src="htmlbuild.js"></script>
-  <script src="travel-node-component.js"></script>
+  <script src="js/htmlbuild.js"></script>
+  <script src="js/travel-node-component.js"></script>
 
   <style>
     /* ============================================
@@ -552,7 +552,7 @@
 
     <!-- Header -->
     <div class="header">
-      <img src="training/ilabs-logo.png" alt="iLabs Logo" class="header-logo">
+      <img src="ilabs-logo.png" alt="iLabs Logo" class="header-logo">
       <div class="header-content">
         <h1>iLabs Training</h1>
         <p>Select a model and click components to test your knowledge</p>
@@ -600,7 +600,7 @@
               animation__fade="property: opacity; from: 0; to: 1; dur: 300">
             </a-mixin>
             <audio id="message-sound" src="sound.wav"></audio>
-            <img id="floor" src="training/assets/floor.png">
+            <img id="floor" src="floor.png">
             <img id="dawn" crossorigin="anonymous" src="dawn.jpeg">
             <a-asset-item id="villa" src="villa.glb"></a-asset-item>
             <audio id="click-sound" crossorigin="anonymous" src="click.ogg"></audio>
@@ -971,12 +971,12 @@ Type 'help' for commands
     // ============================================
 
     const models = {
-      model1: { file: 'training/tubes.glb', name: 'Awaken Etched Cartridge' },
-      model2: { file: 'training/nb.glb', name: 'Natural Balance Tincture' },
-      model3: { file: 'training/EXPORT7.glb', name: 'Travelers Disposable' },
-      model4: { file: 'training/EXPORT9.glb', name: 'Healing Balm' },
-      model5: { file: 'training/pug.glb', name: 'Pug Dab Co' },
-      model6: { file: 'training/etcheddispo.glb', name: 'Awaken Etched Disposable' }
+      model1: { file: 'tubes.glb', name: 'Awaken Etched Cartridge' },
+      model2: { file: 'nb.glb', name: 'Natural Balance Tincture' },
+      model3: { file: 'EXPORT7.glb', name: 'Travelers Disposable' },
+      model4: { file: 'EXPORT9.glb', name: 'Healing Balm' },
+      model5: { file: 'pug.glb', name: 'Pug Dab Co' },
+      model6: { file: 'etcheddispo.glb', name: 'Awaken Etched Disposable' }
     };
 
     let currentModel = 'model1';
@@ -984,54 +984,145 @@ Type 'help' for commands
     let currentHotspot = null;
 
     const modelQuestions = {
-      model1: [
+      model1: [ // Awaken Etched Cartridge
         {
           id: 'hotspot1',
           label: '1',
-          question: 'What feature of the Awaken Etched cartridge helps reduce clogging?',
-          options: ['Wider airway design', 'Ceramic heating', 'Advanced coil technology', 'Temperature control'],
-          correctAnswer: 2
+          question: 'What feature of the Awaken Etched cartridge helps reduce clogging compared to traditional cartridges?',
+          options: ['Wider airway design', 'Ceramic heating element', 'Advanced coil technology', 'Temperature control'],
+          correctAnswer: 0
         },
         {
           id: 'hotspot2',
           label: '2',
-          question: 'How does the dual-airway system affect vapor production?',
-          options: ['Restricts airflow', 'Improves airflow and vapor', 'No effect', 'Reduces temperature'],
+          question: 'The cartridge has a dual-airway system — how does that affect airflow and vapor production?',
+          options: ['Restricts airflow', 'Improves airflow and increases vapor', 'No significant effect', 'Reduces vapor temperature'],
           correctAnswer: 1
         },
         {
           id: 'hotspot3',
           label: '3',
-          question: 'What thread type does the Awaken Etched cartridge use?',
-          options: ['510 thread', 'Magnetic adapter', 'USB-C', 'Proprietary'],
+          question: 'What is the minimum battery / connector spec (e.g. thread type) you must match to reliably use an Awaken Etched cartridge?',
+          options: ['510 thread', 'Magnetic adapter', 'USB-C', 'Proprietary connector'],
           correctAnswer: 0
         }
       ],
-      model2: [
+      model2: [ // Natural Balance Tincture
         {
           id: 'hotspot1',
           label: '1',
-          question: 'What is the cannabinoid ratio in Natural Balance Tincture?',
+          question: 'What is the cannabinoid ratio (e.g. 1:1 CBD : THC, or FECO) used in Natural Balance Tincture?',
           options: ['1:1 CBD:THC', 'Full spectrum FECO', 'CBD only', 'THC dominant'],
           correctAnswer: 0
         },
         {
           id: 'hotspot2',
           label: '2',
-          question: 'How is the tincture typically administered?',
-          options: ['Topically', 'Sublingually for faster absorption', 'Mixed in water', 'Inhaled'],
+          question: 'How is the tincture typically administered (e.g. sublingually, mixed into food), and what factors influence absorption speed?',
+          options: ['Topically applied', 'Sublingually for faster absorption', 'Mixed in water', 'Inhaled as vapor'],
           correctAnswer: 1
         },
         {
           id: 'hotspot3',
           label: '3',
-          question: 'What storage conditions preserve tincture potency?',
-          options: ['Warm and bright', 'Cool, dark place', 'Refrigerator only', 'Direct sunlight'],
+          question: 'What storage conditions (temperature, light exposure) are ideal to preserve potency of the tincture?',
+          options: ['Warm and bright', 'Cool, dark place', 'Refrigerator only', 'Room temperature, direct sunlight'],
           correctAnswer: 1
         }
       ],
-      // Add other models...
-    };
+      model3: [ // Travelers Disposable
+        {
+          id: 'hotspot1',
+          label: '1',
+          question: 'What are the advantages and disadvantages of a disposable vape device like the Travelers compared with refillable cartridges?',
+          options: ['More expensive, less convenient', 'Convenient, no maintenance but less eco-friendly', 'Requires assembly', 'Better flavor, harder to use'],
+          correctAnswer: 1
+        },
+        {
+          id: 'hotspot2',
+          label: '2',
+          question: 'What safety or waste-management issues should you consider when disposing of a used Travelers disposable device?',
+          options: ['Throw in regular trash', 'Battery recycling and proper disposal', 'Burn it safely', 'No special considerations'],
+          correctAnswer: 1
+        },
+        {
+          id: 'hotspot3',
+          label: '3',
+          question: 'The Travelers line includes different flavor / strain options — what determines which strain a user should choose?',
+          options: ['Price only', 'Desired effects and personal preference', 'Color of packaging', 'Random selection'],
+          correctAnswer: 1
+        }
+      ],
+      model4: [ // Healing Balm
+        {
+          id: 'hotspot1',
+          label: '1',
+          question: 'What are the primary active botanicals (or "nature\'s healers") included in the Healing Balm formula?',
+          options: ['Synthetic compounds', 'CBD, arnica, lavender, calendula', 'Petroleum jelly', 'Alcohol-based'],
+          correctAnswer: 1
+        },
+        {
+          id: 'hotspot2',
+          label: '2',
+          question: 'In which use-cases or conditions (e.g. muscle soreness, skin irritation) is the Healing Balm intended to be applied?',
+          options: ['Internal use only', 'Muscle soreness, skin irritation, inflammation', 'Hair care', 'Dental issues'],
+          correctAnswer: 1
+        },
+        {
+          id: 'hotspot3',
+          label: '3',
+          question: 'How long after application should a user wait before washing the area (or before product absorption is complete)?',
+          options: ['Immediately', '15-30 minutes for full absorption', '24 hours', 'Never wash'],
+          correctAnswer: 1
+        }
+      ],
+      model5: [ // Pug Dab Co
+        {
+          id: 'hotspot1',
+          label: '1',
+          question: 'What kind of concentrate (e.g. shatter, budder, wax, live resin) does Pug Dab Co specialize in?',
+          options: ['Edibles', 'Live resin and premium concentrates', 'Flower only', 'Tinctures'],
+          correctAnswer: 1
+        },
+        {
+          id: 'hotspot2',
+          label: '2',
+          question: 'What is the recommended method for dosing or vaporizing a dab from Pug Dab Co to minimize waste?',
+          options: ['High heat combustion', 'Low-temp dab at 315-450°F', 'Mix with flower', 'Eat directly'],
+          correctAnswer: 1
+        },
+        {
+          id: 'hotspot3',
+          label: '3',
+          question: 'What purity or testing standards (e.g. solvent residue levels) should be verified before using a Pug Dab Co product?',
+          options: ['No testing needed', 'Third-party lab tests for potency and residual solvents', 'Visual inspection only', 'Smell test'],
+          correctAnswer: 1
+        }
+      ],
+      model6: [ // Awaken Etched Disposable
+        {
+          id: 'hotspot1',
+          label: '1',
+          question: 'What makes the Awaken Etched Disposable different from standard disposables in terms of design and performance?',
+          options: ['Lower price point', 'Enhanced airflow, ceramic core technology, and etched chamber precision', 'Larger battery only', 'Standard design with basic features'],
+          correctAnswer: 1
+        },
+        {
+          id: 'hotspot2',
+          label: '2',
+          question: 'How should a customer be advised to store their Awaken Etched Disposable to maintain optimal vapor quality and prevent clogging?',
+          options: ['Any position is fine', 'Store upright, room temperature, avoid direct sunlight', 'Refrigerate immediately', 'Keep in hot car'],
+          correctAnswer: 1
+        },
+        {
+          id: 'hotspot3',
+          label: '3',
+          question: 'When a customer reports low vapor production, what steps should be checked before concluding the device is faulty?',
+          options: ['Replace immediately', 'Check battery charge, airflow path, preheat function, and oil viscosity', 'Shake vigorously', 'Return to store'],
+          correctAnswer: 1
+        }
+      ]
+   };
 
     function switchModel(modelId) {
       currentModel = modelId;
@@ -1149,8 +1240,8 @@ Type 'help' for commands
         
         this.speakerColors = {
           'You': '#667eea',
-          'Alice': '#f093fb',
-          'Bob': '#58c1ee',
+          'Tom': '#f093fb',
+          'Alex': '#58c1ee',
           'AI': '#00ff88',
           'System': '#ffc107'
         };
