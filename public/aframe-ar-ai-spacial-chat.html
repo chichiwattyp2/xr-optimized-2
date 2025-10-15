@@ -1,180 +1,481 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>A-Frame AR Chat - Visual Communication in XR</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/supermedium/superframe@master/components/environment/dist/aframe-environment-component.min.js"></script>
-    <!--script src="https://cdn.jsdelivr.net/npm/aframe-particle-system-component@1.1.3/dist/aframe-particle-system-component.min.js"></script -->
-    <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 0;
-            overflow: hidden;
-        }
-        
-        #ui-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 999;
-            pointer-events: none;
-        }
-        
-        #info {
-            text-align: center;
+  <meta charset="utf-8">
+  <title>A-Frame Component Showcase - Clean Build</title>
+  <meta name="description" content="Comprehensive A-Frame component showcase">
+  
+  <!-- A-Frame Core 1.7.1 -->
+  <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+  
+  <!-- Core Extensions -->
+  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.6.0/dist/aframe-extras.min.js"></script>
+  <script src="https://unpkg.com/aframe-environment-component@1.3.7/dist/aframe-environment-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+  
+  <!-- Additional Components -->
+  <script src="https://unpkg.com/aframe-forcegraph-component@3.0.8/dist/aframe-forcegraph-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-globe-component@1.15.0/dist/aframe-globe-component.min.js" defer></script>
+  <script src="https://unpkg.com/@kumitterer/aframe-click-drag-component@4.0.1/dist/aframe-click-drag-component.min.js" defer></script>
+  <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+  <!-- Super Shooter Kit -->
+  <script src="https://unpkg.com/aframe-super-shooter-kit/dist/aframe-super-shooter-kit.min.js"></script>
+   <script src="htmlbuild.js"></script>
+  
+
+
+<style>
+  body {
+    overflow: hidden;
+    text-shadow: 0px 0px 10px #00d2ff;
+    color: #fff;
+    font-size: 32px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #000000;
+  }
+
+  h1 {
+    font-size: 52px;
+  }
+
+  .dark {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    pointer-events: all;
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    padding: 40px;
+  }
+
+  .main {
+    width: 1024px;
+    height: 768px;
+    overflow: hidden;
+  }
+
+  .menu {
+    width: 256px;
+    height: 768px;
+    text-align: center;
+  }
+
+  .menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  a.button {
+    display: inline-block;
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    padding: 10px 0;
+    margin-bottom: 20px;
+  }
+
+  a.button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateX(3px);
+  }
+
+  a.button:active {
+    background: #ffffff;
+    border-color: #ffffff;
+    color: #888;
+    font-weight: 500;
+  }
+
+  a.imgLink {
+    width: 100%;
+    border-radius: 20px;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    background-color: #444;
+    border: 3px solid #444;
+    text-shadow: none;
+    display: block;
+    
+  }
+
+  a.imgLink:hover {
+    border: 3px solid #fff;
+    background-color: #444;
+  }
+
+  .code {
+    white-space: pre;
+    font-size: 0.7em;
+    background-color: #000;
+    margin-bottom: 30px;
+  }
+
+  .next,
+  .prev {
+    position: absolute;
+    bottom: 0px;
+    right: 30px;
+    display: inline-block;
+    width: auto !important;
+    padding: 20px 30px !important;
+  }
+
+  .prev {
+    right: auto;
+    left: 30px;
+  }
+
+  #page1 {
+    position: relative;
+    height: 100%;
+  }
+
+  #page2,
+  #page3,
+  #page4 {
+    display: none;
+    position: relative;
+    height: 100%;
+  }
+
+  .slide {
+    height: 100%;
+  }
+
+  .slide:target #page1 {
+    display: none;
+  }
+
+  #slide2:target #page2 {
+    display: block;
+  }
+
+  #slide3:target #page3 {
+    display: block;
+  }
+
+  #slide4:target #page4 {
+    display: block;
+  }
+
+  #page4 ul {
+    list-style-type: square;
+    font-size: 0.8em;
+  }
+
+  #ui-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 24px 32px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0) 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .header-logo {
+    width: 60px;
+    height: 60px;
+    filter: invert(1);
+    flex-shrink: 0;
+  }
+
+  .header-content {
+    flex: 1;
+  }
+
+  .header h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+  }
+
+  .header p {
+    margin: 8px 0 0 0;
+    opacity: 0.6;
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 0.3px;
+    color: #ffffff;
+  }
+
+  .model-selector {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    pointer-events: all;
+  }
+
+  .model-selector-label {
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 16px;
+  }
+
+  .model-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .model-btn {
+    padding: 12px 18px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: left;
+  }
+
+  .model-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateX(3px);
+  }
+
+  .model-btn.active {
+    background: #ffffff;
+    border-color: #ffffff;
+    color: #000000;
+    font-weight: 500;
+  }
+
+  .progress {
+    position: absolute;
+    top: 220px;
+    left: 24px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 16px 20px;
+    border-radius: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    color: #ffffff;
+  }
+
+  .progress-label {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+    color: #ffffff;
+  }
+
+  .progress-count {
+    color: #ffffff;
+    font-size: 32px;
+    font-weight: 300;
+    letter-spacing: 1px;
+  }
+
+  .question-card {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 520px;
+    background: rgba(0, 0, 0, 0.95);
+    border-radius: 2px;
+    padding: 28px 32px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    display: none;
+    pointer-events: all;
+  }
+
+  .question-card.active {
+    display: block;
+    animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .question-card h3 {
+    margin: 0 0 18px 0;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .question-card p {
+    margin: 0 0 24px 0;
+    color: #ffffff;
+    font-size: 16px;
+    line-height: 1.7;
+    font-weight: 300;
+    letter-spacing: 0.3px;
+    opacity: 0.9;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .option-btn {
+    padding: 16px 22px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: left;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 400;
+    letter-spacing: 0.3px;
+  }
+
+  .option-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateX(6px);
+  }
+
+    #info {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
             color: white;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
-            padding: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            pointer-events: auto;
-        }
-        
-        #info h2 {
-            margin: 0 0 5px 0;
-            font-size: 1.8em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        #info p {
-            margin: 0;
-            font-size: 0.9em;
-            opacity: 0.95;
-        }
-        
-        #chat-controls {
-            position: fixed;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 10px;
+            z-index: 100;
+            pointer-events: all;
+  }
+  #controls {
+            
+  position: absolute;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+            cursor: pointer;
+            pointer-events: all;
+        }
+        button {
+            padding: 10px 20px;
+            background: rgba(102, 126, 234, 0.8);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            pointer-events: all;
+        }
+        button:hover {
+            background: rgba(102, 126, 234, 1);
+        }
+        button.active {
+            background: rgba(118, 75, 162, 1);
+        }
+        #inputContainer {
+            position: absolute;
+            bottom: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 10px;
             backdrop-filter: blur(10px);
-            padding: 15px;
-            border-radius: 15px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-width: 600px;
-            width: 90%;
+            cursor: pointer;
+            pointer-events: all;
         }
-        
-        #input-row {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        #speakerSelect {
-            padding: 12px;
+        #messageInput {
+            padding: 10px 15px;
+            width: 300px;
             background: rgba(255, 255, 255, 0.1);
             color: white;
-            border: 2px solid rgba(102, 126, 234, 0.5);
-            border-radius: 8px;
+            border: 1px solid rgba(102, 126, 234, 0.5);
+            border-radius: 5px;
+            outline: none;
             font-size: 14px;
             cursor: pointer;
-            transition: all 0.3s;
-            min-width: 140px;
+            pointer-events: all;
+            
         }
-        
-        #speakerSelect:hover {
+        #messageInput:focus {
+            border-color: rgba(102, 126, 234, 1);
             background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(102, 126, 234, 0.8);
         }
-        
-        #speakerSelect option {
-            background: #1a1a2e;
-            color: white;
-        }
-        
-        #messageInput {
-            flex: 1;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 2px solid rgba(102, 126, 234, 0.5);
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-        
         #messageInput::placeholder {
             color: rgba(255, 255, 255, 0.5);
         }
-        
-        #messageInput:focus {
+        #speakerSelect {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(102, 126, 234, 0.5);
+            border-radius: 5px;
             outline: none;
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(102, 126, 234, 1);
-            box-shadow: 0 0 15px rgba(102, 126, 234, 0.3);
+            cursor: pointer;
+            pointer-events: all;
         }
-        
+        #speakerSelect option {
+            background: #1a1a1a;
+        }
         #sendBtn {
-            padding: 12px 25px;
+            padding: 10px 20px;
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: bold;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+            transition: transform 0.2s;
+            pointer-events: all;
         }
-        
         #sendBtn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.5);
+            transform: scale(1.05);
         }
-        
         #sendBtn:active {
             transform: scale(0.95);
-        }
-        
-        #button-row {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-        
-        .control-btn {
-            padding: 8px 16px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 6px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .control-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(102, 126, 234, 0.6);
-        }
-        
-        .control-btn.active {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-color: transparent;
-        }
-        
-        #vr-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1001;
-        }
-        
-        .a-enter-vr-button {
-            background: linear-gradient(135deg, #00ff88, #00cc66) !important;
-            border: none !important;
-            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4) !important;
-        }
-        
-        @media (max-width: 600px) {
+            @media (max-width: 600px) {
             #chat-controls {
                 bottom: 10px;
                 padding: 10px;
@@ -195,130 +496,123 @@
                 padding: 6px 10px;
             }
         }
-    </style>
-</head>
-<body>
-    <div id="ui-overlay">
-        <div id="info">
-            <h2>🎭 A-Frame AR Chat</h2>
-            <p>Look & click to place messages • Keyboard: Enter to send • ↑↓ history • Alt+1-5 speaker • VR/AR ready!</p>
-        </div>
-    </div>
-
-    <div id="chat-controls">
-        <div id="input-row">
-            <select id="speakerSelect">
-                <option value="You">👤 You</option>
-                <option value="Alice">👩 Alice</option>
-                <option value="Bob">👨 Bob</option>
-                <option value="AI">🤖 AI</option>
-                <option value="System">⚙️ System</option>
-            </select>
-            <input type="text" id="messageInput" placeholder="Type your message..." maxlength="200" autofocus>
-            <button id="sendBtn">Send 📤</button>
-        </div>
-        <div id="button-row">
-            <button class="control-btn" id="demoBtn">🎬 Demo</button>
-            <button class="control-btn" id="clearBtn">🗑️ Clear</button>
-            <button class="control-btn" id="arBtn">📱 AR Mode</button>
-            <button class="control-btn active" id="particleBtn">✨ Particles</button>
-            <button class="control-btn active" id="soundBtn">🔊 Sound</button>
-        </div>
-    </div>
-
-    <!-- A-Frame Scene -->
-    <a-scene
-        stats
-        background="color: #0a0a0a"
-        fog="type: exponential; color: #0a0a0a; density: 0.05"
-        webxr="optionalFeatures: hand-tracking, hit-test, dom-overlay; 
-               overlayElement: #ui-overlay;
-               referenceSpaceType: local"
-        cursor="rayOrigin: mouse"
-        raycaster="objects: .clickable"
-        vr-mode-ui="enabled: true; enterVRButton: #vr-button">
         
-        <!-- Assets -->
-        <a-assets>
-            <!-- Message templates -->
-            <a-mixin id="message-animation"
+</style>
+
+
+
+
+
+</head>
+
+<body>
+<div id="ui-overlay" class="target">
+    <!--div id="info" >
+        <h2>🎭 XRBlocks AR Chat</h2>
+        <p>Type a message • Enter to send • ↑↓ for history • Alt+1-5 for speaker • Ctrl+L to clear • Click in 3D space</p>
+    </div-->
+    
+    <div id="inputContainer">
+        <select id="speakerSelect">
+            <option value="You">👤 You</option>
+            <option value="Alice">👩 Alice</option>
+            <option value="Bob">👨 Bob</option>
+            <option value="AI">🤖 AI Assistant</option>
+            <option value="System">⚙️ System</option>
+        </select>
+        <input type="text" id="messageInput" placeholder="Type your message here..." maxlength="200" autofocus>
+        <button id="sendBtn">Send 📤</button>
+    </div>
+    
+    <div id="controls">
+        <button id="addMessage">Random Message</button>
+        <button id="clearAll">Clear All</button>
+        <button id="animateBtn">Animate</button>
+        <button id="demoMode">Start Demo</button>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+      <img src="training/ilabs-logo.png" alt="iLabs Logo" class="header-logo">
+      <div class="header-content">
+        <h1>iLabs Training</h1>
+        <p>Select a model and click components to test your knowledge</p>
+      </div>
+    </div>
+   <!-- Model Selector -->
+    <div class="model-selector">
+      <div class="model-selector-label">Select Model</div>
+      <div class="model-buttons">
+        <button class="model-btn active" onclick="switchModel('model1')">Awaken Etched Cartridge</button>
+        <button class="model-btn" onclick="switchModel('model2')">Natural Balance Tincture</button>
+        <button class="model-btn" onclick="switchModel('model3')">Travelers Disposable</button>
+        <button class="model-btn" onclick="switchModel('model4')">Healing Balm</button>
+        <button class="model-btn" onclick="switchModel('model5')">Pug Dab Co</button>
+        <button class="model-btn" onclick="switchModel('model6')">Awaken Etched Disposable</button>
+      </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress">
+      <div class="progress-label">Progress</div>
+      <div class="progress-count"><span id="progress">0</span>/3</div>
+    </div>
+
+    <!-- Question Card -->
+    <div class="question-card" id="questionCard">
+      <h3 id="questionTitle"></h3>
+      <p id="questionText"></p>
+      <div class="options" id="options"></div>
+    </div>
+  </div>
+  <div id="slide2" class="slide">
+    <div id="slide3" class="slide">
+    <div id="slide4" class="slide">
+     
+     
+     
+      <a-scene>
+    
+    
+    <a-assets>
+        <a-mixin id="message-animation"
                 animation__scale="property: scale; from: 0 0 0; to: 1 1 1; dur: 500; easing: easeOutElastic"
                 animation__fade="property: opacity; from: 0; to: 1; dur: 300">
             </a-mixin>
-            
-            <!-- Sounds -->
-            <audio id="message-sound" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZURE"/>
-        </a-assets>
+            <audio id="message-sound" src="sound.wav"/>
 
-        <!-- Camera with cursor -->
-        <a-entity id="camera-rig" position="0 1.6 0">
-            <a-camera 
-                look-controls
-                wasd-controls="acceleration: 20">
-                <a-cursor 
-                    position="0 0 -1"
-                    geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.016"
-                    material="color: #667eea; shader: flat"
-                    animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
-                    animation__fusing="property: scale; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
-                    raycaster="objects: .clickable">
-                </a-cursor>
-                <!-- HUD display for VR -->
-                <a-text 
-                    value="AR Chat Active" 
-                    position="0 0.3 -0.5" 
-                    align="center" 
-                    color="#667eea"
-                    scale="0.1 0.1 0.1"
-                    visible="false"
-                    id="hud-text">
-                </a-text>
-            </a-camera>
-            
-            <!-- Hand controllers for VR -->
-            <a-entity laser-controls="hand: right" raycaster="objects: .clickable"></a-entity>
-            <a-entity laser-controls="hand: left" raycaster="objects: .clickable"></a-entity>
-        </a-entity>
+      <img id="floor" src="training/assets/floor.png">
+      
+         <img
+          id="dawn"
+          crossorigin="anonymous"
+          src="dawn.jpeg"
+        />
 
-        <!-- Environment -->
-        <a-entity environment="preset: starry; 
-                               groundColor: #1a1a2e; 
-                               skyType: atmosphere; 
-                               skyColor: #000033;
-                               fog: 0.8;
-                               flatShading: false;
-                               playArea: 1;
-                               ground: hills;
-                               groundYScale: 10;
-                               groundTexture: squares;
-                               groundColor2: #0f0f1e;
-                               gridColor: #667eea">
-        </a-entity>
+        <a-asset-item
+          id="villa"
+          src="villa.glb"
+        ></a-asset-item>
 
-        <!-- Particle system -->
-        <a-entity 
-            id="particles"
-            particle-system="
-                preset: dust;
-                particleCount: 200;
-                color: #667eea,#764ba2,#f093fb;
-                size: 0.3;
-                velocityValue: 0 0.1 0;
-                velocitySpread: 0.5 0 0.5;
-                accelerationValue: 0 -0.001 0;
-                opacity: 0.4;
-                blending: 1">
-        </a-entity>
-
-        <!-- Ambient lighting -->
-        <a-light type="ambient" color="#ffffff" intensity="0.4"></a-light>
-        <a-light type="directional" position="1 2 1" color="#ffffff" intensity="0.6"></a-light>
-        <a-light type="point" position="0 3 0" color="#667eea" intensity="0.3" distance="10"></a-light>
-
-        <!-- Message display area -->
-        <a-entity id="message-container" position="0 2 -3">
-            <!-- Background panel -->
-            <a-plane 
+        <audio
+          id="click-sound"
+          crossorigin="anonymous"
+          src="click.ogg"
+        ></audio>
+    </a-assets>
+  
+    <!-- Bullet Template (Hidden) -->
+    <a-entity 
+      id="bulletTemplate" 
+      bullet
+      geometry="primitive: sphere; radius: 0.08" 
+      material="color: #FF6600; metalness: 0.8; emissive: #FF6600; emissiveIntensity: 0.8"
+      visible="false">
+    </a-entity>
+    
+    <!-- ar chat -->
+<a-entity id="message-container" position="27.16408 4.2315 -3" rotation="0 -90 0">
+        <a-plane 
                 width="4" 
                 height="2.5" 
                 color="#000000" 
@@ -362,456 +656,1182 @@
             width="30" 
             height="30" 
             rotation="-90 0 0" 
-            position="0 0 0"
+            position="0 -7 0"
             material="color: #0a0a0f; opacity: 0.3; transparent: true"
             visible="false">
         </a-plane>
 
         <!-- Visual effects container -->
         <a-entity id="effects-container"></a-entity>
-    </a-scene>
+    <!-- Camera with Movement Controls and Shooter -->
 
-    <!-- VR button container -->
-    <div id="vr-button"></div>
 
-    <script>
-        // AFRAME Component for message display
-        AFRAME.registerComponent('message-bubble', {
-            schema: {
-                text: {type: 'string', default: 'Hello AR!'},
-                speaker: {type: 'string', default: 'User'},
-                color: {type: 'color', default: '#667eea'}
-            },
-            
-            init: function() {
-                const data = this.data;
-                const el = this.el;
-                
-                // Create message structure
-                const bubble = document.createElement('a-entity');
-                
-                // Background plane
-                const bg = document.createElement('a-plane');
-                bg.setAttribute('width', 3);
-                bg.setAttribute('height', 0.6);
-                bg.setAttribute('material', {
-                    color: data.color,
-                    opacity: 0.9,
-                    shader: 'flat',
-                    transparent: true
-                });
-                
-                // Speaker text
-                const speakerText = document.createElement('a-text');
-                speakerText.setAttribute('value', data.speaker + ':');
-                speakerText.setAttribute('position', '-1.3 0.1 0.01');
-                speakerText.setAttribute('color', '#ffffff');
-                speakerText.setAttribute('font', 'kelsonsans');
-                speakerText.setAttribute('width', 4);
-                
-                // Message text
-                const messageText = document.createElement('a-text');
-                messageText.setAttribute('value', data.text);
-                messageText.setAttribute('position', '-1.3 -0.1 0.01');
-                messageText.setAttribute('color', '#ffffff');
-                messageText.setAttribute('font', 'dejavu');
-                messageText.setAttribute('width', 3.5);
-                messageText.setAttribute('wrap-count', 40);
-                
-                // Timestamp
-                const time = new Date().toLocaleTimeString('en-US', {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                const timeText = document.createElement('a-text');
-                timeText.setAttribute('value', time);
-                timeText.setAttribute('position', '1.2 -0.2 0.01');
-                timeText.setAttribute('color', '#aaaaaa');
-                timeText.setAttribute('width', 2);
-                timeText.setAttribute('align', 'right');
-                
-                bubble.appendChild(bg);
-                bubble.appendChild(speakerText);
-                bubble.appendChild(messageText);
-                bubble.appendChild(timeText);
-                el.appendChild(bubble);
-                
-                // Play sound
-                const sound = document.querySelector('#message-sound');
-                if (sound && window.soundEnabled) {
-                    sound.play().catch(e => console.log('Audio play failed'));
-                }
-            }
-        });
+<a-entity id="rig" movement-controls="speed: 0.2" gamepad-controls="" trackpad-controls="" keyboard-controls="" touch-controls="" position="16.19505 1.8783 -23.0795">
+  <a-entity id="camera" camera="" position="0 1.6 0" look-controls="" wasd-controls="" shooter="" rotation="-5.156620156177406 -1.0313240312354819 0" click-to-shoot="">
+    <a-cursor color="#F0F0F0" raycaster=""></a-cursor>
+  <a-text position="0 -0.1 -1" width="1" align="center" color="lavender"></a-text><a-text position="0 -0.1 -1" width="1" align="center" color="lavender"></a-text></a-entity>
+</a-entity>
+    <!-- Lighting -->
+    <a-entity light="type: ambient; intensity: 0.5"></a-entity>
+    <a-entity light="type: directional; intensity: 0.8; castShadow: true" position="-2 5 2"></a-entity>
+    <a-entity 
+      light="type: point; intensity: 1; distance: 20"
+      position="0 3 -3"
+      animation="property: position; to: 0 3 -8; dir: alternate; loop: true; dur: 5000">
+    </a-entity>
 
-        // Chat Application Controller
-        class ARChatController {
-            constructor() {
-                this.messages = [];
-                this.messageHistory = [];
-                this.historyIndex = -1;
-                this.demoMode = false;
-                this.soundEnabled = true;
-                this.particlesEnabled = true;
-                this.messageCount = 0;
-                this.maxMessages = 10;
-                
-                this.speakerColors = {
-                    'You': '#667eea',
-                    'Alice': '#f093fb',
-                    'Bob': '#58c1ee',
-                    'AI': '#00ff88',
-                    'System': '#ffc107'
-                };
-                
-                this.demoMessages = [
-                    { text: "Welcome to A-Frame AR Chat!", speaker: "System" },
-                    { text: "This is a spatial messaging system", speaker: "AI" },
-                    { text: "You can place messages in 3D space!", speaker: "Alice" },
-                    { text: "Try looking around and clicking", speaker: "Bob" },
-                    { text: "Or type your own messages below", speaker: "System" },
-                    { text: "VR and AR modes are fully supported!", speaker: "AI" }
-                ];
-                
-                this.init();
-            }
-            
-            init() {
-                // Get elements
-                this.scene = document.querySelector('a-scene');
-                this.messageContainer = document.querySelector('#message-container');
-                this.effectsContainer = document.querySelector('#effects-container');
-                this.messageInput = document.querySelector('#messageInput');
-                this.speakerSelect = document.querySelector('#speakerSelect');
-                this.sendBtn = document.querySelector('#sendBtn');
-                
-                // Setup event listeners
-                this.setupEventListeners();
-                
-                // Setup scene click handler
-                this.setupSceneInteraction();
-                
-                // Set global sound state
-                window.soundEnabled = this.soundEnabled;
-            }
-            
-            setupEventListeners() {
-                // Send message
-                const sendMessage = () => {
-                    const text = this.messageInput.value.trim();
-                    const speaker = this.speakerSelect.value;
-                    
-                    if (text) {
-                        this.addMessage(text, speaker);
-                        
-                        if (speaker === 'You') {
-                            this.messageHistory.push(text);
-                            this.historyIndex = this.messageHistory.length;
-                        }
-                        
-                        this.messageInput.value = '';
-                        this.messageInput.focus();
-                        
-                        // Auto-response in demo mode
-                        if (this.demoMode && speaker === 'You') {
-                            setTimeout(() => {
-                                const responses = [
-                                    "That's fascinating! Tell me more.",
-                                    "I see what you mean.",
-                                    "Great observation!",
-                                    "Let me process that...",
-                                    "Interesting perspective!"
-                                ];
-                                const response = responses[Math.floor(Math.random() * responses.length)];
-                                this.addMessage(response, 'AI');
-                            }, 1500);
-                        }
-                    }
-                };
-                
-                // Keyboard events
-                this.messageInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') {
-                        sendMessage();
-                    }
-                });
-                
-                this.messageInput.addEventListener('keydown', (e) => {
-                    if (e.key === 'ArrowUp') {
-                        e.preventDefault();
-                        if (this.historyIndex > 0) {
-                            this.historyIndex--;
-                            this.messageInput.value = this.messageHistory[this.historyIndex];
-                        }
-                    } else if (e.key === 'ArrowDown') {
-                        e.preventDefault();
-                        if (this.historyIndex < this.messageHistory.length - 1) {
-                            this.historyIndex++;
-                            this.messageInput.value = this.messageHistory[this.historyIndex];
-                        } else {
-                            this.historyIndex = this.messageHistory.length;
-                            this.messageInput.value = '';
-                        }
-                    }
-                });
-                
-                // Alt + number to change speaker
-                document.addEventListener('keydown', (e) => {
-                    if (e.altKey) {
-                        switch(e.key) {
-                            case '1': this.speakerSelect.value = 'You'; break;
-                            case '2': this.speakerSelect.value = 'Alice'; break;
-                            case '3': this.speakerSelect.value = 'Bob'; break;
-                            case '4': this.speakerSelect.value = 'AI'; break;
-                            case '5': this.speakerSelect.value = 'System'; break;
-                        }
-                    }
-                });
-                
-                this.sendBtn.addEventListener('click', sendMessage);
-                
-                // Control buttons
-                document.querySelector('#demoBtn').addEventListener('click', (e) => {
-                    this.toggleDemo();
-                    e.target.classList.toggle('active');
-                });
-                
-                document.querySelector('#clearBtn').addEventListener('click', () => {
-                    this.clearMessages();
-                });
-                
-                document.querySelector('#arBtn').addEventListener('click', (e) => {
-                    this.toggleARMode();
-                    e.target.classList.toggle('active');
-                });
-                
-                document.querySelector('#particleBtn').addEventListener('click', (e) => {
-                    this.toggleParticles();
-                    e.target.classList.toggle('active');
-                });
-                
-                document.querySelector('#soundBtn').addEventListener('click', (e) => {
-                    this.soundEnabled = !this.soundEnabled;
-                    window.soundEnabled = this.soundEnabled;
-                    e.target.classList.toggle('active');
-                });
-            }
-            
-            setupSceneInteraction() {
-                // Click on floor to place messages
-                const floor = document.querySelector('#floor');
-                floor.addEventListener('click', (e) => {
-                    const point = e.detail.intersection.point;
-                    this.addMessage('Spatial marker!', 'Click', point);
-                    this.createClickEffect(point);
-                });
-                
-                // Make floor visible for interaction
-                floor.setAttribute('visible', true);
-            }
-            
-            addMessage(text, speaker = 'User', position = null) {
-                const messageEntity = document.createElement('a-entity');
-                const color = this.speakerColors[speaker] || '#667eea';
-                
-                messageEntity.setAttribute('message-bubble', {
-                    text: text,
-                    speaker: speaker,
-                    color: color
-                });
-                
-                if (position) {
-                    // Place at clicked position
-                    messageEntity.setAttribute('position', {
-                        x: position.x,
-                        y: position.y + 1,
-                        z: position.z
-                    });
-                    messageEntity.setAttribute('look-at', '[camera]');
-                    this.scene.appendChild(messageEntity);
-                } else {
-                    // Add to message container
-                    const index = this.messages.length;
-                    const row = Math.floor(index / 1);
-                    const yOffset = row * -0.7;
-                    
-                    messageEntity.setAttribute('position', {
-                        x: 0,
-                        y: yOffset + 0.5,
-                        z: 0.01
-                    });
-                    
-                    this.messageContainer.appendChild(messageEntity);
-                    this.messages.push(messageEntity);
-                    
-                    // Remove old messages
-                    if (this.messages.length > this.maxMessages) {
-                        const oldMessage = this.messages.shift();
-                        oldMessage.parentNode.removeChild(oldMessage);
-                        
-                        // Reposition remaining messages
-                        this.messages.forEach((msg, i) => {
-                            const newRow = Math.floor(i / 1);
-                            const newY = newRow * -0.7 + 0.5;
-                            msg.setAttribute('animation', {
-                                property: 'position',
-                                to: `0 ${newY} 0.01`,
-                                dur: 300
-                            });
-                        });
-                    }
-                }
-                
-                // Add animations
-                messageEntity.setAttribute('animation__scale', {
-                    property: 'scale',
-                    from: '0 0 0',
-                    to: '1 1 1',
-                    dur: 500,
-                    easing: 'easeOutElastic'
-                });
-                
-                this.createMessageEffect(position || {
-                    x: 0,
-                    y: 2,
-                    z: -3
-                });
-            }
-            
-            createMessageEffect(position) {
-                const effect = document.createElement('a-ring');
-                effect.setAttribute('radius-inner', 0.1);
-                effect.setAttribute('radius-outer', 0.3);
-                effect.setAttribute('color', '#667eea');
-                effect.setAttribute('opacity', 0.8);
-                effect.setAttribute('position', position);
-                effect.setAttribute('rotation', '-90 0 0');
-                
-                effect.setAttribute('animation__scale', {
-                    property: 'scale',
-                    from: '0.1 0.1 0.1',
-                    to: '2 2 2',
-                    dur: 1000
-                });
-                
-                effect.setAttribute('animation__fade', {
-                    property: 'opacity',
-                    from: 0.8,
-                    to: 0,
-                    dur: 1000
-                });
-                
-                this.effectsContainer.appendChild(effect);
-                
-                setTimeout(() => {
-                    effect.parentNode.removeChild(effect);
-                }, 1000);
-            }
-            
-            createClickEffect(position) {
-                // Create expanding sphere effect
-                const sphere = document.createElement('a-sphere');
-                sphere.setAttribute('radius', 0.1);
-                sphere.setAttribute('color', '#00ff88');
-                sphere.setAttribute('material', 'opacity: 0.6; transparent: true');
-                sphere.setAttribute('position', position);
-                
-                sphere.setAttribute('animation__grow', {
-                    property: 'radius',
-                    from: 0.1,
-                    to: 0.5,
-                    dur: 500
-                });
-                
-                sphere.setAttribute('animation__fade', {
-                    property: 'material.opacity',
-                    from: 0.6,
-                    to: 0,
-                    dur: 500
-                });
-                
-                this.scene.appendChild(sphere);
-                
-                setTimeout(() => {
-                    sphere.parentNode.removeChild(sphere);
-                }, 500);
-            }
-            
-            clearMessages() {
-                this.messages.forEach(msg => {
-                    msg.parentNode.removeChild(msg);
-                });
-                this.messages = [];
-                
-                // Clear spatial messages
-                const spatialMessages = this.scene.querySelectorAll('[message-bubble]');
-                spatialMessages.forEach(msg => {
-                    if (!this.messages.includes(msg)) {
-                        msg.parentNode.removeChild(msg);
-                    }
-                });
-                
-                this.addMessage('Chat cleared', 'System');
-            }
-            
-            toggleDemo() {
-                this.demoMode = !this.demoMode;
-                if (this.demoMode) {
-                    this.runDemo();
-                }
-            }
-            
-            runDemo(index = 0) {
-                if (!this.demoMode || index >= this.demoMessages.length) {
-                    if (this.demoMode) {
-                        // Loop demo
-                        setTimeout(() => this.runDemo(0), 3000);
-                    }
-                    return;
-                }
-                
-                const msg = this.demoMessages[index];
-                this.addMessage(msg.text, msg.speaker);
-                
-                setTimeout(() => this.runDemo(index + 1), 2000);
-            }
-            
-            toggleARMode() {
-                const scene = document.querySelector('a-scene');
-                if (scene.is('ar-mode')) {
-                    scene.exitAR();
-                } else if (AFRAME.utils.device.checkARSupport()) {
-                    scene.enterAR();
-                }
-            }
-            
-            toggleParticles() {
-                this.particlesEnabled = !this.particlesEnabled;
-                const particles = document.querySelector('#particles');
-                particles.setAttribute('visible', this.particlesEnabled);
-            }
+
+
+<a-entity id="testarea" position="15.37375 1.35447 -11.17342" class="target" material="" hit-handler="">
+ <!-- 3D Models -->
+   <a-entity id="mainModel" gltf-model="training/etcheddispo.glb" rotation="0 -45 0" position="-1.02793 0 -1.07418"></a-entity>
+    <!-- TOP Hotspot -->
+    <a-sphere id="hotspot1" class="clickable" position="0 2 0" radius="0.1" color="#3b82f6" animation="dir: alternate; easing: easeInOutSine; loop: true; property: scale; to: 1.3 1.3 1.3" material="shader: flat"></a-sphere>
+    <a-text value="1" position="0 2.15 0" align="center" color="#ffffff" width="1.5"></a-text>
+    <a-text id="status1" value="" position="0.15 2 0" align="center" width="2"></a-text>
+
+    <!-- MIDDLE Hotspot -->
+    <a-sphere id="hotspot2" class="clickable" position="0 1 0" radius="0.1" color="#4ade80" animation="dir: alternate; easing: easeInOutSine; loop: true; property: scale; to: 1.3 1.3 1.3" material="shader: flat"></a-sphere>
+    <a-text value="2" position="0 1.15 0" align="center" color="#ffffff" width="1.5"></a-text>
+    <a-text id="status2" value="✓" position="0.15 1 0" align="center" width="2" color="#4ade80"></a-text>
+
+    <!-- BOTTOM Hotspot -->
+    <a-sphere id="hotspot3" class="clickable" radius="0.1" color="#3b82f6" animation="dir: alternate; easing: easeInOutSine; loop: true; property: scale; to: 1.3 1.3 1.3" material="shader: flat"></a-sphere>
+    <a-text value="3" position="0 0.15 0" align="center" color="#ffffff" width="1.5"></a-text>
+    <a-text id="status3" value="" position="0.15 0 0" align="center" width="2"></a-text>
+
+    </a-entity>
+
+<a-entity id="html stuff" class="clickable" position="14.94369 1.40266 -1.87418" rotation="0 180 0">
+<a-entity id="menu-left" class="screen menu dark" htmlembed="" position="-2.712 2.5 -4.476" rotation="0 45 0" style="display: none; position: absolute; top: 0px; left: 0px; overflow: hidden;">
+  <h2>Menu</h2>
+  <ul>
+    <li><a href="#" class="button">Home</a></li>
+    <li><a href="#slide2" class="button">Wellness</a></li>
+    <li><a href="#slide3" class="button">Vapes</a></li>
+    <li><a href="#slide4" class="button">Contact</a></li>
+  </ul>
+</a-entity>
+
+<!-- Main Panel -->
+<a-entity id="main" class="screen dark main" htmlembed="" position="0 2.5 -5" style="display: none; position: absolute; top: 0px; left: 0px; overflow: hidden;">
+  <div id="page1" class="">
+    <h1>iLabs - Cannabis Products Delivered Nationwide</h1>
+    <p class="">Shop edibles, oils, topicals, vape pens, disposable vapes, cartridges, capsules, and dabs, delivered throughout South Africa. Browse curated collections for Wellness and Vapes with fast, reliable shipping.</p>
+    <p>Explore best sellers from our house brands (including Awaken) and discover limited drops like live rosin etched cartridges and DUO disposables.</p>
+    <a href="#slide2" class="button next">Next Page</a>
+  </div>
+
+  <div id="page2">
+    <h1>Wellness (Drops, Capsules, Topicals)</h1>
+    <p>Find targeted formulas in drops, capsules, balms, creams, and oils designed for daily balance and specific needs.</p>
+    <ul>
+      <li><strong>Categories:</strong> Calming, Pain, Pets, Neurological, Skin, Sleep</li>
+      <li><strong>Formats:</strong> Tinctures and drops, softgels and capsules, creams and balms, specialty oils</li>
+      <li><strong>Highlights:</strong> Nationwide delivery, clear labeling, consistent dosing</li>
+    </ul>
+    <div class="code">
+      Wellness quick path:<br>
+      Shop &gt; Wellness &gt; Choose a category &gt; Select format &gt; Add to cart
+    </div>
+    <a href="#" class="button prev">Prev Page</a>
+    <a href="#slide3" class="button next">Next Page</a>
+  </div>
+
+  <div id="page3">
+    <h1>Vapes (Disposables and Cartridges)</h1>
+    <p>Discover etched coil cartridges and disposable vapes in classic and limited strains. Options include 1 ml etched carts, 1 ml disposables, and 2 ml DUO devices.</p>
+    <ul>
+      <li><strong>Cartridges:</strong> 1 ml etched coil lineup (for example: Durban Poison, Watermelon Yeti, Rainbow Kush, Super Sativa)</li>
+      <li><strong>Disposables:</strong> 1 ml etched disposables and 2 ml DUO two-strains-in-one devices</li>
+      <li><strong>Extras:</strong> Compatible devices like GHOST and VOLT pens (Awaken.za)</li>
+    </ul>
+    <div class="code">
+      Tip:<br>
+      Choose your format (cartridge or disposable) + pick strain + check device compatibility + add to cart
+    </div>
+    <a-entity showbutton="target: #box"><a class="button" href="javascript:void(0)">Show Device</a></a-entity>
+    <a href="#slide2" class="button prev">Prev Page</a>
+    <a href="#slide4" class="button next">Next Page</a>
+  </div>
+
+  <div id="page4">
+    <h1>Contact and Support</h1>
+    <p>Questions about orders, wellness guidance, or stocking our brands? Use the contact page and select your inquiry type.</p>
+    <ul>
+      <li><strong>Inquiry types:</strong> Customer Service, Wholesale Enquiry, General Enquiry</li>
+      <li><strong>Response:</strong> A team member will assist with product info, orders, and delivery</li>
+      <li><strong>Location:</strong> Delivery available nationwide in South Africa</li>
+    </ul>
+    <a href="#slide3" class="button prev">Prev Page</a>
+  </div>
+</a-entity>
+
+<!-- Right Panel (no images to avoid CORS/path issues) -->
+<a-entity id="links" class="screen menu dark" htmlembed="" position="2.712 2.5 -4.476" rotation="0 -45 0" style="display: none; position: absolute; top: 0px; left: 0px; overflow: hidden;">
+  <h2>Links</h2>
+  <ul>
+    <li><a class="button" href="https://ilabs.co.za/">Shop iLabs</a></li>
+    <li><a class="button" href="https://ilabs.co.za/collections/wellness">Wellness</a></li>
+    <li><a class="button" href="https://ilabs.co.za/collections/vapes">Vapes</a></li>
+    <li><a class="button" href="https://ilabs.co.za/pages/contact">Contact</a></li>
+  </ul>
+</a-entity>
+  <a-entity showbutton="target: #box"><a class="button">Show Device</a></a-entity>
+<a-box id="box" visible="false"></a-box>
+</a-entity>
+    <!-- === SHOOTING TARGETS SECTION === -->
+    <a-text 
+      value="🎯 SHOOTING RANGE 🎯" 
+      color="#FF0000" 
+      width="8"
+      align="center"
+      position="0 4 -18"
+      animation="property: scale; to: 1.1 1.1 1.1; dir: alternate; loop: true; dur: 1000">
+    </a-text>
+
+    <!-- Easy Targets (Close Range) -->
+    <a-box
+      class="target"
+      target="healthPoints: 3"
+      position="-4 1.5 -18"
+      color="#FF6B6B"
+      shadow
+      animation="property: rotation; to: 0 360 0; loop: true; dur: 4000">
+    </a-box>
+
+    <a-sphere
+      class="target"
+      target="healthPoints: 5"
+      position="0 1.5 -18"
+      radius="0.6"
+      color="#4ECDC4"
+      shadow
+      animation="property: position; to: 0 2.5 -18; dir: alternate; loop: true; dur: 2000">
+    </a-sphere>
+
+    <a-cylinder
+      class="target"
+      target="healthPoints: 3"
+      position="4 1.5 -18"
+      radius="0.5"
+      height="1.2"
+      color="#FFE66D"
+      shadow
+      animation="property: rotation; to: 360 360 0; loop: true; dur: 5000">
+    </a-cylinder>
+
+    <!-- Medium Targets (Mid Range) -->
+    <a-dodecahedron
+      class="target"
+      target="healthPoints: 7"
+      position="-6 2 -25"
+      radius="0.7"
+      color="#A8E6CF"
+      material="metalness: 0.5"
+      shadow
+      animation="property: position; to: -6 3 -25; dir: alternate; loop: true; dur: 3000">
+    </a-dodecahedron>
+
+    <a-octahedron
+      class="target"
+      target="healthPoints: 10"
+      position="6 2 -25"
+      radius="0.8"
+      color="#FF6F91"
+      material="metalness: 0.5; emissive: #FF6F91; emissiveIntensity: 0.3"
+      shadow
+      animation="property: rotation; to: 360 360 360; loop: true; dur: 6000">
+    </a-octahedron>
+
+    <!-- Hard Targets (Far Range - Moving) -->
+    <a-torus-knot
+      class="target"
+      target="healthPoints: 15"
+      position="0 2.5 -30"
+      radius="0.5"
+      radius-tubular="0.15"
+      color="#FFB347"
+      material="metalness: 0.7; emissive: #FFB347; emissiveIntensity: 0.4"
+      shadow
+      animation="property: position; to: 3 2.5 -30; dir: alternate; loop: true; dur: 2500"
+      animation__rotate="property: rotation; to: 360 720 360; loop: true; dur: 8000">
+    </a-torus-knot>
+
+    <!-- Bonus Moving Target -->
+    <a-sphere
+      class="target"
+      target="healthPoints: 20"
+      position="-8 2 -22"
+      radius="0.4"
+      color="#9D4EDD"
+      material="metalness: 0.8; emissive: #9D4EDD; emissiveIntensity: 0.5"
+      shadow
+      animation="property: position; to: 8 2 -22; dir: alternate; loop: true; dur: 4000"
+      animation__scale="property: scale; to: 1.3 1.3 1.3; dir: alternate; loop: true; dur: 1000">
+    </a-sphere>
+
+   
+    
+   
+    <!-- === 3D GLOBE - FAR LEFT ZONE === -->
+    <a-entity 
+      id="globe"
+      globe='
+        globe-image-url: https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg;
+        bump-image-url: https://unpkg.com/three-globe/example/img/earth-topology.png;
+        show-atmosphere: true;
+        atmosphere-color: lightskyblue;
+        atmosphere-altitude: 0.15;
+        points-data: [
+          {"lat": 40.7128, "lng": -74.0060, "size": 0.5, "color": "red", "label": "New York"},
+          {"lat": 51.5074, "lng": -0.1278, "size": 0.5, "color": "blue", "label": "London"},
+          {"lat": 35.6762, "lng": 139.6503, "size": 0.5, "color": "green", "label": "Tokyo"},
+          {"lat": -33.8688, "lng": 151.2093, "size": 0.5, "color": "yellow", "label": "Sydney"},
+          {"lat": 48.8566, "lng": 2.3522, "size": 0.5, "color": "purple", "label": "Paris"},
+          {"lat": -23.5505, "lng": -46.6333, "size": 0.5, "color": "orange", "label": "Sao Paulo"}
+        ];
+        points-altitude: 0.1;
+        points-radius: 0.3;
+        points-color: color;
+        points-label: label'
+      position="-12 2.5 -350"
+      scale="2 2 2"
+      animation="property: rotation; to: 0 360 0; loop: true; dur: 60000; easing: linear">
+    </a-entity>
+
+    <!-- Globe Label -->
+   
+   
+    <!-- === 3D FORCE GRAPH - FAR RIGHT ZONE === -->
+    <a-entity 
+      id="graph"
+      forcegraph='
+        nodes: [
+          {"id": 1, "name": "A-Frame", "group": 1},
+          {"id": 2, "name": "WebXR", "group": 1},
+          {"id": 3, "name": "Three.js", "group": 2},
+          {"id": 4, "name": "VR", "group": 2},
+          {"id": 5, "name": "AR", "group": 3},
+          {"id": 6, "name": "Web", "group": 3}
+        ];
+        links: [
+          {"source": 1, "target": 2},
+          {"source": 1, "target": 3},
+          {"source": 2, "target": 4},
+          {"source": 3, "target": 4},
+          {"source": 4, "target": 5},
+          {"source": 5, "target": 6},
+          {"source": 6, "target": 1}
+        ];
+        numDimensions: 3;
+        nodeAutoColorBy: group;
+        nodeVal: 2;
+        linkWidth: 2;
+        linkOpacity: 0.5'
+      position="-25.72186 3.5 -60.0476" 
+      scale="0.1 0.1 0.1">
+    </a-entity>
+
+    <!-- Force Graph Label -->
+    
+
+    <!-- === TERMINAL DISPLAY - FRONT LEFT ZONE === -->
+ <a-plane class="target" position="9.28696 3.36011 -12.62861" rotation="0 -100.99000000000001 -0.96" width="3" height="2" color="#000000" material="opacity: 0.9" hit-handler="">
+      <a-text value="TERMINAL v1.0\n\nType 'help' for commands\n\n&gt; _" color="#00ff00" width="2.8" align="left" position="-1.35 0.8 0.01" wrap-count="35" font="monoid">
+      </a-text>
+    </a-plane>
+    <!-- === EXTRAS PRIMITIVES === -->
+
+   
+    <!-- Orbiting Lights - Center Stage -->
+    <a-entity 
+      position="0 2.5 -8"
+      animation="property: rotation; to: 0 360 0; loop: true; dur: 10000">
+      <a-sphere position="3 0 0" radius="0.15" color="#00FF00" material="shader: flat"></a-sphere>
+      <a-sphere position="-3 0 0" radius="0.15" color="#FF0000" material="shader: flat"></a-sphere>
+    </a-entity>
+ <a-gltf-model src="#villa" position="-15.79338 -7.5351 6.40122" gltf-model="villa.glb">
+      </a-gltf-model>
+    <!-- Sky -->
+   <a-sky src="#dawn"></a-sky>
+  </a-scene>
+    </div></div></div>
+  
+   <script>
+  // ============================================
+// A-FRAME CUSTOM COMPONENTS
+// ============================================
+
+// Show/Hide Button Component
+AFRAME.registerComponent('showbutton', {
+  schema: { target: { type: 'selector' } },
+  init: function () {
+    let show = false;
+    this.el.addEventListener("click", () => {
+      if (!this.data.target) {
+        console.warn("Target not found for showbutton component");
+        return;
+      }
+      show = !show;
+      this.data.target.setAttribute("visible", show.toString());
+      const link = this.el.querySelector("a");
+      if (link) {
+        link.innerHTML = show ? "Hide Box" : "Show Box";
+      }
+    });
+  }
+});
+
+// Color Changer Component
+AFRAME.registerComponent('color-changer', {
+  init: function() {
+    const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
+    let idx = 0;
+    
+    this.el.addEventListener('click', () => {
+      idx = (idx + 1) % colors.length;
+      this.el.setAttribute('material', 'color', colors[idx]);
+      console.log('Color changed to:', colors[idx]);
+    });
+  }
+});
+
+// Message Bubble Component
+AFRAME.registerComponent('message-bubble', {
+  schema: {
+    text: {type: 'string', default: 'Hello AR!'},
+    speaker: {type: 'string', default: 'User'},
+    color: {type: 'color', default: '#667eea'}
+  },
+  
+  init: function() {
+    const data = this.data;
+    const el = this.el;
+    
+    // Create message structure
+    const bubble = document.createElement('a-entity');
+    
+    // Background plane
+    const bg = document.createElement('a-plane');
+    bg.setAttribute('width', 3);
+    bg.setAttribute('height', 0.6);
+    bg.setAttribute('material', {
+      color: data.color,
+      opacity: 0.9,
+      shader: 'flat',
+      transparent: true
+    });
+    
+    // Speaker text
+    const speakerText = document.createElement('a-text');
+    speakerText.setAttribute('value', data.speaker + ':');
+    speakerText.setAttribute('position', '-1.3 0.1 0.01');
+    speakerText.setAttribute('color', '#ffffff');
+    speakerText.setAttribute('font', 'kelsonsans');
+    speakerText.setAttribute('width', 4);
+    
+    // Message text
+    const messageText = document.createElement('a-text');
+    messageText.setAttribute('value', data.text);
+    messageText.setAttribute('position', '-1.3 -0.1 0.01');
+    messageText.setAttribute('color', '#ffffff');
+    speakerText.setAttribute('font', 'dejavu');
+    messageText.setAttribute('width', 3.5);
+    messageText.setAttribute('wrap-count', 40);
+    
+    // Timestamp
+    const time = new Date().toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    const timeText = document.createElement('a-text');
+    timeText.setAttribute('value', time);
+    timeText.setAttribute('position', '1.2 -0.2 0.01');
+    timeText.setAttribute('color', '#aaaaaa');
+    timeText.setAttribute('width', 2);
+    timeText.setAttribute('align', 'right');
+    
+    bubble.appendChild(bg);
+    bubble.appendChild(speakerText);
+    bubble.appendChild(messageText);
+    bubble.appendChild(timeText);
+    el.appendChild(bubble);
+    
+    // Play sound
+    const sound = document.querySelector('#message-sound');
+    if (sound && window.soundEnabled) {
+      sound.play().catch(e => console.log('Audio play failed'));
+    }
+  }
+});
+
+// ============================================
+// MODEL CONFIGURATION & QUIZ SYSTEM
+// ============================================
+
+const models = {
+  model1: {
+    file: 'training/tubes.glb',
+    name: 'Awaken Etched Cartridge'
+  },
+  model2: {
+    file: 'training/nb.glb',
+    name: 'Natural Balance Tincture'
+  },
+  model3: {
+    file: 'training/EXPORT7.glb',
+    name: 'Travelers Disposable'
+  },
+  model4: {
+    file: 'training/EXPORT9.glb',
+    name: 'Healing Balm'
+  },
+  model5: {
+    file: 'training/pug.glb',
+    name: 'Pug Dab Co'
+  },
+  model6: {
+    file: 'training/etcheddispo.glb',
+    name: 'Awaken Etched Disposable'
+  }
+};
+
+let currentModel = 'model1';
+let answers = {};
+let currentHotspot = null;
+
+const modelQuestions = {
+  model1: [
+    {
+      id: 'hotspot1',
+      label: '1',
+      question: 'What feature of the Awaken Etched cartridge helps reduce clogging compared to traditional cartridges?',
+      options: ['Wider airway design', 'Ceramic heating element', 'Advanced coil technology', 'Temperature control'],
+      correctAnswer: 0
+    },
+    {
+      id: 'hotspot2',
+      label: '2',
+      question: 'The cartridge has a dual-airway system — how does that affect airflow and vapor production?',
+      options: ['Restricts airflow', 'Improves airflow and increases vapor', 'No significant effect', 'Reduces vapor temperature'],
+      correctAnswer: 1
+    },
+    {
+      id: 'hotspot3',
+      label: '3',
+      question: 'What is the minimum battery / connector spec (e.g. thread type) you must match to reliably use an Awaken Etched cartridge?',
+      options: ['510 thread', 'Magnetic adapter', 'USB-C', 'Proprietary connector'],
+      correctAnswer: 0
+    }
+  ],
+  model2: [
+    {
+      id: 'hotspot1',
+      label: '1',
+      question: 'What is the cannabinoid ratio (e.g. 1:1 CBD : THC, or FECO) used in Natural Balance Tincture?',
+      options: ['1:1 CBD:THC', 'Full spectrum FECO', 'CBD only', 'THC dominant'],
+      correctAnswer: 0
+    },
+    {
+      id: 'hotspot2',
+      label: '2',
+      question: 'How is the tincture typically administered (e.g. sublingually, mixed into food), and what factors influence absorption speed?',
+      options: ['Topically applied', 'Sublingually for faster absorption', 'Mixed in water', 'Inhaled as vapor'],
+      correctAnswer: 1
+    },
+    {
+      id: 'hotspot3',
+      label: '3',
+      question: 'What storage conditions (temperature, light exposure) are ideal to preserve potency of the tincture?',
+      options: ['Warm and bright', 'Cool, dark place', 'Refrigerator only', 'Room temperature, direct sunlight'],
+      correctAnswer: 1
+    }
+  ],
+  model3: [
+    {
+      id: 'hotspot1',
+      label: '1',
+      question: 'What are the advantages and disadvantages of a disposable vape device like the Travelers compared with refillable cartridges?',
+      options: ['More expensive, less convenient', 'Convenient, no maintenance but less eco-friendly', 'Requires assembly', 'Better flavor, harder to use'],
+      correctAnswer: 1
+    },
+    {
+      id: 'hotspot2',
+      label: '2',
+      question: 'What safety or waste-management issues should you consider when disposing of a used Travelers disposable device?',
+      options: ['Throw in regular trash', 'Battery recycling and proper disposal', 'Burn it safely', 'No special considerations'],
+      correctAnswer: 1
+    },
+    {
+      id: 'hotspot3',
+      label: '3',
+      question: 'The Travelers line includes different flavor / strain options — what determines which strain a user should choose?',
+      options: ['Price only', 'Desired effects and personal preference', 'Color of packaging', 'Random selection'],
+      correctAnswer: 1
+    }
+  ],
+  model4: [
+    {
+      id: 'hotspot1',
+      label: '1',
+      question: 'What are the primary active botanicals (or "nature\'s healers") included in the Healing Balm formula?',
+      options: ['Synthetic compounds', 'CBD, arnica, lavender, calendula', 'Petroleum jelly', 'Alcohol-based'],
+      correctAnswer: 1
+    },
+    {
+      id: 'hotspot2',
+      label: '2',
+      question: 'In which use-cases or conditions (e.g. muscle soreness, skin irritation) is the Healing Balm intended to be applied?',
+      options: ['Internal use only', 'Muscle soreness, skin irritation, inflammation', 'Hair care', 'Dental issues'],
+      correctAnswer: 1
+    },
+    {
+      id: 'hotspot3',
+      label: '3',
+      question: 'How long after application should a user wait before washing the area (or before product absorption is complete)?',
+      options: ['Immediately', '15-30 minutes for full absorption', '24 hours', 'Never wash'],
+      correctAnswer: 1
+    }
+  ],
+  model5: [
+    {
+      id: 'hotspot1',
+      label: '1',
+      question: 'What kind of concentrate (e.g. shatter, budder, wax, live resin) does Pug Dab Co specialize in?',
+      options: ['Edibles', 'Live resin and premium concentrates', 'Flower only', 'Tinctures'],
+      correctAnswer: 1
+    },
+    {
+      id: 'hotspot2',
+      label: '2',
+      question: 'What is the recommended method for dosing or vaporizing a dab from Pug Dab Co to minimize waste?',
+      options: ['High heat combustion', 'Low-temp dab at 315-450°F', 'Mix with flower', 'Eat directly'],
+      correctAnswer: 1
+    },
+    {
+      id: 'hotspot3',
+      label: '3',
+      question: 'What purity or testing standards (e.g. solvent residue levels) should be verified before using a Pug Dab Co product?',
+      options: ['No testing needed', 'Third-party lab tests for potency and residual solvents', 'Visual inspection only', 'Smell test'],
+      correctAnswer: 1
+    }
+  ],
+  model6: [
+    {
+      id: 'hotspot1',
+      label: '1',
+      question: 'What makes the Awaken Etched Disposable different from standard disposables in terms of design and performance?',
+      options: ['Lower price point', 'Enhanced airflow, ceramic core technology, and etched chamber precision', 'Larger battery only', 'Standard design with basic features'],
+      correctAnswer: 1
+    },
+    {
+      id: 'hotspot2',
+      label: '2',
+      question: 'How should a customer be advised to store their Awaken Etched Disposable to maintain optimal vapor quality and prevent clogging?',
+      options: ['Any position is fine', 'Store upright, room temperature, avoid direct sunlight', 'Refrigerate immediately', 'Keep in hot car'],
+      correctAnswer: 1
+    },
+    {
+      id: 'hotspot3',
+      label: '3',
+      question: 'When a customer reports low vapor production, what steps should be checked before concluding the device is faulty?',
+      options: ['Replace immediately', 'Check battery charge, airflow path, preheat function, and oil viscosity', 'Shake vigorously', 'Return to store'],
+      correctAnswer: 1
+    }
+  ]
+};
+
+// Switch model function
+function switchModel(modelId) {
+  console.log('Switching to:', modelId);
+  currentModel = modelId;
+  
+  // Update model
+  const modelEntity = document.getElementById('mainModel');
+  if (modelEntity) {
+    modelEntity.setAttribute('gltf-model', models[modelId].file);
+  }
+  
+  // Reset answers
+  answers = {};
+  const progressEl = document.getElementById('progress');
+  if (progressEl) {
+    progressEl.textContent = '0';
+  }
+  
+  // Reset hotspot colors and status
+  for (let i = 1; i <= 3; i++) {
+    const hotspot = document.getElementById(`hotspot${i}`);
+    const status = document.getElementById(`status${i}`);
+    if (hotspot) hotspot.setAttribute('color', '#3b82f6');
+    if (status) status.setAttribute('value', '');
+  }
+  
+  // Re-initialize hotspots with new questions
+  initializeHotspots();
+  
+  // Update button states
+  document.querySelectorAll('.model-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  event.target.classList.add('active');
+  
+  // Close question card if open
+  const questionCard = document.getElementById('questionCard');
+  if (questionCard) {
+    questionCard.classList.remove('active');
+  }
+  currentHotspot = null;
+}
+
+function initializeHotspots() {
+  const currentQuestions = modelQuestions[currentModel];
+  currentQuestions.forEach(hotspot => {
+    const element = document.getElementById(hotspot.id);
+    if (element) {
+      // Remove old listeners by cloning
+      const newElement = element.cloneNode(true);
+      element.parentNode.replaceChild(newElement, element);
+      
+      // Add new listener with updated question
+      newElement.addEventListener('click', () => {
+        console.log('Clicked hotspot:', hotspot.id);
+        showQuestion(hotspot);
+      });
+      
+      // Ensure proper material
+      newElement.setAttribute('material', 'shader: flat');
+    }
+  });
+}
+
+function showQuestion(hotspot) {
+  currentHotspot = hotspot;
+  const card = document.getElementById('questionCard');
+  const title = document.getElementById('questionTitle');
+  const text = document.getElementById('questionText');
+  const optionsContainer = document.getElementById('options');
+
+  if (!card || !title || !text || !optionsContainer) return;
+
+  title.textContent = `Component ${hotspot.label}`;
+  text.textContent = hotspot.question;
+
+  // Clear and populate options
+  optionsContainer.innerHTML = '';
+  hotspot.options.forEach((option, index) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.textContent = option;
+    btn.onclick = () => handleAnswer(index);
+    optionsContainer.appendChild(btn);
+  });
+
+  // Highlight selected hotspot
+  const hotspotEl = document.getElementById(hotspot.id);
+  if (hotspotEl) {
+    hotspotEl.setAttribute('color', '#fbbf24');
+  }
+  card.classList.add('active');
+}
+
+function handleAnswer(optionIndex) {
+  if (!currentHotspot) return;
+  
+  const isCorrect = optionIndex === currentHotspot.correctAnswer;
+  const hotspotId = currentHotspot.id;
+  
+  answers[hotspotId] = isCorrect ? 'correct' : 'incorrect';
+
+  // Update hotspot color
+  const color = isCorrect ? '#4ade80' : '#ef4444';
+  const hotspotEl = document.getElementById(hotspotId);
+  if (hotspotEl) {
+    hotspotEl.setAttribute('color', color);
+  }
+
+  // Update status text
+  const statusNum = hotspotId.replace('hotspot', '');
+  const statusEl = document.getElementById(`status${statusNum}`);
+  if (statusEl) {
+    statusEl.setAttribute('value', isCorrect ? '✓' : '✗');
+    statusEl.setAttribute('color', color);
+  }
+
+  // Update progress
+  const progressEl = document.getElementById('progress');
+  if (progressEl) {
+    progressEl.textContent = Object.keys(answers).length;
+  }
+
+  // Hide question card after delay
+  setTimeout(() => {
+    const questionCard = document.getElementById('questionCard');
+    if (questionCard) {
+      questionCard.classList.remove('active');
+    }
+    currentHotspot = null;
+  }, 1500);
+}
+
+// ============================================
+// AR CHAT CONTROLLER
+// ============================================
+
+class ARChatController {
+  constructor() {
+    this.messages = [];
+    this.messageHistory = [];
+    this.historyIndex = -1;
+    this.demoMode = false;
+    this.soundEnabled = true;
+    this.particlesEnabled = true;
+    this.messageCount = 0;
+    this.maxMessages = 10;
+    this.animating = false;
+    
+    this.speakerColors = {
+      'You': '#667eea',
+      'Alice': '#f093fb',
+      'Bob': '#58c1ee',
+      'AI': '#00ff88',
+      'System': '#ffc107'
+    };
+    
+    this.demoMessages = [
+      { text: "Welcome to A-Frame AR Chat!", speaker: "System" },
+      { text: "This is a spatial messaging system", speaker: "AI" },
+      { text: "You can place messages in 3D space!", speaker: "Alice" },
+      { text: "Try looking around and clicking", speaker: "Bob" },
+      { text: "Or type your own messages below", speaker: "System" },
+      { text: "VR and AR modes are fully supported!", speaker: "AI" }
+    ];
+    
+    this.init();
+  }
+  
+  init() {
+    // Get elements
+    this.scene = document.querySelector('a-scene');
+    this.messageContainer = document.querySelector('#message-container');
+    this.effectsContainer = document.querySelector('#effects-container');
+    this.messageInput = document.querySelector('#messageInput');
+    this.speakerSelect = document.querySelector('#speakerSelect');
+    this.sendBtn = document.querySelector('#sendBtn');
+    
+    // Setup event listeners
+    this.setupEventListeners();
+    
+    // Setup scene interaction
+    this.setupSceneInteraction();
+    
+    // Set global sound state
+    window.soundEnabled = this.soundEnabled;
+  }
+  
+  setupEventListeners() {
+    // Send message function
+    const sendMessage = () => {
+      const text = this.messageInput.value.trim();
+      const speaker = this.speakerSelect.value;
+      
+      if (text) {
+        this.addMessage(text, speaker);
+        
+        if (speaker === 'You') {
+          this.messageHistory.push(text);
+          this.historyIndex = this.messageHistory.length;
         }
         
-        // Initialize when scene is loaded
-        document.querySelector('a-scene').addEventListener('loaded', () => {
-            const chatApp = new ARChatController();
-            
-            // Show welcome message
-            setTimeout(() => {
-                chatApp.addMessage('Welcome! Start typing or click in the scene', 'System');
-            }, 1000);
-        });
+        this.messageInput.value = '';
+        this.messageInput.focus();
         
-        // Handle VR mode changes
-        document.querySelector('a-scene').addEventListener('enter-vr', () => {
-            document.querySelector('#chat-controls').style.display = 'none';
-            document.querySelector('#hud-text').setAttribute('visible', true);
-        });
+        // Auto-response in demo mode
+        if (this.demoMode && speaker === 'You') {
+          setTimeout(() => {
+            const responses = [
+              "That's fascinating! Tell me more.",
+              "I see what you mean.",
+              "Great observation!",
+              "Let me process that...",
+              "Interesting perspective!"
+            ];
+            const response = responses[Math.floor(Math.random() * responses.length)];
+            this.addMessage(response, 'AI');
+          }, 1500);
+        }
+      }
+    };
+    
+    // Keyboard events
+    if (this.messageInput) {
+      this.messageInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          sendMessage();
+        }
+      });
+      
+      this.messageInput.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (this.historyIndex > 0) {
+            this.historyIndex--;
+            this.messageInput.value = this.messageHistory[this.historyIndex];
+          }
+        } else if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (this.historyIndex < this.messageHistory.length - 1) {
+            this.historyIndex++;
+            this.messageInput.value = this.messageHistory[this.historyIndex];
+          } else {
+            this.historyIndex = this.messageHistory.length;
+            this.messageInput.value = '';
+          }
+        }
+      });
+    }
+    
+    // Alt + number to change speaker
+    document.addEventListener('keydown', (e) => {
+      if (e.altKey && this.speakerSelect) {
+        switch(e.key) {
+          case '1': this.speakerSelect.value = 'You'; break;
+          case '2': this.speakerSelect.value = 'Alice'; break;
+          case '3': this.speakerSelect.value = 'Bob'; break;
+          case '4': this.speakerSelect.value = 'AI'; break;
+          case '5': this.speakerSelect.value = 'System'; break;
+        }
+      }
+    });
+    
+    if (this.sendBtn) {
+      this.sendBtn.addEventListener('click', sendMessage);
+    }
+    
+    // Control buttons
+    const addMessageBtn = document.querySelector('#addMessage');
+    if (addMessageBtn) {
+      addMessageBtn.addEventListener('click', () => {
+        const randomMessages = [
+          "Hello from the 3D world!",
+          "This is amazing!",
+          "VR is the future",
+          "Testing spatial audio",
+          "Look at this view!"
+        ];
+        const randomSpeakers = ['Alice', 'Bob', 'AI'];
+        const msg = randomMessages[Math.floor(Math.random() * randomMessages.length)];
+        const speaker = randomSpeakers[Math.floor(Math.random() * randomSpeakers.length)];
+        this.addMessage(msg, speaker);
+      });
+    }
+    
+    const clearAllBtn = document.querySelector('#clearAll');
+    if (clearAllBtn) {
+      clearAllBtn.addEventListener('click', () => {
+        this.clearMessages();
+      });
+    }
+    
+    const animateBtn = document.querySelector('#animateBtn');
+    if (animateBtn) {
+      animateBtn.addEventListener('click', (e) => {
+        this.animating = !this.animating;
+        e.target.classList.toggle('active');
+        this.animateMessages();
+      });
+    }
+    
+    const demoModeBtn = document.querySelector('#demoMode');
+    if (demoModeBtn) {
+      demoModeBtn.addEventListener('click', (e) => {
+        this.toggleDemo();
+        e.target.classList.toggle('active');
+      });
+    }
+  }
+  
+  setupSceneInteraction() {
+    // Click on floor to place messages
+    const floor = document.querySelector('#floor');
+    if (floor) {
+      floor.addEventListener('click', (e) => {
+        if (e.detail && e.detail.intersection) {
+          const point = e.detail.intersection.point;
+          this.addMessage('Spatial marker!', 'Click', point);
+          this.createClickEffect(point);
+        }
+      });
+      
+      // Make floor visible for interaction
+      floor.setAttribute('visible', true);
+    }
+  }
+  
+  addMessage(text, speaker = 'User', position = null) {
+    if (!this.messageContainer) return;
+    
+    const messageEntity = document.createElement('a-entity');
+    const color = this.speakerColors[speaker] || '#667eea';
+    
+    messageEntity.setAttribute('message-bubble', {
+      text: text,
+      speaker: speaker,
+      color: color
+    });
+    
+    if (position) {
+      // Place at clicked position
+      messageEntity.setAttribute('position', {
+        x: position.x,
+        y: position.y + 1,
+        z: position.z
+      });
+      messageEntity.setAttribute('look-at', '[camera]');
+      this.scene.appendChild(messageEntity);
+    } else {
+      // Add to message container
+      const index = this.messages.length;
+      const row = Math.floor(index / 1);
+      const yOffset = row * -0.7;
+      
+      messageEntity.setAttribute('position', {
+        x: 0,
+        y: yOffset + 0.5,
+        z: 0.01
+      });
+      
+      this.messageContainer.appendChild(messageEntity);
+      this.messages.push(messageEntity);
+      
+      // Remove old messages
+      if (this.messages.length > this.maxMessages) {
+        const oldMessage = this.messages.shift();
+        oldMessage.parentNode.removeChild(oldMessage);
         
-        document.querySelector('a-scene').addEventListener('exit-vr', () => {
-            document.querySelector('#chat-controls').style.display = 'flex';
-            document.querySelector('#hud-text').setAttribute('visible', false);
+        // Reposition remaining messages
+        this.messages.forEach((msg, i) => {
+          const newRow = Math.floor(i / 1);
+          const newY = newRow * -0.7 + 0.5;
+          msg.setAttribute('animation', {
+            property: 'position',
+            to: `0 ${newY} 0.01`,
+            dur: 300
+          });
         });
-    </script>
+      }
+    }
+    
+    // Add animations
+    messageEntity.setAttribute('animation__scale', {
+      property: 'scale',
+      from: '0 0 0',
+      to: '1 1 1',
+      dur: 500,
+      easing: 'easeOutElastic'
+    });
+    
+    this.createMessageEffect(position || {
+      x: 0,
+      y: 2,
+      z: -3
+    });
+  }
+  
+  createMessageEffect(position) {
+    if (!this.effectsContainer) return;
+    
+    const effect = document.createElement('a-ring');
+    effect.setAttribute('radius-inner', 0.1);
+    effect.setAttribute('radius-outer', 0.3);
+    effect.setAttribute('color', '#667eea');
+    effect.setAttribute('opacity', 0.8);
+    effect.setAttribute('position', position);
+    effect.setAttribute('rotation', '-90 0 0');
+    
+    effect.setAttribute('animation__scale', {
+      property: 'scale',
+      from: '0.1 0.1 0.1',
+      to: '2 2 2',
+      dur: 1000
+    });
+    
+    effect.setAttribute('animation__fade', {
+      property: 'opacity',
+      from: 0.8,
+      to: 0,
+      dur: 1000
+    });
+    
+    this.effectsContainer.appendChild(effect);
+    
+    setTimeout(() => {
+      if (effect.parentNode) {
+        effect.parentNode.removeChild(effect);
+      }
+    }, 1000);
+  }
+  
+  createClickEffect(position) {
+    if (!this.scene) return;
+    
+    // Create expanding sphere effect
+    const sphere = document.createElement('a-sphere');
+    sphere.setAttribute('radius', 0.1);
+    sphere.setAttribute('color', '#00ff88');
+    sphere.setAttribute('material', 'opacity: 0.6; transparent: true');
+    sphere.setAttribute('position', position);
+    
+    sphere.setAttribute('animation__grow', {
+      property: 'radius',
+      from: 0.1,
+      to: 0.5,
+      dur: 500
+    });
+    
+    sphere.setAttribute('animation__fade', {
+      property: 'material.opacity',
+      from: 0.6,
+      to: 0,
+      dur: 500
+    });
+    
+    this.scene.appendChild(sphere);
+    
+    setTimeout(() => {
+      if (sphere.parentNode) {
+        sphere.parentNode.removeChild(sphere);
+      }
+    }, 500);
+  }
+  
+  clearMessages() {
+    this.messages.forEach(msg => {
+      if (msg.parentNode) {
+        msg.parentNode.removeChild(msg);
+      }
+    });
+    this.messages = [];
+    
+    // Clear spatial messages
+    if (this.scene) {
+      const spatialMessages = this.scene.querySelectorAll('[message-bubble]');
+      spatialMessages.forEach(msg => {
+        if (!this.messages.includes(msg) && msg.parentNode) {
+          msg.parentNode.removeChild(msg);
+        }
+      });
+    }
+    
+    this.addMessage('Chat cleared', 'System');
+  }
+  
+  toggleDemo() {
+    this.demoMode = !this.demoMode;
+    if (this.demoMode) {
+      this.runDemo();
+    }
+  }
+  
+  runDemo(index = 0) {
+    if (!this.demoMode || index >= this.demoMessages.length) {
+      if (this.demoMode) {
+        // Loop demo
+        setTimeout(() => this.runDemo(0), 3000);
+      }
+      return;
+    }
+    
+    const msg = this.demoMessages[index];
+    this.addMessage(msg.text, msg.speaker);
+    
+    setTimeout(() => this.runDemo(index + 1), 2000);
+  }
+  
+  animateMessages() {
+    if (!this.animating) return;
+    
+    this.messages.forEach((msg, i) => {
+      msg.setAttribute('animation__wave', {
+        property: 'position',
+        to: `0 ${Math.sin(Date.now() * 0.001 + i) * 0.2} 0.01`,
+        dur: 1000,
+        loop: true
+      });
+    });
+  }
+}
+
+// ============================================
+// INITIALIZATION
+// ============================================
+
+document.addEventListener('DOMContentLoaded', () => {
+  const scene = document.querySelector('a-scene');
+  
+  if (scene) {
+    if (scene.hasLoaded) {
+      initializeApp();
+    } else {
+      scene.addEventListener('loaded', initializeApp);
+    }
+  }
+});
+
+function initializeApp() {
+  console.log('A-Frame scene loaded!');
+  console.log('Components Active:', Object.keys(AFRAME.components).length);
+  
+  // Initialize hotspots
+  initializeHotspots();
+  
+  // Initialize AR Chat
+  const chatApp = new ARChatController();
+  
+  // Show welcome message
+  setTimeout(() => {
+    chatApp.addMessage('Welcome! Start typing or click in the scene', 'System');
+  }, 1000);
+  
+  // Add color changer to interactive elements
+  document.querySelectorAll('.interactive').forEach(el => {
+    el.setAttribute('color-changer', '');
+  });
+  
+  // Add hit handlers to all targets
+  document.querySelectorAll('.target').forEach(el => {
+    el.setAttribute('hit-handler', '');
+  });
+  
+  // Handle VR/AR mode changes
+  const scene = document.querySelector('a-scene');
+  if (scene) {
+    scene.addEventListener('enter-vr', () => {
+      console.log('Entering VR/AR mode');
+      const ground = document.getElementById('ground');
+      const sky = document.getElementById('sky');
+      
+      // Check if we're in AR mode
+      if (scene.is('ar-mode')) {
+        if (ground) ground.setAttribute('visible', 'false');
+        if (sky) sky.setAttribute('visible', 'false');
+      }
+    });
+
+    scene.addEventListener('exit-vr', () => {
+      console.log('Exiting VR/AR mode');
+      const ground = document.getElementById('ground');
+      const sky = document.getElementById('sky');
+      
+      if (ground) ground.setAttribute('visible', 'true');
+      if (sky) sky.setAttribute('visible', 'true');
+    });
+  }
+  
+  console.log('✓ All systems initialized');
+}
+</script>
+   
 </body>
 </html>
