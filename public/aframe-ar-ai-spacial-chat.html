@@ -20,7 +20,7 @@
   <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
   <!-- Super Shooter Kit -->
   <script src="https://unpkg.com/aframe-super-shooter-kit/dist/aframe-super-shooter-kit.min.js"></script>
-   <script src="js/htmlbuild.js"></script>
+   <script src="htmlbuild.js"></script>
   
 
 
@@ -370,132 +370,179 @@
     border-color: rgba(255, 255, 255, 0.4);
     transform: translateX(6px);
   }
-
-    #info {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            text-align: center;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px 20px;
-            border-radius: 10px;
-            z-index: 100;
-            pointer-events: all;
+#info {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ffffff;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 16px 20px;
+    border-radius: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    pointer-events: all;
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 0.3px;
   }
+
   #controls {
-            
-  position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 100;
-            cursor: pointer;
-            pointer-events: all;
-        }
-        button {
-            padding: 10px 20px;
-            background: rgba(102, 126, 234, 0.8);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s;
-            pointer-events: all;
-        }
-        button:hover {
-            background: rgba(102, 126, 234, 1);
-        }
-        button.active {
-            background: rgba(118, 75, 162, 1);
-        }
-        #inputContainer {
-            position: absolute;
-            bottom: 70px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 100;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            pointer-events: all;
-        }
-        #messageInput {
-            padding: 10px 15px;
-            width: 300px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(102, 126, 234, 0.5);
-            border-radius: 5px;
-            outline: none;
-            font-size: 14px;
-            cursor: pointer;
-            pointer-events: all;
-            
-        }
-        #messageInput:focus {
-            border-color: rgba(102, 126, 234, 1);
-            background: rgba(255, 255, 255, 0.15);
-        }
-        #messageInput::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-        #speakerSelect {
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(102, 126, 234, 0.5);
-            border-radius: 5px;
-            outline: none;
-            cursor: pointer;
-            pointer-events: all;
-        }
-        #speakerSelect option {
-            background: #1a1a1a;
-        }
-        #sendBtn {
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: transform 0.2s;
-            pointer-events: all;
-        }
-        #sendBtn:hover {
-            transform: scale(1.05);
-        }
-        #sendBtn:active {
-            transform: scale(0.95);
-            @media (max-width: 600px) {
-            #chat-controls {
-                bottom: 10px;
-                padding: 10px;
-                width: 95%;
-            }
-            
-            #speakerSelect {
-                min-width: 100px;
-                font-size: 12px;
-            }
-            
-            #messageInput {
-                font-size: 12px;
-            }
-            
-            .control-btn {
-                font-size: 11px;
-                padding: 6px 10px;
-            }
-        }
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 100;
+    pointer-events: all;
+  }
+
+  button {
+    padding: 12px 18px;
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: all;
+  }
+
+  button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateX(3px);
+  }
+
+  button.active {
+    background: #ffffff;
+    border-color: #ffffff;
+    color: #000000;
+    font-weight: 500;
+  }
+
+  #inputContainer {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    pointer-events: all;
+  }
+
+  #messageInput {
+    padding: 12px 18px;
+    width: 300px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    outline: none;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: all;
+  }
+
+  #messageInput:focus {
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  #messageInput::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  #speakerSelect {
+    padding: 12px 18px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    outline: none;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: all;
+  }
+
+  #speakerSelect:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+
+  #speakerSelect option {
+    background: #000000;
+  }
+
+  #sendBtn {
+    padding: 12px 18px;
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: all;
+  }
+
+  #sendBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateX(3px);
+  }
+
+  #sendBtn:active {
+    background: #ffffff;
+    border-color: #ffffff;
+    color: #000000;
+    font-weight: 500;
+  }
+
+  @media (max-width: 600px) {
+    #inputContainer {
+      bottom: 24px;
+      padding: 16px;
+      width: 90%;
+      flex-wrap: wrap;
+    }
+    
+    #speakerSelect {
+      min-width: 100px;
+      font-size: 12px;
+      padding: 10px 14px;
+    }
+    
+    #messageInput {
+      font-size: 12px;
+      padding: 10px 14px;
+      width: 100%;
+    }
+    
+    button {
+      font-size: 12px;
+      padding: 10px 14px;
+    }
+  }
         
 </style>
 
@@ -533,7 +580,7 @@
 
     <!-- Header -->
     <div class="header">
-      <img src="ilabs-logo.png" alt="iLabs Logo" class="header-logo">
+      <img src="training/ilabs-logo.png" alt="iLabs Logo" class="header-logo">
       <div class="header-content">
         <h1>iLabs Training</h1>
         <p>Select a model and click components to test your knowledge</p>
@@ -636,19 +683,12 @@
         </a-entity>
 
         <!-- Floating UI elements -->
-        <a-entity id="floating-elements" position="3 2 -3">
+     <a-entity id="floating-elements" position="27.16243 5.4167 -0.1759" scale="3 3 3">
             <!-- Status orb -->
-            <a-sphere 
-                id="status-orb"
-                radius="0.1" 
-                color="#00ff88"
-                material="emissive: #00ff88; emissiveIntensity: 0.5; shader: standard"
-                animation="property: rotation; to: 0 360 0; loop: true; dur: 4000"
-                animation__pulse="property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dir: alternate; loop: true; dur: 1000">
+            <a-sphere id="status-orb" radius="0.1" color="#00ff88" material="emissive: #00ff88; emissiveIntensity: 0.5" animation="dur: 4000; loop: true; property: rotation; to: 0 360 0" animation__pulse="dir: alternate; from: 1 1 1; loop: true; property: scale; to: 1.2 1.2 1.2">
             </a-sphere>
             <a-text value="Online" align="center" position="0 -0.2 0" scale="0.3 0.3 0.3" color="#00ff88"></a-text>
         </a-entity>
-
         <!-- Clickable floor plane for message placement -->
         <a-plane 
             id="floor"
