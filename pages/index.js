@@ -6,6 +6,7 @@ export default function Landing() {
 
   const pages = [
     { name: "AR/AI Spacial Chat", path: "/ar-ai-spacial-chat.html" },
+    { name: "my vr office", path: "https://vr-workspace.vercel.app/"},
     { name: "A-FRAME AR/AI Spacial Chat", path: "/aframe-ar-ai-spacial-chat.html" },
     { name: "test", path: "/menutest.html" },
      { name: "Training", path: "/ilabs-training.html" },
