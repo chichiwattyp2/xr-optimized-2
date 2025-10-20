@@ -1,3 +1,52 @@
+// pages/landing.js
+import { useState } from "react";
+
+export default function Landing() {
+  const [filter, setFilter] = useState("");
+
+  const pages = [
+    { name: "AR/AI Spacial Chat", path: "/ar-ai-spacial-chat.html" },
+    { name: "my vr office", path: "https://vr-workspace.vercel.app/"},
+    { name: "A-FRAME AR/AI Spacial Chat", path: "/aframe-ar-ai-spacial-chat.html" },
+    { name: "test", path: "/menutest.html" },
+     { name: "Training", path: "/ilabs-training.html" },
+    { name: "music player", path: "/aframe-webxr-synth.html" },
+    { name: "components", path: "/components.html" },
+     { name: "browser", path: "/xrbrowser.html" },
+    { name: "Assistant1", path: "/assistant1.html" },
+     { name: "Assistant2", path: "/assistant-shop.html" },
+    { name: "Ar", path: "/ar.html" },
+    { name: "MR", path: "/AR-studio.html" },
+    { name: "AR Showcase", path: "/ar-showcase.html" },
+    { name: "Browser", path: "/browser.html" },
+    { name: "Beta", path: "/beta.html" },
+    { name: "Gallery", path: "/gallery.html" },
+    { name: "Maps", path: "/maps.html" },
+    { name: "Menu", path: "/menu.html" },
+    { name: "Shop", path: "/shop.html" },
+    { name: "Site Index", path: "/site-index.html" },
+    { name: "Terrain", path: "/terrain.html" },
+    { name: "Video Player", path: "/video-player.html" },
+    { name: "Vologram", path: "/vologram.html" },
+    { name: "Workspace", path: "/workspace.html" },
+    { name: "XR Test", path: "/XR-Test.html" },
+    { name: "AR Hologram", path: "/ar-hologram" },
+    { name: "Assistant Shop", path: "/assistant-shop.html" },
+    { name: "Assistant", path: "/assistant.html" },
+    { name: "Geodome", path: "/geodome.html" },
+    { name: "Studio", path: "/studio.html" },
+    { name: "XR Shop", path: "/xrshop.html" },
+    { name: "XR Shop 2", path: "/xrshop2.html" },
+    { name: "Wall UX", path: "/wall-ux/index.html" },
+    { name: "XR Labs", path: "xrlabs" },
+     { name: "Vibes", path: "vibes.html" },
+  ];
+
+  const filteredPages = pages.filter((p) =>
+    p.name.toLowerCase().includes(filter.toLowerCase())
+  );
+
+  return (
     <div style={{ fontFamily: "Arial, sans-serif", padding: "2rem" }}>
       <h1 style={{ textAlign: "center" }}>Landing Page</h1>
       <div style={{ display: "flex", justifyContent: "center", marginBottom: "1.5rem" }}>
