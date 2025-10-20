@@ -1,86 +1,39 @@
+# 🧠 XR Home Chat
+
+**XR Home Chat** is an experimental **WebXR communication layer** that merges **AI conversation, spatial computing, and immersive design** into one responsive 3D interface.  
+Built with **A-Frame** and powered by **OpenAI**, it allows users to **chat or speak** with an AI assistant that lives inside a dynamic, ambient **virtual home environment**.
 
 ---
 
-# 🌌 XR Home Chat
+## 🌍 Vision
 
-**XR Home Chat** is an experimental **A-Frame VR/AR app** with an integrated **OpenAI chatbot and voice assistant**.
-You can type or speak to the AI inside a 3D environment — and it answers right on your floating panel in VR. ✨
+Part of the **iLabs XR Ecosystem**, XR Home Chat explores what happens when **AI presence** meets **immersive space**.  
+It’s not just a chatbot in 3D — it’s a prototype for **spatially aware AI companions**, capable of understanding and responding inside your XR world.
 
----
-
-## 🚀 Features
-
-* **Immersive A-Frame Scene** — clean, minimalist 3D panel for conversations.
-* **Text Chat** — powered by OpenAI’s `Responses API` with **streaming SSE output**.
-* **Voice Chat** — WebRTC + OpenAI **Realtime API** (ephemeral tokens).
-* **Edge Functions** — serverless routes (`/api/chat`, `/api/realtime-token`, `/api/health`) deployed on **Vercel Edge Runtime**.
-* **Strict but Flexible CSP** — lets A-Frame and WebRTC run safely.
-* **One-click deploy** to Vercel.
+> *“Your AI shouldn’t live in a window — it should live in your world.”*
 
 ---
 
-## 🛠️ Project Structure
+## 🧩 Core Features
 
-```
+- 🕹️ **Conversational 3D Interface** — floating chat panel designed for seamless use in VR/AR.  
+- 💬 **Text Chat** — live-streamed responses from OpenAI’s `Responses API`.  
+- 🎙️ **Voice Chat** — real-time interaction using OpenAI’s `Realtime API` via WebRTC.  
+- ⚡ **Edge Runtime Architecture** — minimal latency, modular endpoints, and secure key handling.  
+- 🧱 **A-Frame Scene System** — clean, modular layout for rapid prototyping of AI-driven XR interfaces.  
+- 🔐 **Secure CSP Configuration** — optimized for WebXR, WebRTC, and AI integrations.  
+
+---
+
+## 🧠 Project Structure
+
+```bash
 xr-home-chat/
-│── index.html          # A-Frame frontend
-│── client.js           # Handles chat streaming + voice
+│── index.html            # Core A-Frame scene and spatial UI
+│── client.js             # Handles chat streaming + voice synthesis
 │── package.json
-│── vercel.json         # CSP headers
+│── vercel.json           # Content Security Policy + route config
 │── api/
-│    ├── chat.js        # Text chat via OpenAI Responses API
-│    ├── realtime-token.js # Ephemeral tokens for Realtime API
-│    └── health.js      # Debug endpoint for env vars
-```
-
----
-
-## ⚡ Deployment (Vercel)
-
-1. Push this repo to **GitHub**.
-2. Import it into **Vercel**.
-3. Add Environment Variables (**Settings → Environment Variables**) for both **Preview** and **Production**:
-
-   ```
-   OPENAI_API_KEY       = sk-proj-xxxxxxxxxxxxxxxxxxxxxxxx
-   OPENAI_MODEL_TEXT    = gpt-4o-mini
-   OPENAI_MODEL_REALTIME= gpt-4o-realtime-preview
-   ```
-4. Redeploy.
-5. Visit:
-
-   * `/` → VR scene with floating chat panel
-   * `/api/health` → shows env status (handy debug)
-
----
-
-## 🎤 Usage
-
-* **Type:** enter a message in the input box and hit **Send**.
-* **Speak:** click 🎤 to start a voice session — the model responds with **live audio**.
-
----
-
-## 🧩 Troubleshooting
-
-* **401 invalid\_api\_key** → Check your OpenAI key. Must be a **Project API Key** from the project with billing enabled.
-* **404 on /api/** → Ensure the `api/` folder is at the repo root.
-* **CSP errors** → The included `vercel.json` loosens restrictions for A-Frame & WebRTC.
-
----
-
-## 🌟 Inspiration
-
-This project combines:
-
-* [A-Frame](https://aframe.io/) for 3D + WebXR
-* [OpenAI Responses API](https://platform.openai.com/docs/guides/responses) for streaming text
-* [OpenAI Realtime API](https://platform.openai.com/docs/guides/realtime) for voice chat
-
-Built as a **sandbox** to explore conversational XR experiences. 🚀
-
----
-
-💡 *Imagine a future where VR spaces have native AI companions floating right beside you — this is a first step.*
-
----
+│    ├── chat.js          # OpenAI text chat via Responses API
+│    ├── realtime-token.js # WebRTC ephemeral tokens for Realtime API
+│    └── health.js        # Diagnostic endpoint for testing
