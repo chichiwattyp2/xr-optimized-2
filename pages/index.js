@@ -48,7 +48,7 @@ export default function Landing() {
 
   return (
     <div style={{ fontFamily: "Arial, sans-serif", padding: "2rem" }}>
-      <h1 style={{ textAlign: "center" }}>Landing Page</h1>
+      <h1 style={{ textAlign: "center" }}>Chichi Watty-P XR</h1>
       <div style={{ display: "flex", justifyContent: "center", marginBottom: "1.5rem" }}>
         <input
           type="text"
